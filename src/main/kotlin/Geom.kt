@@ -4,7 +4,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-public data class Point2D(val x: Double, val y: Double) {
+public data class Point2D(val x: Double, val y: Double) : Interpolated<Point2D> {
     public operator fun plus(point: Point2D): Point2D = Point2D(x + point.x, y + point.y)
     public operator fun minus(point: Point2D): Point2D = Point2D(x - point.x, y - point.y)
     public operator fun times(scale: Double): Point2D = Point2D(x * scale, y * scale)
@@ -19,9 +19,9 @@ public data class Point2D(val x: Double, val y: Double) {
         return sqrt(dx * dx + dy * dy)
     }
 
-    public fun lerp(target: Point2D, ratio: Double): Point2D = Point2D(
-        x = lerp(x, target.x, ratio),
-        y = lerp(y, target.y, ratio),
+    override fun interpolate(b: Point2D, t: Double): Point2D = Point2D(
+        x = lerp(x, b.x, t),
+        y = lerp(y, b.y, t),
     )
 
     public fun normalize(): Point2D {
@@ -29,7 +29,7 @@ public data class Point2D(val x: Double, val y: Double) {
         return if (length() == 0.0) ZERO else div(len)
     }
 
-    public companion object {
+    public companion object : Interpolator<Point2D> {
         public val ZERO: Point2D = Point2D(0.0, 0.0)
         public val X: Point2D = x(1.0)
         public val Y: Point2D = y(1.0)
@@ -40,6 +40,8 @@ public data class Point2D(val x: Double, val y: Double) {
 
         public fun x(x: Double): Point2D = Point2D(x, 0.0)
         public fun y(y: Double): Point2D = Point2D(0.0, y)
+
+        override fun interpolate(a: Point2D, b: Point2D, t: Double): Point2D = a.interpolate(b, t)
     }
 }
 
@@ -65,7 +67,7 @@ public fun Collection<Point2D>.upperBoundOrNull(): Point2D? = if (isEmpty()) nul
     Point2D(x, y)
 }
 
-public data class Point3D(val x: Double, val y: Double, val z: Double) {
+public data class Point3D(val x: Double, val y: Double, val z: Double) : Interpolated<Point3D> {
     public operator fun plus(point: Point3D): Point3D = Point3D(x + point.x, y + point.y, z + point.z)
     public operator fun minus(point: Point3D): Point3D = Point3D(x - point.x, y - point.y, z - point.z)
     public operator fun times(scale: Double): Point3D = Point3D(x * scale, y * scale, z * scale)
@@ -92,13 +94,13 @@ public data class Point3D(val x: Double, val y: Double, val z: Double) {
         z = x * point.y - y * point.x,
     )
 
-    public fun lerp(target: Point3D, ratio: Double): Point3D = Point3D(
-        x = lerp(x, target.x, ratio),
-        y = lerp(y, target.y, ratio),
-        z = lerp(z, target.z, ratio),
+    override fun interpolate(b: Point3D, t: Double): Point3D = Point3D(
+        x = lerp(x, b.x, t),
+        y = lerp(y, b.y, t),
+        z = lerp(z, b.z, t),
     )
 
-    public companion object {
+    public companion object : Interpolator<Point3D> {
         public val ZERO: Point3D = Point3D(0.0, 0.0, 0.0)
         public val X: Point3D = x(1.0)
         public val Y: Point3D = y(1.0)
@@ -119,6 +121,8 @@ public data class Point3D(val x: Double, val y: Double, val z: Double) {
         public fun x(x: Double): Point3D = Point3D(x, 0.0, 0.0)
         public fun y(y: Double): Point3D = Point3D(0.0, y, 0.0)
         public fun z(z: Double): Point3D = Point3D(0.0, 0.0, z)
+
+        override fun interpolate(a: Point3D, b: Point3D, t: Double): Point3D = a.interpolate(b, t)
 
     }
 }

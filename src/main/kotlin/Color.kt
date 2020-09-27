@@ -5,7 +5,7 @@ package mathx
 /* TODO
  * - Add HSB conversion (and maybe others?)
  */
-public inline class Color(public val rgba: UInt) {
+public inline class Color(public val rgba: UInt) : Interpolated<Color> {
     public constructor(
         red: UByte,
         green: UByte,
@@ -33,23 +33,23 @@ public inline class Color(public val rgba: UInt) {
         alpha: UByte = this.alpha,
     ): Color = Color(red, green, blue, alpha)
 
-    public fun lerpPreMultiplied(target: Color, t: Double): Color {
+    override fun interpolate(b: Color, t: Double): Color {
         val aa = uByteToRatio(alpha)
-        val ba = uByteToRatio(target.alpha)
+        val ba = uByteToRatio(b.alpha)
         val a = lerp(aa, ba, t)
         return if (a == 0.0) TRANSPARENT else Color(
-            red = clampRatioToUByte(lerp(uByteToRatio(red) * aa, uByteToRatio(target.red) * ba, t) / a),
-            green = clampRatioToUByte(lerp(uByteToRatio(green) * aa, uByteToRatio(target.green) * ba, t) / a),
-            blue = clampRatioToUByte(lerp(uByteToRatio(blue) * aa, uByteToRatio(target.blue) * ba, t) / a),
+            red = clampRatioToUByte(lerp(uByteToRatio(red) * aa, uByteToRatio(b.red) * ba, t) / a),
+            green = clampRatioToUByte(lerp(uByteToRatio(green) * aa, uByteToRatio(b.green) * ba, t) / a),
+            blue = clampRatioToUByte(lerp(uByteToRatio(blue) * aa, uByteToRatio(b.blue) * ba, t) / a),
             alpha = clampRatioToUByte(a)
         )
     }
 
-    public fun lerpStraightAlpha(target: Color, t: Double): Color = Color(
-        red = lerp(red, target.red, t),
-        green = lerp(green, target.green, t),
-        blue = lerp(blue, target.blue, t),
-        alpha = lerp(alpha, target.alpha, t),
+    public fun interpolateStraightAlpha(b: Color, t: Double): Color = Color(
+        red = lerp(red, b.red, t),
+        green = lerp(green, b.green, t),
+        blue = lerp(blue, b.blue, t),
+        alpha = lerp(alpha, b.alpha, t),
     )
 
     public fun toHex(): String = buildString {
@@ -69,7 +69,7 @@ public inline class Color(public val rgba: UInt) {
 
     override fun toString(): String = "#${toHex()}"
 
-    public companion object {
+    public companion object : Interpolator<Color> {
         public val TRANSPARENT: Color = Color(0x00_00_00_00u)
 
         public val WHITE: Color = Color(0xFF_FF_FF_FFu)
@@ -110,11 +110,17 @@ public inline class Color(public val rgba: UInt) {
             return Color(r, g, b, a)
         }
 
+        override fun interpolate(a: Color, b: Color, t: Double): Color = a.interpolate(b, t)
+
         // IMPL
 
         private const val RED_WEIGHT = 0.2126
         private const val GREEN_WEIGHT = 0.7125
         private const val BLUE_WEIGHT = 0.0722
+    }
+
+    public object StraightAlpha : Interpolator<Color> {
+        override fun interpolate(a: Color, b: Color, t: Double): Color = a.interpolateStraightAlpha(b, t)
     }
 }
 
