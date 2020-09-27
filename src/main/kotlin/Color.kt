@@ -84,28 +84,7 @@ public inline class Color(public val rgba: UInt) {
         public val CYAN: Color = Color(0x00_FF_FF_FFu)
         public val MAGENTA: Color = Color(0xFF_00_FF_FFu)
 
-        public val ORANGE: Color = Color(0xFF_7F_00_FFu)
-        public val BROWN: Color = Color(0x7F_3F_00_FFu)
-        public val PURPLE: Color = Color(0x7F_00_FF_FFu)
-
         public fun gray(gray: UByte, alpha: UByte = 0xFFu): Color = Color(gray, gray, gray, alpha)
-
-        public fun parse(color: String): Color = when (color.toLowerCase()) {
-            "transparent" -> TRANSPARENT
-            "white" -> WHITE
-            "black" -> BLACK
-            "gray", "grey" -> GRAY
-            "red" -> RED
-            "green" -> GREEN
-            "blue" -> BLUE
-            "yellow" -> YELLOW
-            "cyan" -> CYAN
-            "magenta" -> MAGENTA
-            "orange" -> ORANGE
-            "brown" -> BROWN
-            "purple" -> PURPLE
-            else -> fromHex(color)
-        }
 
         public fun fromHex(color: String): Color {
             if (color.startsWith("0x", true)) return fromHex(color.substring(2))
