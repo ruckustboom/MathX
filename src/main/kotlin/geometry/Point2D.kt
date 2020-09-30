@@ -25,28 +25,28 @@ public data class Point2D(val x: Double, val y: Double) : Transformation, Interp
 
     // Transformation
 
-    override fun transform(point: Point2D): Point2D = Point2D(
-        x = x + point.x,
-        y = y + point.y,
-    )
+    override fun transform(point: Point2D): Point2D = Point2D(x = x + point.x, y = y + point.y)
 
-    override fun transform(point: Point3D): Point3D = Point3D(
-        x = x + point.x,
-        y = y + point.y,
-        z = point.z,
-    )
+    override fun transform(point: Point3D): Point3D = Point3D(x = x + point.x, y = y + point.y, z = point.z)
 
     override fun transform(basis: Basis): Basis = basis
 
+    override fun transform(affine: Affine): Affine {
+        TODO("Not yet implemented")
+    }
+
     override fun toPoint2D(): Point2D = this
 
-    override fun toPoint3D(): Point3D = Point3D(
-        x = x,
-        y = y,
-        z = 0.0
-    )
+    override fun toPoint3D(): Point3D = Point3D(x = x, y = y, z = 0.0)
 
     override fun toBasis(): Basis = Basis.IDENT
+
+    override fun toAffine(): Affine = Affine(
+        xx = 0.0, xy = 0.0, xz = 0.0,
+        yx = 0.0, yy = 0.0, yz = 0.0,
+        zx = 0.0, zy = 0.0, zz = 0.0,
+        tx = x, ty = y, tz = 0.0,
+    )
 
     // Interpolated
 
