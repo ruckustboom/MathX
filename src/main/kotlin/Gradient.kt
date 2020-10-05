@@ -42,6 +42,27 @@ public class Gradient<T> private constructor(
         }
     }
 
+    override fun toString(): String = "Gradient($interpolator, $stops)"
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Gradient<*>
+
+        if (stops != other.stops) return false
+        if (interpolator != other.interpolator) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = stops.hashCode()
+        result = 31 * result + interpolator.hashCode()
+        return result
+    }
+
+
     public companion object {
         public fun <T> of(interpolator: Interpolator<T>, vararg stops: Stop<T>): Gradient<T> =
             Gradient(stops.distinctBy { it.offset }.sorted(), interpolator)
