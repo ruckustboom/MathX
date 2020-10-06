@@ -3,7 +3,7 @@ package mathx.geometry
 import mathx.*
 import kotlin.math.sqrt
 
-public data class Point2D(val x: Double, val y: Double) : Transformation, Interpolated<Point2D> {
+public data class Point2D(val x: Double, val y: Double) : Transformation2D<Point2D> {
     public operator fun plus(point: Point2D): Point2D = Point2D(x + point.x, y + point.y)
     public operator fun minus(point: Point2D): Point2D = Point2D(x - point.x, y - point.y)
     public operator fun times(scale: Double): Point2D = Point2D(x * scale, y * scale)
@@ -23,32 +23,11 @@ public data class Point2D(val x: Double, val y: Double) : Transformation, Interp
         return if (length() == 0.0) ZERO else div(len)
     }
 
-    // Transformation
-
-    override fun transform(point: Point2D): Point2D = Point2D(x = x + point.x, y = y + point.y)
-
-    override fun transform(point: Point3D): Point3D = Point3D(x = x + point.x, y = y + point.y, z = point.z)
-
-    override fun transform(basis: Basis): Basis = basis
-
-    override fun transform(affine: Affine): Affine {
-        TODO("Not yet implemented")
-    }
-
-    override fun toPoint2D(): Point2D = this
-
-    override fun toPoint3D(): Point3D = Point3D(x = x, y = y, z = 0.0)
-
-    override fun toBasis(): Basis = Basis.IDENT
-
-    override fun toAffine(): Affine = Affine(
-        xx = 0.0, xy = 0.0, xz = 0.0,
-        yx = 0.0, yy = 0.0, yz = 0.0,
-        zx = 0.0, zy = 0.0, zz = 0.0,
-        tx = x, ty = y, tz = 0.0,
+    override fun toTransform2D(): Transform2D = Transform2D(
+        xx = 1.0, xy = 0.0, xw = 0.0,
+        yx = 0.0, yy = 1.0, yw = 0.0,
+        tx = x, ty = y, tw = 1.0,
     )
-
-    // Interpolated
 
     override fun interpolate(b: Point2D, t: Double): Point2D = Point2D(
         x = lerp(x, b.x, t),
@@ -68,6 +47,10 @@ public data class Point2D(val x: Double, val y: Double) : Transformation, Interp
         public fun y(y: Double): Point2D = Point2D(0.0, y)
 
         override fun interpolate(a: Point2D, b: Point2D, t: Double): Point2D = a.interpolate(b, t)
+
+        override fun toString(): String {
+            return "Point2D"
+        }
     }
 }
 

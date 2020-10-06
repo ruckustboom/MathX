@@ -3,7 +3,7 @@ package mathx.geometry
 import mathx.*
 import kotlin.math.sqrt
 
-public data class Point3D(val x: Double, val y: Double, val z: Double) : Transformation, Interpolated<Point3D> {
+public data class Point3D(val x: Double, val y: Double, val z: Double) : Transformation3D<Point3D> {
     public operator fun plus(point: Point3D): Point3D = Point3D(x + point.x, y + point.y, z + point.z)
     public operator fun minus(point: Point3D): Point3D = Point3D(x - point.x, y - point.y, z - point.z)
     public operator fun times(scale: Double): Point3D = Point3D(x * scale, y * scale, z * scale)
@@ -30,32 +30,12 @@ public data class Point3D(val x: Double, val y: Double, val z: Double) : Transfo
         z = x * point.y - y * point.x,
     )
 
-    // Transformation
-
-    override fun transform(point: Point2D): Point2D = Point2D(x = x + point.x, y = y + point.y)
-
-    override fun transform(point: Point3D): Point3D = Point3D(x = x + point.x, y = y + point.y, z = z + point.z)
-
-    override fun transform(basis: Basis): Basis = basis
-
-    override fun transform(affine: Affine): Affine {
-        TODO("Not yet implemented")
-    }
-
-    override fun toPoint2D(): Point2D = Point2D(x = x, y = y)
-
-    override fun toPoint3D(): Point3D = this
-
-    override fun toBasis(): Basis = Basis.IDENT
-
-    override fun toAffine(): Affine = Affine(
-        xx = 0.0, xy = 0.0, xz = 0.0,
-        yx = 0.0, yy = 0.0, yz = 0.0,
-        zx = 0.0, zy = 0.0, zz = 0.0,
-        tx = x, ty = y, tz = z,
+    override fun toTransform3D(): Transform3D = Transform3D(
+        xx = 1.0, xy = 0.0, xz = 0.0, xw = 0.0,
+        yx = 0.0, yy = 1.0, yz = 0.0, yw = 0.0,
+        zx = 0.0, zy = 0.0, zz = 1.0, zw = 0.0,
+        tx = x, ty = y, tz = z, tw = 1.0,
     )
-
-    // Interpolated
 
     override fun interpolate(b: Point3D, t: Double): Point3D = Point3D(
         x = lerp(x, b.x, t),
@@ -87,6 +67,7 @@ public data class Point3D(val x: Double, val y: Double, val z: Double) : Transfo
 
         override fun interpolate(a: Point3D, b: Point3D, t: Double): Point3D = a.interpolate(b, t)
 
+        override fun toString(): String = "Point3D"
     }
 }
 

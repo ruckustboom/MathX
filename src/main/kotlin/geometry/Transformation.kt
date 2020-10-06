@@ -2,18 +2,14 @@
 
 package mathx.geometry
 
-public interface Transformation {
-    public fun transform(point: Point2D): Point2D
-    public fun transform(point: Point3D): Point3D
-    public fun transform(basis: Basis): Basis
-    public fun transform(affine: Affine): Affine
+import mathx.*
 
-    public fun toPoint2D(): Point2D
-    public fun toPoint3D(): Point3D
-    public fun toBasis(): Basis
-    public fun toAffine(): Affine
+public interface Transformation<T: Transformation<T>> : Interpolated<T>
+
+public interface Transformation2D<T : Transformation2D<T>> : Transformation<T> {
+    public fun toTransform2D(): Transform2D
 }
 
-public inline operator fun Transformation.invoke(point: Point2D): Point2D = transform(point)
-public inline operator fun Transformation.invoke(point: Point3D): Point3D = transform(point)
-public inline operator fun Transformation.invoke(basis: Basis): Basis = transform(basis)
+public interface Transformation3D<T : Transformation3D<T>> : Transformation<T> {
+    public fun toTransform3D(): Transform3D
+}
