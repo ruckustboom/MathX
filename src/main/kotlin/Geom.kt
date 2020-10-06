@@ -42,6 +42,8 @@ public data class Point2D(val x: Double, val y: Double) : Interpolated<Point2D> 
         public fun y(y: Double): Point2D = Point2D(0.0, y)
 
         override fun interpolate(a: Point2D, b: Point2D, t: Double): Point2D = a.interpolate(b, t)
+
+        override fun toString(): String = "Point2D"
     }
 }
 
@@ -124,6 +126,7 @@ public data class Point3D(val x: Double, val y: Double, val z: Double) : Interpo
 
         override fun interpolate(a: Point3D, b: Point3D, t: Double): Point3D = a.interpolate(b, t)
 
+        override fun toString(): String = "Point3D"
     }
 }
 

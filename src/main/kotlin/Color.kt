@@ -112,6 +112,8 @@ public inline class Color(public val rgba: UInt) : Interpolated<Color> {
 
         override fun interpolate(a: Color, b: Color, t: Double): Color = a.interpolate(b, t)
 
+        override fun toString(): String = "Color"
+
         // IMPL
 
         private const val RED_WEIGHT = 0.2126
