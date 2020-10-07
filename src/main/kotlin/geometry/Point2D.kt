@@ -3,7 +3,10 @@ package mathx.geometry
 import mathx.*
 import kotlin.math.sqrt
 
-public data class Point2D(val x: Double, val y: Double) : Transformation2D<Point2D, Point3D> {
+public data class Point2D(val x: Double, val y: Double) : Transformation<Point2D> {
+    override val tx: Double get() = x
+    override val ty: Double get() = y
+
     public operator fun plus(point: Point2D): Point2D = Point2D(x + point.x, y + point.y)
     public operator fun minus(point: Point2D): Point2D = Point2D(x - point.x, y - point.y)
     public operator fun times(scale: Double): Point2D = Point2D(x * scale, y * scale)
@@ -22,14 +25,6 @@ public data class Point2D(val x: Double, val y: Double) : Transformation2D<Point
         val len = length()
         return if (length() == 0.0) ZERO else div(len)
     }
-
-    override fun toTransform(): Transform2D = Transform2D(
-        xx = 1.0, xy = 0.0, xw = 0.0,
-        yx = 0.0, yy = 1.0, yw = 0.0,
-        tx = x, ty = y, tw = 1.0,
-    )
-
-    override fun to3D(): Point3D = Point3D(x=x, y=y, z=0.0)
 
     override fun interpolate(b: Point2D, t: Double): Point2D = Point2D(
         x = lerp(x, b.x, t),

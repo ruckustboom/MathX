@@ -1,30 +1,20 @@
 package mathx.geometry
 
 import mathx.*
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 public data class Affine3D(
-    val xx: Double, val xy: Double, val xz: Double,
-    val yx: Double, val yy: Double, val yz: Double,
-    val zx: Double, val zy: Double, val zz: Double,
-    val tx: Double, val ty: Double, val tz: Double,
-) : Transformation3D<Affine3D, Affine2D> {
+    override val xx: Double, override val xy: Double, override val xz: Double,
+    override val yx: Double, override val yy: Double, override val yz: Double,
+    override val zx: Double, override val zy: Double, override val zz: Double,
+    override val tx: Double, override val ty: Double, override val tz: Double,
+) : Transformation<Affine3D> {
     inline val x: Point3D get() = Point3D(x = xx, y = xy, z = xz)
     inline val y: Point3D get() = Point3D(x = yx, y = yy, z = yz)
     inline val z: Point3D get() = Point3D(x = zx, y = zy, z = zz)
     inline val t: Point3D get() = Point3D(x = tx, y = ty, z = tz)
-
-    override fun toTransform(): Transform3D = Transform3D(
-        xx = xx, xy = xy, xz = xz, xw = 0.0,
-        yx = yx, yy = yy, yz = yz, yw = 0.0,
-        zx = zx, zy = zy, zz = zz, zw = 0.0,
-        tx = tx, ty = ty, tz = tz, tw = 1.0,
-    )
-
-    override fun to2D(): Affine2D = Affine2D(
-        xx = xx, xy = xy,
-        yx = yx, yy = yy,
-        tx = tx, ty = ty,
-    )
 
     override fun interpolate(b: Affine3D, t: Double): Affine3D = Affine3D(
         xx = lerp(xx, b.xx, t), xy = lerp(xy, b.xy, t), xz = lerp(xz, b.xz, t),
@@ -40,6 +30,42 @@ public data class Affine3D(
             zx = 0.0, zy = 0.0, zz = 1.0,
             tx = 0.0, ty = 0.0, tz = 0.0,
         )
+
+        public fun ypr(euler: Point3D, t: Point3D): Affine3D = ypr(
+            yaw = euler.y,
+            pitch = euler.x,
+            roll = euler.z,
+            tx = t.x,
+            ty = t.y,
+            tz = t.z,
+        )
+
+        public fun ypr(yaw: Double, pitch: Double, roll: Double, tx: Double, ty: Double, tz: Double): Affine3D {
+            val cy = cos(yaw)
+            val sy = sin(yaw)
+            val cp = cos(pitch)
+            val sp = sin(pitch)
+            val cr = cos(roll)
+            val sr = sin(roll)
+
+            return Affine3D(
+                xx = cy * cr + sy * sp * sr,
+                xy = cp * sr,
+                xz = -sy * cr + cy * sp * sr,
+
+                yx = cy * -sr + sy * sp * cr,
+                yy = cp * cr,
+                yz = -sy * -sr + cy * sp * cr,
+
+                zx = sy * cp,
+                zy = -sp,
+                zz = cy * cp,
+
+                tx = tx,
+                ty = ty,
+                tz = tz,
+            )
+        }
 
         override fun interpolate(a: Affine3D, b: Affine3D, t: Double): Affine3D = a.interpolate(b, t)
 

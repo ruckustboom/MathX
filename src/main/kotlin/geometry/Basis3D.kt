@@ -5,25 +5,13 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 public data class Basis3D(
-    val xx: Double, val xy: Double, val xz: Double,
-    val yx: Double, val yy: Double, val yz: Double,
-    val zx: Double, val zy: Double, val zz: Double,
-) : Transformation3D<Basis3D, Basis2D> {
+    override val xx: Double, override val xy: Double, override val xz: Double,
+    override val yx: Double, override val yy: Double, override val yz: Double,
+    override val zx: Double, override val zy: Double, override val zz: Double,
+) : Transformation<Basis3D> {
     inline val x: Point3D get() = Point3D(x = xx, y = xy, z = xz)
     inline val y: Point3D get() = Point3D(x = yx, y = yy, z = yz)
     inline val z: Point3D get() = Point3D(x = zx, y = zy, z = zz)
-
-    override fun toTransform(): Transform3D = Transform3D(
-        xx = xx, xy = xy, xz = xz, xw = 0.0,
-        yx = yx, yy = yy, yz = yz, yw = 0.0,
-        zx = zx, zy = zy, zz = zz, zw = 0.0,
-        tx = 0.0, ty = 0.0, tz = 0.0, tw = 1.0,
-    )
-
-    override fun to2D(): Basis2D = Basis2D(
-        xx = xx, xy = xy,
-        yx = yx, yy = yy,
-    )
 
     override fun interpolate(b: Basis3D, t: Double): Basis3D = Basis3D(
         xx = lerp(xx, b.xx, t), xy = lerp(xy, b.xy, t), xz = lerp(xz, b.xz, t),
@@ -58,9 +46,13 @@ public data class Basis3D(
 
                 zx = sy * cp,
                 zy = -sp,
-                zz = cy * cp
+                zz = cy * cp,
             )
         }
+
+        public fun yaw(radians: Double): Basis3D = ypr(radians, 0.0, 0.0)
+        public fun pitch(radians: Double): Basis3D = ypr(0.0, radians, 0.0)
+        public fun roll(radians: Double): Basis3D = ypr(0.0, 0.0, radians)
 
         override fun interpolate(a: Basis3D, b: Basis3D, t: Double): Basis3D = a.interpolate(b, t)
 
