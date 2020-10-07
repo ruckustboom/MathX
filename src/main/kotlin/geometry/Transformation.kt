@@ -26,6 +26,72 @@ public interface Transformation<T : Transformation<T>> : Interpolated<T> {
     public val tw: Double get() = 1.0
 }
 
+// 2D
+
+public fun Transformation<*>.toVector2D(): Vector2D = Vector2D(x = tx, y = ty)
+
+public fun Transformation<*>.toPoint2D(): Point2D = Point2D(x = tx, y = ty)
+
+public fun Transformation<*>.toBasis2D(): Basis2D = Basis2D(
+    xx = xx, xy = xy,
+    yx = yx, yy = yy,
+)
+
+public fun Transformation<*>.toAffine2D(): Affine2D = Affine2D(
+    xx = xx, xy = xy,
+    yx = yx, yy = yy,
+    tx = tx, ty = ty,
+)
+
+public fun Transformation<*>.toTransform2D(): Transform2D = Transform2D(
+    xx = xx, xy = xy, xw = xw,
+    yx = yx, yy = yy, yw = yw,
+    tx = tx, ty = ty, tw = tw,
+)
+
+public fun Transformation<*>.transform(p: Vector2D): Vector2D = Vector2D(
+    x = xx * p.x + yx * p.y,
+    y = xy * p.x + yy * p.y,
+)
+
+public fun Transformation<*>.transform(p: Point2D): Point2D = Point2D(
+    x = xx * p.x + yx * p.y + tx,
+    y = xy * p.x + yy * p.y + ty,
+)
+
+public fun Transformation<*>.transform(b: Basis2D): Basis2D = Basis2D(
+    xx = xx * b.xx + yx * b.xy,
+    xy = xy * b.xx + yy * b.xy,
+
+    yx = xx * b.yx + yx * b.yy,
+    yy = xy * b.yx + yy * b.yy,
+)
+
+public fun Transformation<*>.transform(a: Affine2D): Affine2D = Affine2D(
+    xx = xx * a.xx + yx * a.xy,
+    xy = xy * a.xx + yy * a.xy,
+
+    yx = xx * a.yx + yx * a.yy,
+    yy = xy * a.yx + yy * a.yy,
+
+    tx = xx * a.tx + yx * a.ty + tx,
+    ty = xy * a.tx + yy * a.ty + ty,
+)
+
+public fun Transformation<*>.transform(t: Transform2D): Transform2D = Transform2D(
+    xx = xx * t.xx + yx * t.xy + tx * t.xw,
+    xy = xy * t.xx + yy * t.xy + ty * t.xw,
+    xw = xw * t.xx + yw * t.xy + tw * t.xw,
+
+    yx = xx * t.yx + yx * t.yy + tx * t.yw,
+    yy = xy * t.yx + yy * t.yy + ty * t.yw,
+    yw = xw * t.yx + yw * t.yy + tw * t.yw,
+
+    tx = xx * t.tx + yx * t.ty + tx * t.tw,
+    ty = xy * t.tx + yy * t.ty + ty * t.tw,
+    tw = xw * t.tx + yw * t.ty + tw * t.tw,
+)
+
 // 3D
 
 public fun Transformation<*>.toVector3D(): Vector3D = Vector3D(x = tx, y = ty, z = tz)
@@ -116,70 +182,4 @@ public fun Transformation<*>.transform(t: Transform3D): Transform3D = Transform3
     ty = xy * t.tx + yy * t.ty + zy * t.tz + ty * t.tw,
     tz = xz * t.tx + yz * t.ty + zz * t.tz + tz * t.tw,
     tw = xw * t.tx + yw * t.ty + zw * t.tz + tw * t.tw,
-)
-
-// 2D
-
-public fun Transformation<*>.toVector2D(): Vector2D = Vector2D(x = tx, y = ty)
-
-public fun Transformation<*>.toPoint2D(): Point2D = Point2D(x = tx, y = ty)
-
-public fun Transformation<*>.toBasis2D(): Basis2D = Basis2D(
-    xx = xx, xy = xy,
-    yx = yx, yy = yy,
-)
-
-public fun Transformation<*>.toAffine2D(): Affine2D = Affine2D(
-    xx = xx, xy = xy,
-    yx = yx, yy = yy,
-    tx = tx, ty = ty,
-)
-
-public fun Transformation<*>.toTransform2D(): Transform2D = Transform2D(
-    xx = xx, xy = xy, xw = xw,
-    yx = yx, yy = yy, yw = yw,
-    tx = tx, ty = ty, tw = tw,
-)
-
-public fun Transformation<*>.transform(p: Vector2D): Vector2D = Vector2D(
-    x = xx * p.x + yx * p.y,
-    y = xy * p.x + yy * p.y,
-)
-
-public fun Transformation<*>.transform(p: Point2D): Point2D = Point2D(
-    x = xx * p.x + yx * p.y + tx,
-    y = xy * p.x + yy * p.y + ty,
-)
-
-public fun Transformation<*>.transform(b: Basis2D): Basis2D = Basis2D(
-    xx = xx * b.xx + yx * b.xy,
-    xy = xy * b.xx + yy * b.xy,
-
-    yx = xx * b.yx + yx * b.yy,
-    yy = xy * b.yx + yy * b.yy,
-)
-
-public fun Transformation<*>.transform(a: Affine2D): Affine2D = Affine2D(
-    xx = xx * a.xx + yx * a.xy,
-    xy = xy * a.xx + yy * a.xy,
-
-    yx = xx * a.yx + yx * a.yy,
-    yy = xy * a.yx + yy * a.yy,
-
-    tx = xx * a.tx + yx * a.ty + tx,
-    ty = xy * a.tx + yy * a.ty + ty,
-)
-
-public fun Transformation<*>.transform(t: Transform2D): Transform2D = Transform2D(
-    xx = xx * t.xx + yx * t.xy + tx * t.xw,
-    xy = xy * t.xx + yy * t.xy + ty * t.xw,
-    xw = xw * t.xx + yw * t.xy + tw * t.xw,
-
-    yx = xx * t.yx + yx * t.yy + tx * t.yw,
-    yy = xy * t.yx + yy * t.yy + ty * t.yw,
-    yw = xw * t.yx + yw * t.yy + tw * t.yw,
-
-    tx = xx * t.tx + yx * t.ty + tx * t.tw,
-    ty = xy * t.tx + yy * t.ty + ty * t.tw,
-    tw = xw * t.tx + yw * t.ty + tw * t.tw,
 )
