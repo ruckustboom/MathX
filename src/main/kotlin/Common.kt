@@ -2,10 +2,7 @@
 
 package mathx
 
-import kotlin.math.PI
-import kotlin.math.abs
-import kotlin.math.nextDown
-import kotlin.math.pow
+import kotlin.math.*
 
 public const val TAU: Double = 2.0 * PI
 public const val RAD_TO_DEG: Double = 360.0 / TAU
@@ -13,9 +10,9 @@ public const val RAD_TO_DEG: Double = 360.0 / TAU
 public inline fun degToRad(deg: Double): Double = deg / RAD_TO_DEG
 public inline fun radToDeg(rad: Double): Double = rad * RAD_TO_DEG
 
-public inline fun round(x: Double, base: Double): Double = kotlin.math.round(x / base) * base
-public inline fun floor(x: Double, base: Double): Double = kotlin.math.floor(x / base) * base
-public inline fun ceil(x: Double, base: Double): Double = kotlin.math.ceil(x / base) * base
+public inline fun round(x: Double, base: Double): Double = round(x / base) * base
+public inline fun floor(x: Double, base: Double): Double = floor(x / base) * base
+public inline fun ceil(x: Double, base: Double): Double = ceil(x / base) * base
 public inline fun roundToPrecision(x: Double, precision: Int): Double = round(x, 1.0 / 10.0.pow(precision))
 public inline fun nearest(x: Double, a: Double, b: Double): Double = if (abs(x - a) < abs(x - b)) a else b
 
