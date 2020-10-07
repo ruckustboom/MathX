@@ -1,8 +1,8 @@
 package mathx
 
 public class Gradient<T> private constructor(
-    private val stops: List<Stop<T>>,
     private val interpolator: Interpolator<T>,
+    private val stops: List<Stop<T>>,
 ) : Interpolated<Gradient<T>> {
     public fun toList(): List<Stop<T>> = stops.toList()
 
@@ -21,24 +21,22 @@ public class Gradient<T> private constructor(
         }
     }
 
-    override fun interpolate(b: Gradient<T>, t: Double): Gradient<T> {
-        return when {
-            stops.isEmpty() -> b
-            b.stops.isEmpty() -> this
-            else -> {
-                val offsets = sortedSetOf<Double>()
-                for ((offset, _, _) in stops) offsets += offset
-                for ((offset, _, _) in b.stops) offsets += offset
-                Gradient(offsets.map {
-                    val sa = get(it) as Stop<T>
-                    val sb = b[it] as Stop<T>
-                    Stop(
-                        it,
-                        interpolator.interpolate(sa.before, sb.before, t),
-                        interpolator.interpolate(sa.after, sb.after, t),
-                    )
-                }, interpolator)
-            }
+    override fun interpolate(b: Gradient<T>, t: Double): Gradient<T> = when {
+        stops.isEmpty() -> b
+        b.stops.isEmpty() -> this
+        else -> {
+            val offsets = sortedSetOf<Double>()
+            for ((offset, _, _) in stops) offsets += offset
+            for ((offset, _, _) in b.stops) offsets += offset
+            Gradient(interpolator, offsets.map {
+                val sa = get(it) as Stop<T>
+                val sb = b[it] as Stop<T>
+                Stop(
+                    it,
+                    interpolator.interpolate(sa.before, sb.before, t),
+                    interpolator.interpolate(sa.after, sb.after, t),
+                )
+            })
         }
     }
 
@@ -50,22 +48,21 @@ public class Gradient<T> private constructor(
 
         other as Gradient<*>
 
-        if (stops != other.stops) return false
         if (interpolator != other.interpolator) return false
+        if (stops != other.stops) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = stops.hashCode()
-        result = 31 * result + interpolator.hashCode()
+        var result = interpolator.hashCode()
+        result = 31 * result + stops.hashCode()
         return result
     }
 
-
     public companion object {
         public fun <T> of(interpolator: Interpolator<T>, vararg stops: Stop<T>): Gradient<T> =
-            Gradient(stops.distinctBy { it.offset }.sorted(), interpolator)
+            Gradient(interpolator, stops.distinctBy { it.offset }.sorted())
 
         public fun <T> of(vararg stops: Stop<T>, interpolator: Interpolator<T>): Gradient<T> =
             of(interpolator, *stops)
@@ -74,7 +71,7 @@ public class Gradient<T> private constructor(
             of(InterpolatedInterpolator(), *stops)
 
         public fun <T> of(interpolator: Interpolator<T>, stops: Iterable<Stop<T>>): Gradient<T> =
-            Gradient(stops.distinctBy { it.offset }.sorted(), interpolator)
+            Gradient(interpolator, stops.distinctBy { it.offset }.sorted())
 
         public fun <T> of(stops: Iterable<Stop<T>>, interpolator: Interpolator<T>): Gradient<T> =
             of(interpolator, stops)
@@ -92,5 +89,5 @@ public class Gradient<T> private constructor(
     }
 }
 
-public inline fun <T> Gradient<T>.getOr(offset: Double, default: () -> T): Gradient.Stop<T> =
+public inline fun <T> Gradient<T>.getOrDefault(offset: Double, default: () -> T): Gradient.Stop<T> =
     get(offset) ?: Gradient.Stop(offset, default())

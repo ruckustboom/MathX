@@ -25,14 +25,14 @@ public inline fun remap(a1: Double, b1: Double, a2: Double, b2: Double, x: Doubl
 public inline fun lerp(a: Int, b: Int, t: Double): Int = lerp(a.toDouble(), b.toDouble(), t).toInt()
 public inline fun <T> cerp(a: T, b: T, t: Double): T = if (t < 1.0) a else b
 
+public inline fun repeated(a: Double, b: Double, x: Double): Double = lerp(a, b, repeated(unlerp(a, b, x)))
+public inline fun repeated(x: Double): Double = x pmod 1.0
+
 public inline fun reflected(a: Double, b: Double, x: Double): Double = lerp(a, b, reflected(unlerp(a, b, x)))
 public inline fun reflected(x: Double): Double {
     val dist = abs(x) % 2.0
     return if (dist < 1.0) dist else 2.0 - dist
 }
-
-public inline fun repeated(a: Double, b: Double, x: Double): Double = lerp(a, b, repeated(unlerp(a, b, x)))
-public inline fun repeated(x: Double): Double = x pmod 1.0
 
 public val ALMOST_256: Double = 256.0.nextDown()
 public inline fun uByteToRatio(x: UByte): Double = x.toInt() / 255.0

@@ -23,7 +23,7 @@ public inline class Color(public val rgba: UInt) : Interpolated<Color> {
                 uByteToRatio(green) * GREEN_WEIGHT +
                 uByteToRatio(blue) * BLUE_WEIGHT
 
-    public fun grayscale(): Color = gray(clampRatioToUByte(gray), alpha)
+    public fun grayscale(alpha: UByte = this.alpha): Color = gray(clampRatioToUByte(gray), alpha)
     public fun invert(alpha: UByte = this.alpha): Color = Color(red.inv(), green.inv(), blue.inv(), alpha)
 
     public fun copy(
