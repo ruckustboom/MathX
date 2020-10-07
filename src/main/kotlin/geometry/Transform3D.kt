@@ -7,7 +7,7 @@ public data class Transform3D(
     val yx: Double, val yy: Double, val yz: Double, val yw: Double,
     val zx: Double, val zy: Double, val zz: Double, val zw: Double,
     val tx: Double, val ty: Double, val tz: Double, val tw: Double,
-) : Transformation3D<Transform3D> {
+) : Transformation3D<Transform3D, Transform2D> {
     public operator fun invoke(p: Vector3D): Vector3D = Vector3D(
         x = xx * p.x + yx * p.y + zx * p.z,
         y = xy * p.x + yy * p.y + zy * p.z,
@@ -91,9 +91,9 @@ public data class Transform3D(
         tx = tx, ty = ty, tz = tz,
     )
 
-    override fun toTransform3D(): Transform3D = this
+    override fun toTransform(): Transform3D = this
 
-    public fun toTransform2D(): Transform2D = Transform2D(
+    override fun to2D(): Transform2D = Transform2D(
         xx = xx, xy = xy, xw = xw,
         yx = yx, yy = yy, yw = yw,
         tx = tx, ty = ty, tw = tw,
@@ -105,4 +105,10 @@ public data class Transform3D(
         zx = lerp(zx, b.zx, t), zy = lerp(zy, b.zy, t), zz = lerp(zz, b.zz, t), zw = lerp(zw, b.zw, t),
         tx = lerp(tx, b.tx, t), ty = lerp(ty, b.ty, t), tz = lerp(tz, b.tz, t), tw = lerp(tw, b.tw, t),
     )
+
+    public companion object : Interpolator<Transform3D> {
+        override fun interpolate(a: Transform3D, b: Transform3D, t: Double): Transform3D = a.interpolate(b, t)
+
+        override fun toString(): String = "Transform3D"
+    }
 }

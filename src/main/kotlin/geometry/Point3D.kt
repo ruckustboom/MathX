@@ -3,7 +3,7 @@ package mathx.geometry
 import mathx.*
 import kotlin.math.sqrt
 
-public data class Point3D(val x: Double, val y: Double, val z: Double) : Transformation3D<Point3D> {
+public data class Point3D(val x: Double, val y: Double, val z: Double) : Transformation3D<Point3D, Point2D> {
     public operator fun plus(point: Point3D): Point3D = Point3D(x + point.x, y + point.y, z + point.z)
     public operator fun minus(point: Point3D): Point3D = Point3D(x - point.x, y - point.y, z - point.z)
     public operator fun times(scale: Double): Point3D = Point3D(x * scale, y * scale, z * scale)
@@ -30,12 +30,14 @@ public data class Point3D(val x: Double, val y: Double, val z: Double) : Transfo
         z = x * point.y - y * point.x,
     )
 
-    override fun toTransform3D(): Transform3D = Transform3D(
+    override fun toTransform(): Transform3D = Transform3D(
         xx = 1.0, xy = 0.0, xz = 0.0, xw = 0.0,
         yx = 0.0, yy = 1.0, yz = 0.0, yw = 0.0,
         zx = 0.0, zy = 0.0, zz = 1.0, zw = 0.0,
         tx = x, ty = y, tz = z, tw = 1.0,
     )
+
+    override fun to2D(): Point2D = Point2D(x = x, y = y)
 
     override fun interpolate(b: Point3D, t: Double): Point3D = Point3D(
         x = lerp(x, b.x, t),

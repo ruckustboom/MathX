@@ -6,7 +6,7 @@ public data class Transform2D(
     val xx: Double, val xy: Double, val xw: Double,
     val yx: Double, val yy: Double, val yw: Double,
     val tx: Double, val ty: Double, val tw: Double,
-) : Transformation2D<Transform2D> {
+) : Transformation2D<Transform2D, Transform3D> {
     public operator fun invoke(p: Vector2D): Vector2D = Vector2D(
         x = xx * p.x + yx * p.y,
         y = xy * p.x + yy * p.y,
@@ -65,9 +65,9 @@ public data class Transform2D(
         tx = tx, ty = ty,
     )
 
-    override fun toTransform2D(): Transform2D = this
+    override fun toTransform(): Transform2D = this
 
-    public fun toTransform3D(): Transform3D = Transform3D(
+    override fun to3D(): Transform3D = Transform3D(
         xx = xx, xy = xy, xz = 0.0, xw = xw,
         yx = yx, yy = yy, yz = 0.0, yw = yw,
         zx = 0.0, zy = 0.0, zz = 1.0, zw = 0.0,
@@ -79,4 +79,10 @@ public data class Transform2D(
         yx = lerp(yx, b.yx, t), yy = lerp(yy, b.yy, t), yw = lerp(yw, b.yw, t),
         tx = lerp(tx, b.tx, t), ty = lerp(ty, b.ty, t), tw = lerp(tw, b.tw, t),
     )
+
+    public companion object : Interpolator<Transform2D> {
+        override fun interpolate(a: Transform2D, b: Transform2D, t: Double): Transform2D = a.interpolate(b, t)
+
+        override fun toString(): String = "Transform2D"
+    }
 }

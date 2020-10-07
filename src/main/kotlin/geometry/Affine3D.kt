@@ -7,17 +7,23 @@ public data class Affine3D(
     val yx: Double, val yy: Double, val yz: Double,
     val zx: Double, val zy: Double, val zz: Double,
     val tx: Double, val ty: Double, val tz: Double,
-) : Transformation3D<Affine3D> {
+) : Transformation3D<Affine3D, Affine2D> {
     inline val x: Point3D get() = Point3D(x = xx, y = xy, z = xz)
     inline val y: Point3D get() = Point3D(x = yx, y = yy, z = yz)
     inline val z: Point3D get() = Point3D(x = zx, y = zy, z = zz)
     inline val t: Point3D get() = Point3D(x = tx, y = ty, z = tz)
 
-    override fun toTransform3D(): Transform3D = Transform3D(
+    override fun toTransform(): Transform3D = Transform3D(
         xx = xx, xy = xy, xz = xz, xw = 0.0,
         yx = yx, yy = yy, yz = yz, yw = 0.0,
         zx = zx, zy = zy, zz = zz, zw = 0.0,
         tx = tx, ty = ty, tz = tz, tw = 1.0,
+    )
+
+    override fun to2D(): Affine2D = Affine2D(
+        xx = xx, xy = xy,
+        yx = yx, yy = yy,
+        tx = tx, ty = ty,
     )
 
     override fun interpolate(b: Affine3D, t: Double): Affine3D = Affine3D(
@@ -36,5 +42,7 @@ public data class Affine3D(
         )
 
         override fun interpolate(a: Affine3D, b: Affine3D, t: Double): Affine3D = a.interpolate(b, t)
+
+        override fun toString(): String = "Affine3D"
     }
 }

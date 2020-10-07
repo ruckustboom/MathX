@@ -8,16 +8,21 @@ public data class Basis3D(
     val xx: Double, val xy: Double, val xz: Double,
     val yx: Double, val yy: Double, val yz: Double,
     val zx: Double, val zy: Double, val zz: Double,
-) : Transformation3D<Basis3D> {
+) : Transformation3D<Basis3D, Basis2D> {
     inline val x: Point3D get() = Point3D(x = xx, y = xy, z = xz)
     inline val y: Point3D get() = Point3D(x = yx, y = yy, z = yz)
     inline val z: Point3D get() = Point3D(x = zx, y = zy, z = zz)
 
-    override fun toTransform3D(): Transform3D = Transform3D(
+    override fun toTransform(): Transform3D = Transform3D(
         xx = xx, xy = xy, xz = xz, xw = 0.0,
         yx = yx, yy = yy, yz = yz, yw = 0.0,
         zx = zx, zy = zy, zz = zz, zw = 0.0,
         tx = 0.0, ty = 0.0, tz = 0.0, tw = 1.0,
+    )
+
+    override fun to2D(): Basis2D = Basis2D(
+        xx = xx, xy = xy,
+        yx = yx, yy = yy,
     )
 
     override fun interpolate(b: Basis3D, t: Double): Basis3D = Basis3D(
@@ -58,6 +63,8 @@ public data class Basis3D(
         }
 
         override fun interpolate(a: Basis3D, b: Basis3D, t: Double): Basis3D = a.interpolate(b, t)
+
+        override fun toString(): String = "Basis3D"
     }
 }
 
