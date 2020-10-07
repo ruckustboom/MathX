@@ -32,7 +32,7 @@ public data class Basis3D(
     )
 
     public companion object : Interpolator<Basis3D> {
-        public val IDENT: Basis3D = Basis3D(
+        public val IDENTITY: Basis3D = Basis3D(
             xx = 1.0, xy = 0.0, xz = 0.0,
             yx = 0.0, yy = 1.0, yz = 0.0,
             zx = 0.0, zy = 0.0, zz = 1.0,

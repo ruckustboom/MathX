@@ -27,6 +27,12 @@ public data class Affine2D(
     )
 
     public companion object : Interpolator<Affine2D> {
+        public val IDENTITY: Affine2D = Affine2D(
+            xx = 1.0, xy = 0.0,
+            yx = 0.0, yy = 1.0,
+            tx = 0.0, ty = 0.0,
+        )
+
         override fun interpolate(a: Affine2D, b: Affine2D, t: Double): Affine2D = a.interpolate(b, t)
 
         override fun toString(): String = "Affine2D"

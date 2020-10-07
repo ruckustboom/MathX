@@ -34,11 +34,11 @@ public data class Affine3D(
     )
 
     public companion object : Interpolator<Affine3D> {
-        public val IDENT: Affine3D = Affine3D(
+        public val IDENTITY: Affine3D = Affine3D(
             xx = 1.0, xy = 0.0, xz = 0.0,
             yx = 0.0, yy = 1.0, yz = 0.0,
             zx = 0.0, zy = 0.0, zz = 1.0,
-            tx = 0.0, ty = 0.0, tz = 1.0,
+            tx = 0.0, ty = 0.0, tz = 0.0,
         )
 
         override fun interpolate(a: Affine3D, b: Affine3D, t: Double): Affine3D = a.interpolate(b, t)

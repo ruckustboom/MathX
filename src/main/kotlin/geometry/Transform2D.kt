@@ -81,6 +81,12 @@ public data class Transform2D(
     )
 
     public companion object : Interpolator<Transform2D> {
+        public val IDENTITY: Transform2D = Transform2D(
+            xx = 1.0, xy = 0.0, xw = 0.0,
+            yx = 0.0, yy = 1.0, yw = 0.0,
+            tx = 0.0, ty = 0.0, tw = 1.0,
+        )
+
         override fun interpolate(a: Transform2D, b: Transform2D, t: Double): Transform2D = a.interpolate(b, t)
 
         override fun toString(): String = "Transform2D"

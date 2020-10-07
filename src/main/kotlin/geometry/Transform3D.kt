@@ -107,6 +107,13 @@ public data class Transform3D(
     )
 
     public companion object : Interpolator<Transform3D> {
+        public val IDENTITY: Transform3D = Transform3D(
+            xx = 1.0, xy = 0.0, xz = 0.0, xw = 0.0,
+            yx = 0.0, yy = 1.0, yz = 0.0, yw = 0.0,
+            zx = 0.0, zy = 0.0, zz = 1.0, zw = 0.0,
+            tx = 0.0, ty = 0.0, tz = 0.0, tw = 1.0,
+        )
+
         override fun interpolate(a: Transform3D, b: Transform3D, t: Double): Transform3D = a.interpolate(b, t)
 
         override fun toString(): String = "Transform3D"
