@@ -50,46 +50,28 @@ public fun Transformation<*>.toTransform2D(): Transform2D = Transform2D(
 )
 
 public fun Transformation<*>.transform(p: Vector2D): Vector2D = Vector2D(
-    x = xx * p.x + yx * p.y,
-    y = xy * p.x + yy * p.y,
+    x = tx(p), y = ty(p),
 )
 
 public fun Transformation<*>.transform(p: Point2D): Point2D = Point2D(
-    x = xx * p.x + yx * p.y + tx,
-    y = xy * p.x + yy * p.y + ty,
+    x = tx(p), y = ty(p),
 )
 
 public fun Transformation<*>.transform(b: Basis2D): Basis2D = Basis2D(
-    xx = xx * b.xx + yx * b.xy,
-    xy = xy * b.xx + yy * b.xy,
-
-    yx = xx * b.yx + yx * b.yy,
-    yy = xy * b.yx + yy * b.yy,
+    xx = xx(b), xy = xy(b),
+    yx = yx(b), yy = yy(b),
 )
 
 public fun Transformation<*>.transform(a: Affine2D): Affine2D = Affine2D(
-    xx = xx * a.xx + yx * a.xy,
-    xy = xy * a.xx + yy * a.xy,
-
-    yx = xx * a.yx + yx * a.yy,
-    yy = xy * a.yx + yy * a.yy,
-
-    tx = xx * a.tx + yx * a.ty + tx,
-    ty = xy * a.tx + yy * a.ty + ty,
+    xx = xx(a), xy = xy(a),
+    yx = yx(a), yy = yy(a),
+    tx = tx(a), ty = ty(a),
 )
 
 public fun Transformation<*>.transform(t: Transform2D): Transform2D = Transform2D(
-    xx = xx * t.xx + yx * t.xy + tx * t.xw,
-    xy = xy * t.xx + yy * t.xy + ty * t.xw,
-    xw = xw * t.xx + yw * t.xy + tw * t.xw,
-
-    yx = xx * t.yx + yx * t.yy + tx * t.yw,
-    yy = xy * t.yx + yy * t.yy + ty * t.yw,
-    yw = xw * t.yx + yw * t.yy + tw * t.yw,
-
-    tx = xx * t.tx + yx * t.ty + tx * t.tw,
-    ty = xy * t.tx + yy * t.ty + ty * t.tw,
-    tw = xw * t.tx + yw * t.ty + tw * t.tw,
+    xx = xx(t), xy = xy(t), xw = xw(t),
+    yx = yx(t), yy = yy(t), yw = yw(t),
+    tx = tx(t), ty = ty(t), tw = tw(t),
 )
 
 // 3D
@@ -119,67 +101,51 @@ public fun Transformation<*>.toTransform3D(): Transform3D = Transform3D(
 )
 
 public fun Transformation<*>.transform(p: Vector3D): Vector3D = Vector3D(
-    x = xx * p.x + yx * p.y + zx * p.z,
-    y = xy * p.x + yy * p.y + zy * p.z,
-    z = xz * p.x + yz * p.y + zz * p.z,
+    x = tx(p), y = ty(p), z = tz(p),
 )
 
 public fun Transformation<*>.transform(p: Point3D): Point3D = Point3D(
-    x = xx * p.x + yx * p.y + zx * p.z + tx,
-    y = xy * p.x + yy * p.y + zy * p.z + ty,
-    z = xz * p.x + yz * p.y + zz * p.z + tz,
+    x = tx(p), y = ty(p), z = tz(p),
 )
 
 public fun Transformation<*>.transform(b: Basis3D): Basis3D = Basis3D(
-    xx = xx * b.xx + yx * b.xy + zx * b.xz,
-    xy = xy * b.xx + yy * b.xy + zy * b.xz,
-    xz = xz * b.xx + yz * b.xy + zz * b.xz,
-
-    yx = xx * b.yx + yx * b.yy + zx * b.yz,
-    yy = xy * b.yx + yy * b.yy + zy * b.yz,
-    yz = xz * b.yx + yz * b.yy + zz * b.yz,
-
-    zx = xx * b.zx + yx * b.zy + zx * b.zz,
-    zy = xy * b.zx + yy * b.zy + zy * b.zz,
-    zz = xz * b.zx + yz * b.zy + zz * b.zz,
+    xx = xx(b), xy = xy(b), xz = xz(b),
+    yx = yx(b), yy = yy(b), yz = yz(b),
+    zx = zx(b), zy = zy(b), zz = zz(b),
 )
 
 public fun Transformation<*>.transform(a: Affine3D): Affine3D = Affine3D(
-    xx = xx * a.xx + yx * a.xy + zx * a.xz,
-    xy = xy * a.xx + yy * a.xy + zy * a.xz,
-    xz = xz * a.xx + yz * a.xy + zz * a.xz,
-
-    yx = xx * a.yx + yx * a.yy + zx * a.yz,
-    yy = xy * a.yx + yy * a.yy + zy * a.yz,
-    yz = xz * a.yx + yz * a.yy + zz * a.yz,
-
-    zx = xx * a.zx + yx * a.zy + zx * a.zz,
-    zy = xy * a.zx + yy * a.zy + zy * a.zz,
-    zz = xz * a.zx + yz * a.zy + zz * a.zz,
-
-    tx = xx * a.tx + yx * a.ty + zx * a.tz + tx,
-    ty = xy * a.tx + yy * a.ty + zy * a.tz + ty,
-    tz = xz * a.tx + yz * a.ty + zz * a.tz + tz,
+    xx = xx(a), xy = xy(a), xz = xz(a),
+    yx = yx(a), yy = yy(a), yz = yz(a),
+    zx = zx(a), zy = zy(a), zz = zz(a),
+    tx = tx(a), ty = ty(a), tz = tz(a),
 )
 
 public fun Transformation<*>.transform(t: Transform3D): Transform3D = Transform3D(
-    xx = xx * t.xx + yx * t.xy + zx * t.xz + tx * t.xw,
-    xy = xy * t.xx + yy * t.xy + zy * t.xz + ty * t.xw,
-    xz = xz * t.xx + yz * t.xy + zz * t.xz + tz * t.xw,
-    xw = xw * t.xx + yw * t.xy + zw * t.xz + tw * t.xw,
-
-    yx = xx * t.yx + yx * t.yy + zx * t.yz + tx * t.yw,
-    yy = xy * t.yx + yy * t.yy + zy * t.yz + ty * t.yw,
-    yz = xz * t.yx + yz * t.yy + zz * t.yz + tz * t.yw,
-    yw = xw * t.yx + yw * t.yy + zw * t.yz + tw * t.yw,
-
-    zx = xx * t.zx + yx * t.zy + zx * t.zz + tx * t.zw,
-    zy = xy * t.zx + yy * t.zy + zy * t.zz + ty * t.zw,
-    zz = xz * t.zx + yz * t.zy + zz * t.zz + tz * t.zw,
-    zw = xw * t.zx + yw * t.zy + zw * t.zz + tw * t.zw,
-
-    tx = xx * t.tx + yx * t.ty + zx * t.tz + tx * t.tw,
-    ty = xy * t.tx + yy * t.ty + zy * t.tz + ty * t.tw,
-    tz = xz * t.tx + yz * t.ty + zz * t.tz + tz * t.tw,
-    tw = xw * t.tx + yw * t.ty + zw * t.tz + tw * t.tw,
+    xx = xx(t), xy = xy(t), xz = xz(t), xw = xw(t),
+    yx = yx(t), yy = yy(t), yz = yz(t), yw = yw(t),
+    zx = zx(t), zy = zy(t), zz = zz(t), zw = zw(t),
+    tx = tx(t), ty = ty(t), tz = tz(t), tw = tw(t),
 )
+
+// Components
+
+private inline fun Transformation<*>.xx(t: Transformation<*>) = xx * t.xx + yx * t.xy + zx * t.xz + tx * t.xw
+private inline fun Transformation<*>.xy(t: Transformation<*>) = xy * t.xx + yy * t.xy + zy * t.xz + ty * t.xw
+private inline fun Transformation<*>.xz(t: Transformation<*>) = xz * t.xx + yz * t.xy + zz * t.xz + tz * t.xw
+private inline fun Transformation<*>.xw(t: Transformation<*>) = xw * t.xx + yw * t.xy + zw * t.xz + tw * t.xw
+
+private inline fun Transformation<*>.yx(t: Transformation<*>) = xx * t.yx + yx * t.yy + zx * t.yz + tx * t.yw
+private inline fun Transformation<*>.yy(t: Transformation<*>) = xy * t.yx + yy * t.yy + zy * t.yz + ty * t.yw
+private inline fun Transformation<*>.yz(t: Transformation<*>) = xz * t.yx + yz * t.yy + zz * t.yz + tz * t.yw
+private inline fun Transformation<*>.yw(t: Transformation<*>) = xw * t.yx + yw * t.yy + zw * t.yz + tw * t.yw
+
+private inline fun Transformation<*>.zx(t: Transformation<*>) = xx * t.zx + yx * t.zy + zx * t.zz + tx * t.zw
+private inline fun Transformation<*>.zy(t: Transformation<*>) = xy * t.zx + yy * t.zy + zy * t.zz + ty * t.zw
+private inline fun Transformation<*>.zz(t: Transformation<*>) = xz * t.zx + yz * t.zy + zz * t.zz + tz * t.zw
+private inline fun Transformation<*>.zw(t: Transformation<*>) = xw * t.zx + yw * t.zy + zw * t.zz + tw * t.zw
+
+private inline fun Transformation<*>.tx(t: Transformation<*>) = xx * t.tx + yx * t.ty + zx * t.tz + tx * t.tw
+private inline fun Transformation<*>.ty(t: Transformation<*>) = xy * t.tx + yy * t.ty + zy * t.tz + ty * t.tw
+private inline fun Transformation<*>.tz(t: Transformation<*>) = xz * t.tx + yz * t.ty + zz * t.tz + tz * t.tw
+private inline fun Transformation<*>.tw(t: Transformation<*>) = xw * t.tx + yw * t.ty + zw * t.tz + tw * t.tw
