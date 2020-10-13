@@ -49,26 +49,31 @@ public fun Transformation<*>.toTransform2D(): Transform2D = Transform2D(
     tx = tx, ty = ty, tw = tw,
 )
 
-public fun Transformation<*>.transform(p: Vector2D): Vector2D = Vector2D(
+public inline infix fun Vector2D.transformBy(t: Transformation<*>): Vector2D = t transform this
+public infix fun Transformation<*>.transform(p: Vector2D): Vector2D = Vector2D(
     x = tx(p), y = ty(p),
 )
 
-public fun Transformation<*>.transform(p: Point2D): Point2D = Point2D(
+public inline infix fun Point2D.transformBy(t: Transformation<*>): Point2D = t transform this
+public infix fun Transformation<*>.transform(p: Point2D): Point2D = Point2D(
     x = tx(p), y = ty(p),
 )
 
-public fun Transformation<*>.transform(b: Basis2D): Basis2D = Basis2D(
+public inline infix fun Basis2D.transformBy(t: Transformation<*>): Basis2D = t transform this
+public infix fun Transformation<*>.transform(b: Basis2D): Basis2D = Basis2D(
     xx = xx(b), xy = xy(b),
     yx = yx(b), yy = yy(b),
 )
 
-public fun Transformation<*>.transform(a: Affine2D): Affine2D = Affine2D(
+public inline infix fun Affine2D.transformBy(t: Transformation<*>): Affine2D = t transform this
+public infix fun Transformation<*>.transform(a: Affine2D): Affine2D = Affine2D(
     xx = xx(a), xy = xy(a),
     yx = yx(a), yy = yy(a),
     tx = tx(a), ty = ty(a),
 )
 
-public fun Transformation<*>.transform(t: Transform2D): Transform2D = Transform2D(
+public inline infix fun Transform2D.transformBy(t: Transformation<*>): Transform2D = t transform this
+public infix fun Transformation<*>.transform(t: Transform2D): Transform2D = Transform2D(
     xx = xx(t), xy = xy(t), xw = xw(t),
     yx = yx(t), yy = yy(t), yw = yw(t),
     tx = tx(t), ty = ty(t), tw = tw(t),
@@ -100,28 +105,33 @@ public fun Transformation<*>.toTransform3D(): Transform3D = Transform3D(
     tx = tx, ty = ty, tz = tz, tw = tw,
 )
 
-public fun Transformation<*>.transform(p: Vector3D): Vector3D = Vector3D(
+public inline infix fun Vector3D.transformBy(t: Transformation<*>): Vector3D = t transform this
+public infix fun Transformation<*>.transform(p: Vector3D): Vector3D = Vector3D(
     x = tx(p), y = ty(p), z = tz(p),
 )
 
-public fun Transformation<*>.transform(p: Point3D): Point3D = Point3D(
+public inline infix fun Point3D.transformBy(t: Transformation<*>): Point3D = t transform this
+public infix fun Transformation<*>.transform(p: Point3D): Point3D = Point3D(
     x = tx(p), y = ty(p), z = tz(p),
 )
 
-public fun Transformation<*>.transform(b: Basis3D): Basis3D = Basis3D(
+public inline infix fun Basis3D.transformBy(t: Transformation<*>): Basis3D = t transform this
+public infix fun Transformation<*>.transform(b: Basis3D): Basis3D = Basis3D(
     xx = xx(b), xy = xy(b), xz = xz(b),
     yx = yx(b), yy = yy(b), yz = yz(b),
     zx = zx(b), zy = zy(b), zz = zz(b),
 )
 
-public fun Transformation<*>.transform(a: Affine3D): Affine3D = Affine3D(
+public inline infix fun Affine3D.transformBy(t: Transformation<*>): Affine3D = t transform this
+public infix fun Transformation<*>.transform(a: Affine3D): Affine3D = Affine3D(
     xx = xx(a), xy = xy(a), xz = xz(a),
     yx = yx(a), yy = yy(a), yz = yz(a),
     zx = zx(a), zy = zy(a), zz = zz(a),
     tx = tx(a), ty = ty(a), tz = tz(a),
 )
 
-public fun Transformation<*>.transform(t: Transform3D): Transform3D = Transform3D(
+public inline infix fun Transform3D.transformBy(t: Transformation<*>): Transform3D = t transform this
+public infix fun Transformation<*>.transform(t: Transform3D): Transform3D = Transform3D(
     xx = xx(t), xy = xy(t), xz = xz(t), xw = xw(t),
     yx = yx(t), yy = yy(t), yz = yz(t), yw = yw(t),
     zx = zx(t), zy = zy(t), zz = zz(t), zw = zw(t),

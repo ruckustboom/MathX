@@ -71,11 +71,11 @@ class TestTransformation {
             zx = 0.0, zy = 0.0, zz = 1.0,
         )
 
-        Basis3D.yaw(PI / 2.0).transform(start) shouldBe Point3D(1.0, 2.0, -3.0)
-        Basis3D.pitch(PI / 2.0).transform(start) shouldBe Point3D(3.0, -1.0, 2.0)
-        Basis3D.roll(PI / 2.0).transform(start) shouldBe Point3D(-2.0, 3.0, 1.0)
-        Basis3D.yaw(-PI / 2.0).transform(start) shouldBe Point3D(-1.0, 2.0, 3.0)
-        Basis3D.pitch(-PI / 2.0).transform(start) shouldBe Point3D(3.0, 1.0, -2.0)
-        Basis3D.roll(-PI / 2.0).transform(start) shouldBe Point3D(2.0, -3.0, 1.0)
+        Basis3D.yaw(PI / 2.0) transform start shouldBe Point3D(1.0, 2.0, -3.0)
+        Basis3D.pitch(PI / 2.0) transform start shouldBe Point3D(3.0, -1.0, 2.0)
+        Basis3D.roll(PI / 2.0) transform start shouldBe Point3D(-2.0, 3.0, 1.0)
+        Basis3D.yaw(-PI / 2.0) transform start shouldBe Point3D(-1.0, 2.0, 3.0)
+        Basis3D.pitch(-PI / 2.0) transform start shouldBe Point3D(3.0, 1.0, -2.0)
+        Basis3D.roll(-PI / 2.0) transform start shouldBe Point3D(2.0, -3.0, 1.0)
     }
 }
