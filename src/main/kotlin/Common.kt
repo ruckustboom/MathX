@@ -33,11 +33,3 @@ public inline fun reflected(x: Double): Double {
     val dist = abs(x) % 2.0
     return if (dist < 1.0) dist else 2.0 - dist
 }
-
-public val ALMOST_256: Double = 256.0.nextDown()
-public inline fun uByteToRatio(x: UByte): Double = x.toInt() / 255.0
-public inline fun clampIntToUByte(x: Int): UByte = x.coerceIn(0x00, 0xFF).toUByte()
-public inline fun clampUIntToUByte(x: UInt): UByte = x.coerceIn(0x00u, 0xFFu).toUByte()
-public inline fun clampRatioToUByte(t: Double): UByte = clampIntToUByte((t * ALMOST_256).toInt())
-public inline fun lerp(a: UByte, b: UByte, t: Double): UByte =
-    clampRatioToUByte(lerp(uByteToRatio(a), uByteToRatio(b), t))
