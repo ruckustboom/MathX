@@ -3,6 +3,7 @@
 package mathx
 
 import kotlin.math.nextDown
+import kotlin.math.pow
 
 public object RGBA {
     @JvmStatic
@@ -29,9 +30,9 @@ public object RGBA {
 
     @JvmStatic
     public inline fun getGray(rgba: Int): Double =
-        getRed(rgba) / 255.0 * 0.2126 +
-                getGreen(rgba) / 255.0 * 0.7125 +
-                getBlue(rgba) / 255.0 * 0.0722
+        toRatio(getRed(rgba)) * 0.2126 +
+                toRatio(getGreen(rgba)) * 0.7125 +
+                toRatio(getBlue(rgba)) * 0.0722
 
     @JvmStatic
     public inline fun copy(
@@ -52,6 +53,34 @@ public object RGBA {
         blue = 255 - getBlue(rgba),
         alpha = getAlpha(rgba),
     )
+
+    @JvmStatic
+    public fun alphaBlend(a: Int, b: Int): Int {
+        val aa = getAlpha(a) / 255.0
+        val sa = getAlpha(b) / 255.0 * (1.0 - aa)
+        val ra = aa + sa
+        return if (ra == 0.0) 0 else rgba(
+            toChannel((toRatio(getRed(a)) * aa + toRatio(getRed(b)) * sa) / ra),
+            toChannel((toRatio(getGreen(a)) * aa + toRatio(getGreen(b)) * sa) / ra),
+            toChannel((toRatio(getBlue(a)) * aa + toRatio(getBlue(b)) * sa) / ra),
+            toChannel(ra),
+        )
+    }
+
+    @JvmStatic
+    public fun alphaBlendGammaCorrected(a: Int, b: Int, gamma: Double = 2.2): Int {
+        if (gamma == 0.0) return -1  // White
+        val ig = 1.0 / gamma
+        val aa = getAlpha(a) / 255.0
+        val sa = getAlpha(b) / 255.0 * (1.0 - aa)
+        val ra = aa + sa
+        return if (ra == 0.0) 0 else rgba(
+            toChannel(((toRatio(getRed(a)).pow(gamma) * aa + toRatio(getRed(b)).pow(gamma) * sa) / ra).pow(ig)),
+            toChannel(((toRatio(getGreen(a)).pow(gamma) * aa + toRatio(getGreen(b)).pow(gamma) * sa) / ra).pow(ig)),
+            toChannel(((toRatio(getBlue(a)).pow(gamma) * aa + toRatio(getBlue(b)).pow(gamma) * sa) / ra).pow(ig)),
+            toChannel(ra),
+        )
+    }
 
     @JvmStatic
     public fun toHex(rgba: Int): String = buildString {
@@ -92,31 +121,33 @@ public object RGBA {
         }
         return rgba(red, green, blue, alpha)
     }
-}
 
-public object PreMultipliedInterpolator : Interpolator<Int> {
-    override fun interpolate(a: Int, b: Int, t: Double): Int {
-        val aa = RGBA.getAlpha(a) / 255.0
-        val ba = RGBA.getAlpha(b) / 255.0
-        val ta = lerp(aa, ba, t)
-        return if (ta == 0.0) 0 else RGBA.rgba(
-            red = toChannel(lerp(RGBA.getRed(a) / 255.0 * aa, RGBA.getRed(b) / 255.0 * ba, t) / ta),
-            green = toChannel(lerp(RGBA.getGreen(a) / 255.0 * aa, RGBA.getGreen(b) / 255.0 * ba, t) / ta),
-            blue = toChannel(lerp(RGBA.getBlue(a) / 255.0 * aa, RGBA.getBlue(b) / 255.0 * ba, t) / ta),
-            alpha = toChannel(ta)
+    @JvmStatic
+    public inline fun toChannel(ratio: Double): Int = (ratio.coerceIn(0.0, 1.0.nextDown()) * 256.0).toInt()
+
+    @JvmStatic
+    public inline fun toRatio(channel: Int): Double = channel.coerceIn(0, 0xFF) / 255.0
+
+    public object PreMultipliedInterpolator : Interpolator<Int> {
+        override fun interpolate(a: Int, b: Int, t: Double): Int {
+            val aa = toRatio(getAlpha(a))
+            val ba = toRatio(getAlpha(b))
+            val ta = lerp(aa, ba, t)
+            return if (ta == 0.0) 0 else rgba(
+                toChannel(lerp(toRatio(getRed(a)) * aa, toRatio(getRed(b)) * ba, t) / ta),
+                toChannel(lerp(toRatio(getGreen(a)) * aa, toRatio(getGreen(b)) * ba, t) / ta),
+                toChannel(lerp(toRatio(getBlue(a)) * aa, toRatio(getBlue(b)) * ba, t) / ta),
+                toChannel(ta)
+            )
+        }
+    }
+
+    public object StraightAlphaInterpolator : Interpolator<Int> {
+        override fun interpolate(a: Int, b: Int, t: Double): Int = rgba(
+            lerp(getRed(a), getRed(b), t),
+            lerp(getGreen(a), getGreen(b), t),
+            lerp(getBlue(a), getBlue(b), t),
+            lerp(getAlpha(a), getAlpha(b), t),
         )
     }
 }
-
-public object StraightAlphaInterpolator : Interpolator<Int> {
-    override fun interpolate(a: Int, b: Int, t: Double): Int = RGBA.rgba(
-        red = lerp(RGBA.getRed(a), RGBA.getRed(b), t),
-        green = lerp(RGBA.getGreen(a), RGBA.getGreen(b), t),
-        blue = lerp(RGBA.getBlue(a), RGBA.getBlue(b), t),
-        alpha = lerp(RGBA.getAlpha(a), RGBA.getAlpha(b), t),
-    )
-}
-
-// Impl
-
-private inline fun toChannel(ratio: Double): Int = (ratio.coerceIn(0.0, 1.0.nextDown()) * 256.0).toInt()
