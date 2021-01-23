@@ -7,6 +7,10 @@ import kotlin.math.pow
 
 public object RGBA {
     @JvmStatic
+    public inline operator fun invoke(red: Int, green: Int, blue: Int, alpha: Int = 0xFF): Int =
+        rgba(red, green, blue, alpha)
+
+    @JvmStatic
     public inline fun rgba(red: Int, green: Int, blue: Int, alpha: Int = 0xFF): Int =
         (red.coerceIn(0x00, 0xFF) shl 24) or
                 (green.coerceIn(0x00, 0xFF) shl 16) or
