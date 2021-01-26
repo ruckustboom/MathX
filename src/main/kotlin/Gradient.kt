@@ -4,6 +4,8 @@ public class Gradient<T> private constructor(
     private val interpolator: Interpolator<T>,
     private val stops: List<Stop<T>>,
 ) : Interpolated<Gradient<T>> {
+    public val size: Int = stops.size
+
     public fun toList(): List<Stop<T>> = stops.toList()
 
     public operator fun get(offset: Double): Stop<T>? {
