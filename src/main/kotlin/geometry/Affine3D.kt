@@ -31,7 +31,7 @@ public data class Affine3D(
             tx = 0.0, ty = 0.0, tz = 0.0,
         )
 
-        public fun ypr(euler: Point3D, t: Point3D): Affine3D = ypr(
+        public fun ypr(euler: Vector3D, t: Point3D): Affine3D = ypr(
             yaw = euler.y,
             pitch = euler.x,
             roll = euler.z,

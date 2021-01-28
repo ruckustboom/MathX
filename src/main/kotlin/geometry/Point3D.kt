@@ -1,6 +1,7 @@
 package mathx.geometry
 
-import mathx.*
+import mathx.Interpolator
+import mathx.lerp
 import kotlin.math.sqrt
 
 public data class Point3D(val x: Double, val y: Double, val z: Double) : Transformation<Point3D> {
@@ -14,25 +15,12 @@ public data class Point3D(val x: Double, val y: Double, val z: Double) : Transfo
     public operator fun div(scale: Double): Point3D = Point3D(x / scale, y / scale, z / scale)
     public operator fun unaryMinus(): Point3D = Point3D(-x, -y, -z)
 
-    public fun dot(point: Point3D): Double = x * point.x + y * point.y + z * point.z
-    public fun length(): Double = distance(ZERO)
-    public fun distance(point: Point3D): Double {
+    public infix fun distance(point: Point3D): Double {
         val dx = x - point.x
         val dy = y - point.y
         val dz = z - point.z
         return sqrt(dx * dx + dy * dy + dz * dz)
     }
-
-    public fun normalize(): Point3D {
-        val len = length()
-        return if (length() == 0.0) ZERO else div(len)
-    }
-
-    public infix fun cross(point: Point3D): Point3D = Point3D(
-        x = y * point.z - z * point.y,
-        y = z * point.x - x * point.z,
-        z = x * point.y - y * point.x,
-    )
 
     override fun interpolate(b: Point3D, t: Double): Point3D = Point3D(
         x = lerp(x, b.x, t),
@@ -66,30 +54,4 @@ public data class Point3D(val x: Double, val y: Double, val z: Double) : Transfo
 
         override fun toString(): String = "Point3D"
     }
-}
-
-@JvmName("lowerBound3D")
-public fun Collection<Point3D>.lowerBoundOrNull(): Point3D? = if (isEmpty()) null else {
-    var x = Double.POSITIVE_INFINITY
-    var y = Double.POSITIVE_INFINITY
-    var z = Double.POSITIVE_INFINITY
-    for (point in this) {
-        if (point.x < x) x = point.x
-        if (point.y < y) y = point.y
-        if (point.z < z) z = point.z
-    }
-    Point3D(x, y, z)
-}
-
-@JvmName("upperBound3D")
-public fun Collection<Point3D>.upperBoundOrNull(): Point3D? = if (isEmpty()) null else {
-    var x = Double.NEGATIVE_INFINITY
-    var y = Double.NEGATIVE_INFINITY
-    var z = Double.NEGATIVE_INFINITY
-    for (point in this) {
-        if (point.x > x) x = point.x
-        if (point.y > y) y = point.y
-        if (point.z > z) z = point.z
-    }
-    Point3D(x, y, z)
 }

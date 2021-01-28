@@ -1,6 +1,6 @@
 package mathx.geometry
 
-import mathx.*
+import mathx.TAU
 import org.junit.jupiter.api.Test
 import kotlin.math.PI
 import kotlin.math.cos
@@ -36,21 +36,22 @@ class TestYPR {
     @Test
     fun testYPREquivalence() {
         repeat(100) {
-            val rot = Point3D(
+            val rot = Vector3D(
                 x = Random.nextDouble() * TAU - PI,
                 y = Random.nextDouble() * TAU - PI,
                 z = Random.nextDouble() * TAU - PI,
             )
-            val affine = Affine3D.ypr(rot, rot)
+            val pos = rot.toPoint3D()
+            val affine = Affine3D.ypr(rot, pos)
             affine.toBasis3D() shouldBe Basis3D.ypr(rot)
-            affine.toPoint3D() shouldBe rot
+            affine.toPoint3D() shouldBe pos
         }
     }
 
     @Test
     fun testYPROrder() {
         repeat(100) {
-            val rot = Point3D(
+            val rot = Vector3D(
                 x = Random.nextDouble() * TAU - PI,
                 y = Random.nextDouble() * TAU - PI,
                 z = Random.nextDouble() * TAU - PI,

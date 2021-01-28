@@ -1,6 +1,6 @@
 package mathx.geometry
 
-import mathx.*
+import mathx.TAU
 import org.junit.jupiter.api.Test
 import kotlin.math.PI
 

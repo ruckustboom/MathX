@@ -1,6 +1,7 @@
 package mathx.geometry
 
-import mathx.*
+import mathx.Interpolator
+import mathx.lerp
 import kotlin.math.sqrt
 
 public data class Point2D(val x: Double, val y: Double) : Transformation<Point2D> {
@@ -13,17 +14,10 @@ public data class Point2D(val x: Double, val y: Double) : Transformation<Point2D
     public operator fun div(scale: Double): Point2D = Point2D(x / scale, y / scale)
     public operator fun unaryMinus(): Point2D = Point2D(-x, -y)
 
-    public fun dot(point: Point2D): Double = x * point.x + y * point.y
-    public fun length(): Double = distance(ZERO)
-    public fun distance(point: Point2D): Double {
+    public infix fun distance(point: Point2D): Double {
         val dx = x - point.x
         val dy = y - point.y
         return sqrt(dx * dx + dy * dy)
-    }
-
-    public fun normalize(): Point2D {
-        val len = length()
-        return if (length() == 0.0) ZERO else div(len)
     }
 
     override fun interpolate(b: Point2D, t: Double): Point2D = Point2D(
@@ -47,26 +41,4 @@ public data class Point2D(val x: Double, val y: Double) : Transformation<Point2D
 
         override fun toString(): String = "Point2D"
     }
-}
-
-@JvmName("lowerBound2D")
-public fun Collection<Point2D>.lowerBoundOrNull(): Point2D? = if (isEmpty()) null else {
-    var x = Double.POSITIVE_INFINITY
-    var y = Double.POSITIVE_INFINITY
-    for (point in this) {
-        if (point.x < x) x = point.x
-        if (point.y < y) y = point.y
-    }
-    Point2D(x, y)
-}
-
-@JvmName("upperBound3D")
-public fun Collection<Point2D>.upperBoundOrNull(): Point2D? = if (isEmpty()) null else {
-    var x = Double.NEGATIVE_INFINITY
-    var y = Double.NEGATIVE_INFINITY
-    for (point in this) {
-        if (point.x > x) x = point.x
-        if (point.y > y) y = point.y
-    }
-    Point2D(x, y)
 }

@@ -1,6 +1,7 @@
 package mathx.geometry
 
-import mathx.*
+import mathx.Interpolator
+import mathx.lerp
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -26,7 +27,7 @@ public data class Basis3D(
             zx = 0.0, zy = 0.0, zz = 1.0,
         )
 
-        public fun ypr(euler: Point3D): Basis3D = ypr(yaw = euler.y, pitch = euler.x, roll = euler.z)
+        public fun ypr(euler: Vector3D): Basis3D = ypr(yaw = euler.y, pitch = euler.x, roll = euler.z)
         public fun ypr(yaw: Double, pitch: Double, roll: Double): Basis3D {
             val cy = cos(yaw)
             val sy = sin(yaw)

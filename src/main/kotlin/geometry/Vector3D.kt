@@ -1,12 +1,42 @@
 package mathx.geometry
 
-import mathx.*
+import mathx.Interpolator
+import mathx.lerp
+import kotlin.math.sqrt
 
 public data class Vector3D(val x: Double, val y: Double, val z: Double) : Transformation<Vector3D> {
     override val tx: Double get() = x
     override val ty: Double get() = y
     override val tz: Double get() = z
     override val tw: Double get() = 0.0
+
+    public operator fun plus(vector: Vector3D): Vector3D = Vector3D(x + vector.x, y + vector.y, z + vector.z)
+    public operator fun minus(vector: Vector3D): Vector3D = Vector3D(x - vector.x, y - vector.y, z - vector.z)
+    public operator fun times(scale: Double): Vector3D = Vector3D(x * scale, y * scale, z * scale)
+    public operator fun div(scale: Double): Vector3D = Vector3D(x / scale, y / scale, z / scale)
+    public operator fun unaryMinus(): Vector3D = Vector3D(-x, -y, -z)
+
+    public infix fun distance(vector: Vector3D): Double {
+        val dx = x - vector.x
+        val dy = y - vector.y
+        val dz = z - vector.z
+        return sqrt(dx * dx + dy * dy + dz * dz)
+    }
+
+    public fun length(): Double = distance(ZERO)
+
+    public fun normalize(): Vector3D {
+        val len = length()
+        return if (len == 0.0) ZERO else div(len)
+    }
+
+    public fun dot(vector: Vector3D): Double = x * vector.x + y * vector.y + z * vector.z
+
+    public infix fun cross(vector: Vector3D): Vector3D = Vector3D(
+        x = y * vector.z - z * vector.y,
+        y = z * vector.x - x * vector.z,
+        z = x * vector.y - y * vector.x,
+    )
 
     override fun interpolate(b: Vector3D, t: Double): Vector3D = Vector3D(
         x = lerp(x, b.x, t),

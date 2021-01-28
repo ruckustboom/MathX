@@ -2,7 +2,7 @@
 
 package mathx.geometry
 
-import mathx.*
+import mathx.Interpolated
 
 public interface Transformation<T : Transformation<T>> : Interpolated<T> {
     public val xx: Double get() = 1.0
@@ -79,6 +79,14 @@ public infix fun Transformation<*>.transform(t: Transform2D): Transform2D = Tran
     tx = tx(t), ty = ty(t), tw = tw(t),
 )
 
+public inline infix fun Bounds2D.transformBy(t: Transformation<*>): Bounds2D = t transform this
+public infix fun Transformation<*>.transform(b: Bounds2D): Bounds2D = Bounds2D.of(
+    transform(Point2D(b.xMin, b.yMin)),
+    transform(Point2D(b.xMin, b.yMax)),
+    transform(Point2D(b.xMax, b.yMin)),
+    transform(Point2D(b.xMax, b.yMax)),
+)
+
 // 3D
 
 public fun Transformation<*>.toVector3D(): Vector3D = Vector3D(x = tx, y = ty, z = tz)
@@ -136,6 +144,18 @@ public infix fun Transformation<*>.transform(t: Transform3D): Transform3D = Tran
     yx = yx(t), yy = yy(t), yz = yz(t), yw = yw(t),
     zx = zx(t), zy = zy(t), zz = zz(t), zw = zw(t),
     tx = tx(t), ty = ty(t), tz = tz(t), tw = tw(t),
+)
+
+public inline infix fun Bounds3D.transformBy(t: Transformation<*>): Bounds3D = t transform this
+public infix fun Transformation<*>.transform(b: Bounds3D): Bounds3D = Bounds3D.of(
+    transform(Point3D(b.xMin, b.yMin, b.zMin)),
+    transform(Point3D(b.xMin, b.yMin, b.zMax)),
+    transform(Point3D(b.xMin, b.yMax, b.zMin)),
+    transform(Point3D(b.xMin, b.yMax, b.zMax)),
+    transform(Point3D(b.xMax, b.yMin, b.zMin)),
+    transform(Point3D(b.xMax, b.yMin, b.zMax)),
+    transform(Point3D(b.xMax, b.yMax, b.zMin)),
+    transform(Point3D(b.xMax, b.yMax, b.zMax)),
 )
 
 // Components
