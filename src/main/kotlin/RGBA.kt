@@ -144,6 +144,8 @@ public object RGBA {
                 toChannel(ta)
             )
         }
+
+        override fun toString(): String = "RGBA.PreMultipliedInterpolator"
     }
 
     public object StraightAlphaInterpolator : Interpolator<Int> {
@@ -153,5 +155,7 @@ public object RGBA {
             lerp(getBlue(a), getBlue(b), t),
             lerp(getAlpha(a), getAlpha(b), t),
         )
+
+        override fun toString(): String = "RGBA.StraightAlphaInterpolator"
     }
 }
