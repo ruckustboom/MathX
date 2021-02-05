@@ -59,32 +59,47 @@ public object RGBA {
     )
 
     @JvmStatic
-    public fun alphaBlend(a: Int, b: Int): Int {
-        val aa = getAlpha(a) / 255.0
-        val sa = getAlpha(b) / 255.0 * (1.0 - aa)
-        val ra = aa + sa
-        return if (ra == 0.0) 0 else rgba(
-            toChannel((toRatio(getRed(a)) * aa + toRatio(getRed(b)) * sa) / ra),
-            toChannel((toRatio(getGreen(a)) * aa + toRatio(getGreen(b)) * sa) / ra),
-            toChannel((toRatio(getBlue(a)) * aa + toRatio(getBlue(b)) * sa) / ra),
-            toChannel(ra),
+    public fun alphaBlend(source: Int, dest: Int): Int {
+        val sa = getAlpha(source) / 255.0
+        val da = getAlpha(dest) / 255.0 * (1.0 - sa)
+        val a = sa + da
+        return if (a == 0.0) 0 else rgba(
+            alphaBlendChannel(getRed(source), getRed(dest), sa, da, a),
+            alphaBlendChannel(getGreen(source), getGreen(dest), sa, da, a),
+            alphaBlendChannel(getBlue(source), getBlue(dest), sa, da, a),
+            toChannel(a),
         )
     }
 
     @JvmStatic
-    public fun alphaBlendGammaCorrected(a: Int, b: Int, gamma: Double = 2.2): Int {
+    private inline fun alphaBlendChannel(s: Int, d: Int, oa: Double, da: Double, a: Double): Int =
+        toChannel((toRatio(s) * oa + toRatio(d) * da) / a)
+
+    @JvmStatic
+    public fun alphaBlendCorrected(source: Int, dest: Int, gamma: Double = 2.2): Int {
         if (gamma == 0.0) return -1  // White
         val ig = 1.0 / gamma
-        val aa = getAlpha(a) / 255.0
-        val sa = getAlpha(b) / 255.0 * (1.0 - aa)
-        val ra = aa + sa
-        return if (ra == 0.0) 0 else rgba(
-            toChannel(((toRatio(getRed(a)).pow(gamma) * aa + toRatio(getRed(b)).pow(gamma) * sa) / ra).pow(ig)),
-            toChannel(((toRatio(getGreen(a)).pow(gamma) * aa + toRatio(getGreen(b)).pow(gamma) * sa) / ra).pow(ig)),
-            toChannel(((toRatio(getBlue(a)).pow(gamma) * aa + toRatio(getBlue(b)).pow(gamma) * sa) / ra).pow(ig)),
-            toChannel(ra),
+        val sa = getAlpha(source) / 255.0
+        val da = getAlpha(dest) / 255.0 * (1.0 - sa)
+        val a = sa + da
+        return if (a == 0.0) 0 else rgba(
+            alphaBlendChannelCorrected(getRed(source), getRed(dest), sa, da, a, gamma, ig),
+            alphaBlendChannelCorrected(getGreen(source), getGreen(dest), sa, da, a, gamma, ig),
+            alphaBlendChannelCorrected(getBlue(source), getBlue(dest), sa, da, a, gamma, ig),
+            toChannel(a),
         )
     }
+
+    @JvmStatic
+    private inline fun alphaBlendChannelCorrected(
+        s: Int,
+        d: Int,
+        sa: Double,
+        da: Double,
+        ra: Double,
+        g: Double,
+        ig: Double,
+    ): Int = toChannel(((toRatio(s).pow(g) * sa + toRatio(d).pow(g) * da) / ra).pow(ig))
 
     @JvmStatic
     public fun toHex(rgba: Int): String = buildString {

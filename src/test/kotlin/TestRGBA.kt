@@ -72,7 +72,7 @@ class TestRGBA {
     }
 
     @Test
-    fun testAlphaBlendGammaCorrected() {
+    fun testAlphaBlendCorrected() {
         val af = RGBA(0x12, 0x34, 0x45, 0xFF)
         val a0 = RGBA(0x12, 0x34, 0x45, 0x00)
         val a8 = RGBA(0x12, 0x34, 0x45, 0x78)
@@ -82,31 +82,31 @@ class TestRGBA {
 
         // a over b
 
-        RGBA.alphaBlendGammaCorrected(af, bf) shouldBe af
-        RGBA.alphaBlendGammaCorrected(af, b0) shouldBe af
-        RGBA.alphaBlendGammaCorrected(af, b8) shouldBe af
+        RGBA.alphaBlendCorrected(af, bf) shouldBe af
+        RGBA.alphaBlendCorrected(af, b0) shouldBe af
+        RGBA.alphaBlendCorrected(af, b8) shouldBe af
 
-        RGBA.alphaBlendGammaCorrected(a0, bf) shouldBe bf
-        RGBA.alphaBlendGammaCorrected(a0, b0) shouldBe 0
-        RGBA.alphaBlendGammaCorrected(a0, b8) shouldBe b8
+        RGBA.alphaBlendCorrected(a0, bf) shouldBe bf
+        RGBA.alphaBlendCorrected(a0, b0) shouldBe 0
+        RGBA.alphaBlendCorrected(a0, b8) shouldBe b8
 
-        RGBA.alphaBlendGammaCorrected(a8, bf) shouldBe 0x60_65_69_FF
-        RGBA.alphaBlendGammaCorrected(a8, b0) shouldBe a8
-        RGBA.alphaBlendGammaCorrected(a8, b8) shouldBe 0x51_59_5F_BC
+        RGBA.alphaBlendCorrected(a8, bf) shouldBe 0x60_65_69_FF
+        RGBA.alphaBlendCorrected(a8, b0) shouldBe a8
+        RGBA.alphaBlendCorrected(a8, b8) shouldBe 0x51_59_5F_BC
 
         // b over a
 
-        RGBA.alphaBlendGammaCorrected(bf, af) shouldBe bf
-        RGBA.alphaBlendGammaCorrected(bf, a0) shouldBe bf
-        RGBA.alphaBlendGammaCorrected(bf, a8) shouldBe bf
+        RGBA.alphaBlendCorrected(bf, af) shouldBe bf
+        RGBA.alphaBlendCorrected(bf, a0) shouldBe bf
+        RGBA.alphaBlendCorrected(bf, a8) shouldBe bf
 
-        RGBA.alphaBlendGammaCorrected(b0, af) shouldBe af
-        RGBA.alphaBlendGammaCorrected(b0, a0) shouldBe 0
-        RGBA.alphaBlendGammaCorrected(b0, a8) shouldBe a8
+        RGBA.alphaBlendCorrected(b0, af) shouldBe af
+        RGBA.alphaBlendCorrected(b0, a0) shouldBe 0
+        RGBA.alphaBlendCorrected(b0, a8) shouldBe a8
 
-        RGBA.alphaBlendGammaCorrected(b8, af) shouldBe 0x5E_63_68_FF
-        RGBA.alphaBlendGammaCorrected(b8, a0) shouldBe b8
-        RGBA.alphaBlendGammaCorrected(b8, a8) shouldBe 0x6C_6F_71_BC
+        RGBA.alphaBlendCorrected(b8, af) shouldBe 0x5E_63_68_FF
+        RGBA.alphaBlendCorrected(b8, a0) shouldBe b8
+        RGBA.alphaBlendCorrected(b8, a8) shouldBe 0x6C_6F_71_BC
     }
 
     @Test
