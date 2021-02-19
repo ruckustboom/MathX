@@ -22,6 +22,7 @@ public inline fun unlerp(a: Double, b: Double, x: Double): Double = if (a == b) 
 public inline fun remap(a1: Double, b1: Double, a2: Double, b2: Double, x: Double): Double =
     lerp(a2, b2, unlerp(a1, b1, x))
 
+public inline infix fun Int.pmod(x: Int): Int = (rem(x) + x) % x
 public inline fun lerp(a: Int, b: Int, t: Double): Int = lerp(a.toDouble(), b.toDouble(), t).toInt()
 public inline fun <T> cerp(a: T, b: T, t: Double): T = if (t < 1.0) a else b
 
