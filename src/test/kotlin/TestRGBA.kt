@@ -1,7 +1,8 @@
 package mathx
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import mathx.assertEquals
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class TestRGBA {
     @Test
@@ -21,7 +22,7 @@ class TestRGBA {
         RGBA.getGreen(color) shouldBe 0x34
         RGBA.getBlue(color) shouldBe 0x56
         RGBA.getAlpha(color) shouldBe 0x78
-        assertEquals(0.18465, RGBA.getGray(color), EPSILON)
+        assertEquals(0.18465, RGBA.getGray(color))
     }
 
     @Test
@@ -165,11 +166,11 @@ class TestRGBA {
             RGBA.toChannel(it / 256.0) shouldBe it
         }
 
-        assertEquals(RGBA.toRatio(0xFF), 1.0, CHANNEL_EPSILON)
-        assertEquals(RGBA.toRatio(0x00), 0.0, CHANNEL_EPSILON)
-        assertEquals(RGBA.toRatio(0x80), 0.5, CHANNEL_EPSILON)
-        assertEquals(RGBA.toRatio(0x40), 0.25, CHANNEL_EPSILON)
-        assertEquals(RGBA.toRatio(0xC0), 0.75, CHANNEL_EPSILON)
+        assertEquals(1.0, RGBA.toRatio(0xFF), CHANNEL_EPSILON)
+        assertEquals(0.0, RGBA.toRatio(0x00), CHANNEL_EPSILON)
+        assertEquals(0.5, RGBA.toRatio(0x80), CHANNEL_EPSILON)
+        assertEquals(0.25, RGBA.toRatio(0x40), CHANNEL_EPSILON)
+        assertEquals(0.75, RGBA.toRatio(0xC0), CHANNEL_EPSILON)
         repeat(256) {
             assertEquals(it / 256.0, RGBA.toRatio(it), CHANNEL_EPSILON)
         }
@@ -179,8 +180,10 @@ class TestRGBA {
         const val CHANNEL_EPSILON = 1.0 / 256.0
 
         infix fun Int.shouldBe(expected: Long) = shouldBe(expected.toInt())
-        infix fun Int.shouldBe(expected: Int) = assertEquals(expected, this) {
-            "expected: ${RGBA.toHex(expected)} | actual: ${RGBA.toHex(this)}"
-        }
+        infix fun Int.shouldBe(expected: Int) = assertEquals(
+            expected,
+            this,
+            "expected: ${RGBA.toHex(expected)} | actual: ${RGBA.toHex(this)}",
+        )
     }
 }

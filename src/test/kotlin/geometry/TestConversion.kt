@@ -1,6 +1,6 @@
 package mathx.geometry
 
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 
 class TestConversion {
     @Test

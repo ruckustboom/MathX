@@ -1,28 +1,28 @@
 package mathx.geometry
 
-import mathx.EPSILON
-import org.junit.jupiter.api.Assertions.assertEquals
+import mathx.assertEquals
+import kotlin.test.assertEquals
 
 infix fun <T : Transformation<T>> T.shouldBe(expected: T) {
     assertEquals(javaClass, expected.javaClass)
 
-    assertEquals(expected.xx, xx, EPSILON, "xx")
-    assertEquals(expected.xy, xy, EPSILON, "xy")
-    assertEquals(expected.xz, xz, EPSILON, "xz")
-    assertEquals(expected.xw, xw, EPSILON, "xw")
+    assertEquals(expected.xx, xx, "xx")
+    assertEquals(expected.xy, xy, "xy")
+    assertEquals(expected.xz, xz, "xz")
+    assertEquals(expected.xw, xw, "xw")
 
-    assertEquals(expected.yx, yx, EPSILON, "yx")
-    assertEquals(expected.yy, yy, EPSILON, "yy")
-    assertEquals(expected.yz, yz, EPSILON, "yz")
-    assertEquals(expected.yw, yw, EPSILON, "yw")
+    assertEquals(expected.yx, yx, "yx")
+    assertEquals(expected.yy, yy, "yy")
+    assertEquals(expected.yz, yz, "yz")
+    assertEquals(expected.yw, yw, "yw")
 
-    assertEquals(expected.zx, zx, EPSILON, "zx")
-    assertEquals(expected.zy, zy, EPSILON, "zy")
-    assertEquals(expected.zz, zz, EPSILON, "zz")
-    assertEquals(expected.zw, zw, EPSILON, "zw")
+    assertEquals(expected.zx, zx, "zx")
+    assertEquals(expected.zy, zy, "zy")
+    assertEquals(expected.zz, zz, "zz")
+    assertEquals(expected.zw, zw, "zw")
 
-    assertEquals(expected.tx, tx, EPSILON, "tx")
-    assertEquals(expected.ty, ty, EPSILON, "ty")
-    assertEquals(expected.tz, tz, EPSILON, "tz")
-    assertEquals(expected.tw, tw, EPSILON, "tw")
+    assertEquals(expected.tx, tx, "tx")
+    assertEquals(expected.ty, ty, "ty")
+    assertEquals(expected.tz, tz, "tz")
+    assertEquals(expected.tw, tw, "tw")
 }

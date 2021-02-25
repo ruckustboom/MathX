@@ -1,7 +1,7 @@
 package mathx.geometry
 
 import mathx.TAU
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
