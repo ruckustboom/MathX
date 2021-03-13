@@ -7,18 +7,15 @@ import kotlin.math.pow
 
 public object RGBA {
     @JvmStatic
+    @JvmName("rgba")
     public inline operator fun invoke(red: Int, green: Int, blue: Int, alpha: Int = 0xFF): Int =
-        rgba(red, green, blue, alpha)
-
-    @JvmStatic
-    public inline fun rgba(red: Int, green: Int, blue: Int, alpha: Int = 0xFF): Int =
         (red.coerceIn(0x00, 0xFF) shl 24) or
                 (green.coerceIn(0x00, 0xFF) shl 16) or
                 (blue.coerceIn(0x00, 0xFF) shl 8) or
                 alpha.coerceIn(0x00, 0xFF)
 
     @JvmStatic
-    public inline fun gray(gray: Int = 0x80, alpha: Int = 0xFF): Int = rgba(gray, gray, gray, alpha)
+    public inline fun gray(gray: Int = 0x80, alpha: Int = 0xFF): Int = RGBA(gray, gray, gray, alpha)
 
     @JvmStatic
     public inline fun getRed(rgba: Int): Int = rgba ushr 24 and 0xFF
@@ -45,13 +42,13 @@ public object RGBA {
         green: Int = getGreen(rgba),
         blue: Int = getBlue(rgba),
         alpha: Int = getAlpha(rgba),
-    ): Int = rgba(red, green, blue, alpha)
+    ): Int = RGBA(red, green, blue, alpha)
 
     @JvmStatic
     public fun toGrayscale(rgba: Int): Int = gray(toChannel(getGray(rgba)), getAlpha(rgba))
 
     @JvmStatic
-    public inline fun invert(rgba: Int): Int = rgba(
+    public inline fun invert(rgba: Int): Int = RGBA(
         red = 255 - getRed(rgba),
         green = 255 - getGreen(rgba),
         blue = 255 - getBlue(rgba),
@@ -63,7 +60,7 @@ public object RGBA {
         val sa = getAlpha(source) / 255.0
         val da = getAlpha(dest) / 255.0 * (1.0 - sa)
         val a = sa + da
-        return if (a == 0.0) 0 else rgba(
+        return if (a == 0.0) 0 else RGBA(
             alphaBlendChannel(getRed(source), getRed(dest), sa, da, a),
             alphaBlendChannel(getGreen(source), getGreen(dest), sa, da, a),
             alphaBlendChannel(getBlue(source), getBlue(dest), sa, da, a),
@@ -82,7 +79,7 @@ public object RGBA {
         val sa = getAlpha(source) / 255.0
         val da = getAlpha(dest) / 255.0 * (1.0 - sa)
         val a = sa + da
-        return if (a == 0.0) 0 else rgba(
+        return if (a == 0.0) 0 else RGBA(
             alphaBlendChannelCorrected(getRed(source), getRed(dest), sa, da, a, gamma, ig),
             alphaBlendChannelCorrected(getGreen(source), getGreen(dest), sa, da, a, gamma, ig),
             alphaBlendChannelCorrected(getBlue(source), getBlue(dest), sa, da, a, gamma, ig),
@@ -138,7 +135,7 @@ public object RGBA {
         } else {
             error("Invalid color: $hex")
         }
-        return rgba(red, green, blue, alpha)
+        return RGBA(red, green, blue, alpha)
     }
 
     @JvmStatic
@@ -152,7 +149,7 @@ public object RGBA {
             val aa = toRatio(getAlpha(a))
             val ba = toRatio(getAlpha(b))
             val ta = lerp(aa, ba, t)
-            return if (ta == 0.0) 0 else rgba(
+            return if (ta == 0.0) 0 else RGBA(
                 toChannel(lerp(toRatio(getRed(a)) * aa, toRatio(getRed(b)) * ba, t) / ta),
                 toChannel(lerp(toRatio(getGreen(a)) * aa, toRatio(getGreen(b)) * ba, t) / ta),
                 toChannel(lerp(toRatio(getBlue(a)) * aa, toRatio(getBlue(b)) * ba, t) / ta),
@@ -164,7 +161,7 @@ public object RGBA {
     }
 
     public object StraightAlphaInterpolator : Interpolator<Int> {
-        override fun interpolate(a: Int, b: Int, t: Double): Int = rgba(
+        override fun interpolate(a: Int, b: Int, t: Double): Int = RGBA(
             lerp(getRed(a), getRed(b), t),
             lerp(getGreen(a), getGreen(b), t),
             lerp(getBlue(a), getBlue(b), t),
