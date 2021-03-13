@@ -8,13 +8,11 @@ public data class Point2D(val x: Double, val y: Double) : Transformation<Point2D
     override val tx: Double get() = x
     override val ty: Double get() = y
 
-    public operator fun plus(point: Point2D): Point2D = Point2D(x + point.x, y + point.y)
-    public operator fun minus(point: Point2D): Point2D = Point2D(x - point.x, y - point.y)
-    public operator fun times(scale: Double): Point2D = Point2D(x * scale, y * scale)
-    public operator fun div(scale: Double): Point2D = Point2D(x / scale, y / scale)
-    public operator fun unaryMinus(): Point2D = Point2D(-x, -y)
+    public operator fun plus(vector: Vector2D): Point2D = Point2D(x + vector.x, y + vector.y)
+    public operator fun minus(vector: Vector2D): Point2D = Point2D(x - vector.x, y - vector.y)
+    public infix fun vectorTo(point: Point2D): Vector2D = Vector2D(point.x - x, point.y - y)
 
-    public infix fun distance(point: Point2D): Double {
+    public infix fun distanceTo(point: Point2D): Double {
         val dx = x - point.x
         val dy = y - point.y
         return sqrt(dx * dx + dy * dy)

@@ -9,13 +9,11 @@ public data class Point3D(val x: Double, val y: Double, val z: Double) : Transfo
     override val ty: Double get() = y
     override val tz: Double get() = z
 
-    public operator fun plus(point: Point3D): Point3D = Point3D(x + point.x, y + point.y, z + point.z)
-    public operator fun minus(point: Point3D): Point3D = Point3D(x - point.x, y - point.y, z - point.z)
-    public operator fun times(scale: Double): Point3D = Point3D(x * scale, y * scale, z * scale)
-    public operator fun div(scale: Double): Point3D = Point3D(x / scale, y / scale, z / scale)
-    public operator fun unaryMinus(): Point3D = Point3D(-x, -y, -z)
+    public operator fun plus(vector: Vector3D): Point3D = Point3D(x + vector.x, y + vector.y, z + vector.z)
+    public operator fun minus(vector: Vector3D): Point3D = Point3D(x - vector.x, y - vector.y, z - vector.z)
+    public infix fun vectorTo(point: Point3D): Vector3D = Vector3D(point.x - x, point.y - y, point.z - z)
 
-    public infix fun distance(point: Point3D): Double {
+    public infix fun distanceTo(point: Point3D): Double {
         val dx = x - point.x
         val dy = y - point.y
         val dz = z - point.z

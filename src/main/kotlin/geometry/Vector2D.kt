@@ -13,15 +13,11 @@ public data class Vector2D(val x: Double, val y: Double) : Transformation<Vector
     public operator fun minus(vector: Vector2D): Vector2D = Vector2D(x - vector.x, y - vector.y)
     public operator fun times(scale: Double): Vector2D = Vector2D(x * scale, y * scale)
     public operator fun div(scale: Double): Vector2D = Vector2D(x / scale, y / scale)
+
+    @JvmName("negate")
     public operator fun unaryMinus(): Vector2D = Vector2D(-x, -y)
 
-    public infix fun distance(vector: Vector2D): Double {
-        val dx = x - vector.x
-        val dy = y - vector.y
-        return sqrt(dx * dx + dy * dy)
-    }
-
-    public fun length(): Double = distance(ZERO)
+    public fun length(): Double = sqrt(x * x + y * y)
 
     public fun normalize(): Vector2D {
         val len = length()

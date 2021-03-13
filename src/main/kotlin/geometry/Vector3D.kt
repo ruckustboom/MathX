@@ -14,16 +14,11 @@ public data class Vector3D(val x: Double, val y: Double, val z: Double) : Transf
     public operator fun minus(vector: Vector3D): Vector3D = Vector3D(x - vector.x, y - vector.y, z - vector.z)
     public operator fun times(scale: Double): Vector3D = Vector3D(x * scale, y * scale, z * scale)
     public operator fun div(scale: Double): Vector3D = Vector3D(x / scale, y / scale, z / scale)
+
+    @JvmName("negate")
     public operator fun unaryMinus(): Vector3D = Vector3D(-x, -y, -z)
 
-    public infix fun distance(vector: Vector3D): Double {
-        val dx = x - vector.x
-        val dy = y - vector.y
-        val dz = z - vector.z
-        return sqrt(dx * dx + dy * dy + dz * dz)
-    }
-
-    public fun length(): Double = distance(ZERO)
+    public fun length(): Double = sqrt(x * x + y * y + z * z)
 
     public fun normalize(): Vector3D {
         val len = length()
