@@ -25,7 +25,7 @@ public data class Vector3D(val x: Double, val y: Double, val z: Double) : Transf
         return if (len == 0.0) ZERO else div(len)
     }
 
-    public fun dot(vector: Vector3D): Double = x * vector.x + y * vector.y + z * vector.z
+    public infix fun dot(vector: Vector3D): Double = x * vector.x + y * vector.y + z * vector.z
 
     public infix fun cross(vector: Vector3D): Vector3D = Vector3D(
         x = y * vector.z - z * vector.y,

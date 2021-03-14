@@ -24,7 +24,7 @@ public data class Vector2D(val x: Double, val y: Double) : Transformation<Vector
         return if (len == 0.0) ZERO else div(len)
     }
 
-    public fun dot(v: Vector2D): Double = x * v.x + y * v.y
+    public infix fun dot(v: Vector2D): Double = x * v.x + y * v.y
 
     override fun interpolate(b: Vector2D, t: Double): Vector2D = Vector2D(
         x = lerp(x, b.x, t),
