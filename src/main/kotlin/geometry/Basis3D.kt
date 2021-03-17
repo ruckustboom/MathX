@@ -10,9 +10,9 @@ public data class Basis3D(
     override val yx: Double, override val yy: Double, override val yz: Double,
     override val zx: Double, override val zy: Double, override val zz: Double,
 ) : Transformation<Basis3D> {
-    inline val x: Point3D get() = Point3D(x = xx, y = xy, z = xz)
-    inline val y: Point3D get() = Point3D(x = yx, y = yy, z = yz)
-    inline val z: Point3D get() = Point3D(x = zx, y = zy, z = zz)
+    inline val x: Vector3D get() = Vector3D(x = xx, y = xy, z = xz)
+    inline val y: Vector3D get() = Vector3D(x = yx, y = yy, z = yz)
+    inline val z: Vector3D get() = Vector3D(x = zx, y = zy, z = zz)
 
     override fun interpolate(b: Basis3D, t: Double): Basis3D = Basis3D(
         xx = lerp(xx, b.xx, t), xy = lerp(xy, b.xy, t), xz = lerp(xz, b.xz, t),

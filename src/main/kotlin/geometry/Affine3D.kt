@@ -1,7 +1,7 @@
 package mathx.geometry
 
-import mathx.*
-import kotlin.math.PI
+import mathx.Interpolator
+import mathx.lerp
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -11,9 +11,9 @@ public data class Affine3D(
     override val zx: Double, override val zy: Double, override val zz: Double,
     override val tx: Double, override val ty: Double, override val tz: Double,
 ) : Transformation<Affine3D> {
-    inline val x: Point3D get() = Point3D(x = xx, y = xy, z = xz)
-    inline val y: Point3D get() = Point3D(x = yx, y = yy, z = yz)
-    inline val z: Point3D get() = Point3D(x = zx, y = zy, z = zz)
+    inline val x: Vector3D get() = Vector3D(x = xx, y = xy, z = xz)
+    inline val y: Vector3D get() = Vector3D(x = yx, y = yy, z = yz)
+    inline val z: Vector3D get() = Vector3D(x = zx, y = zy, z = zz)
     inline val t: Point3D get() = Point3D(x = tx, y = ty, z = tz)
 
     override fun interpolate(b: Affine3D, t: Double): Affine3D = Affine3D(
