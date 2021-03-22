@@ -11,10 +11,10 @@ public data class Affine3D(
     override val zx: Double, override val zy: Double, override val zz: Double,
     override val tx: Double, override val ty: Double, override val tz: Double,
 ) : Transformation<Affine3D> {
-    inline val x: Vector3D get() = Vector3D(x = xx, y = xy, z = xz)
-    inline val y: Vector3D get() = Vector3D(x = yx, y = yy, z = yz)
-    inline val z: Vector3D get() = Vector3D(x = zx, y = zy, z = zz)
-    inline val t: Point3D get() = Point3D(x = tx, y = ty, z = tz)
+    inline val x: Vector3D get() = Vector3D(x = xx, y = xy, z = xz, w = xw)
+    inline val y: Vector3D get() = Vector3D(x = yx, y = yy, z = yz, w = yw)
+    inline val z: Vector3D get() = Vector3D(x = zx, y = zy, z = zz, w = zw)
+    inline val t: Vector3D get() = Vector3D(x = tx, y = ty, z = tz, w = tw)
 
     override fun interpolate(b: Affine3D, t: Double): Affine3D = Affine3D(
         xx = lerp(xx, b.xx, t), xy = lerp(xy, b.xy, t), xz = lerp(xz, b.xz, t),
@@ -31,7 +31,7 @@ public data class Affine3D(
             tx = 0.0, ty = 0.0, tz = 0.0,
         )
 
-        public fun ypr(euler: Vector3D, t: Point3D): Affine3D = ypr(
+        public fun ypr(euler: Vector3D, t: Vector3D): Affine3D = ypr(
             yaw = euler.y,
             pitch = euler.x,
             roll = euler.z,

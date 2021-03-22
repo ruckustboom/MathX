@@ -4,24 +4,26 @@ import mathx.Interpolator
 import mathx.lerp
 import kotlin.math.sqrt
 
-public data class Vector2D(val x: Double, val y: Double) : Transformation<Vector2D> {
+public data class Vector2D(val x: Double, val y: Double, val w: Double = 1.0) : Transformation<Vector2D> {
     override val tx: Double get() = x
     override val ty: Double get() = y
-    override val tw: Double get() = 0.0
+    override val tw: Double get() = w
 
-    public operator fun plus(vector: Vector2D): Vector2D = Vector2D(x + vector.x, y + vector.y)
-    public operator fun minus(vector: Vector2D): Vector2D = Vector2D(x - vector.x, y - vector.y)
-    public operator fun times(scale: Double): Vector2D = Vector2D(x * scale, y * scale)
-    public operator fun div(scale: Double): Vector2D = Vector2D(x / scale, y / scale)
+    public operator fun plus(v: Vector2D): Vector2D = Vector2D(x + v.x, y + v.y, w)
+    public operator fun minus(v: Vector2D): Vector2D = Vector2D(x - v.x, y - v.y, w)
+    public operator fun times(s: Double): Vector2D = Vector2D(x * s, y * s, w)
+    public operator fun div(s: Double): Vector2D = Vector2D(x / s, y / s, w)
 
     @JvmName("negate")
-    public operator fun unaryMinus(): Vector2D = Vector2D(-x, -y)
+    public operator fun unaryMinus(): Vector2D = Vector2D(-x, -y, w)
 
-    public fun length(): Double = sqrt(x * x + y * y)
+    public infix fun distanceTo(v: Vector2D): Double = length(x - v.x, y - v.y)
+
+    public fun length(): Double = length(x, y)
 
     public fun normalize(): Vector2D {
         val len = length()
-        return if (len == 0.0) ZERO else div(len)
+        return if (len == 0.0) Vector2D(0.0, 0.0, w) else div(len)
     }
 
     public infix fun dot(v: Vector2D): Double = x * v.x + y * v.y
@@ -29,6 +31,7 @@ public data class Vector2D(val x: Double, val y: Double) : Transformation<Vector
     override fun interpolate(b: Vector2D, t: Double): Vector2D = Vector2D(
         x = lerp(x, b.x, t),
         y = lerp(y, b.y, t),
+        w = lerp(w, b.w, t),
     )
 
     public companion object : Interpolator<Vector2D> {
@@ -40,10 +43,12 @@ public data class Vector2D(val x: Double, val y: Double) : Transformation<Vector
         public val POSITIVE_INFINITY: Vector2D = Vector2D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY)
         public val NaN: Vector2D = Vector2D(Double.NaN, Double.NaN)
 
-        public fun x(x: Double): Vector2D = Vector2D(x, 0.0)
-        public fun y(y: Double): Vector2D = Vector2D(0.0, y)
+        public fun x(x: Double, w: Double = 1.0): Vector2D = Vector2D(x, 0.0, w)
+        public fun y(y: Double, w: Double = 1.0): Vector2D = Vector2D(0.0, y, w)
 
         override fun interpolate(a: Vector2D, b: Vector2D, t: Double): Vector2D = a.interpolate(b, t)
+
+        private inline fun length(x: Double, y: Double): Double = sqrt(x * x + y * y)
 
         override fun toString(): String = "Vector2D"
     }

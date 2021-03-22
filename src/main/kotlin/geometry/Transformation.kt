@@ -28,9 +28,7 @@ public interface Transformation<T : Transformation<T>> : Interpolated<T> {
 
 // 2D
 
-public fun Transformation<*>.toVector2D(): Vector2D = Vector2D(x = tx, y = ty)
-
-public fun Transformation<*>.toPoint2D(): Point2D = Point2D(x = tx, y = ty)
+public fun Transformation<*>.toVector2D(): Vector2D = Vector2D(x = tx, y = ty, w = tw)
 
 public fun Transformation<*>.toBasis2D(): Basis2D = Basis2D(
     xx = xx, xy = xy,
@@ -50,13 +48,8 @@ public fun Transformation<*>.toTransform2D(): Transform2D = Transform2D(
 )
 
 public inline infix fun Vector2D.transformBy(t: Transformation<*>): Vector2D = t transform this
-public infix fun Transformation<*>.transform(p: Vector2D): Vector2D = Vector2D(
-    x = tx(p), y = ty(p),
-)
-
-public inline infix fun Point2D.transformBy(t: Transformation<*>): Point2D = t transform this
-public infix fun Transformation<*>.transform(p: Point2D): Point2D = Point2D(
-    x = tx(p), y = ty(p),
+public infix fun Transformation<*>.transform(v: Vector2D): Vector2D = Vector2D(
+    x = tx(v), y = ty(v), w = tw(v),
 )
 
 public inline infix fun Basis2D.transformBy(t: Transformation<*>): Basis2D = t transform this
@@ -81,17 +74,15 @@ public infix fun Transformation<*>.transform(t: Transform2D): Transform2D = Tran
 
 public inline infix fun Bounds2D.transformBy(t: Transformation<*>): Bounds2D = t transform this
 public infix fun Transformation<*>.transform(b: Bounds2D): Bounds2D = Bounds2D.of(
-    transform(Point2D(b.xMin, b.yMin)),
-    transform(Point2D(b.xMin, b.yMax)),
-    transform(Point2D(b.xMax, b.yMin)),
-    transform(Point2D(b.xMax, b.yMax)),
+    transform(Vector2D(b.xMin, b.yMin)),
+    transform(Vector2D(b.xMin, b.yMax)),
+    transform(Vector2D(b.xMax, b.yMin)),
+    transform(Vector2D(b.xMax, b.yMax)),
 )
 
 // 3D
 
-public fun Transformation<*>.toVector3D(): Vector3D = Vector3D(x = tx, y = ty, z = tz)
-
-public fun Transformation<*>.toPoint3D(): Point3D = Point3D(x = tx, y = ty, z = tz)
+public fun Transformation<*>.toVector3D(): Vector3D = Vector3D(x = tx, y = ty, z = tz, w = tw)
 
 public fun Transformation<*>.toBasis3D(): Basis3D = Basis3D(
     xx = xx, xy = xy, xz = xz,
@@ -114,13 +105,8 @@ public fun Transformation<*>.toTransform3D(): Transform3D = Transform3D(
 )
 
 public inline infix fun Vector3D.transformBy(t: Transformation<*>): Vector3D = t transform this
-public infix fun Transformation<*>.transform(p: Vector3D): Vector3D = Vector3D(
-    x = tx(p), y = ty(p), z = tz(p),
-)
-
-public inline infix fun Point3D.transformBy(t: Transformation<*>): Point3D = t transform this
-public infix fun Transformation<*>.transform(p: Point3D): Point3D = Point3D(
-    x = tx(p), y = ty(p), z = tz(p),
+public infix fun Transformation<*>.transform(v: Vector3D): Vector3D = Vector3D(
+    x = tx(v), y = ty(v), z = tz(v), w = tw(v),
 )
 
 public inline infix fun Basis3D.transformBy(t: Transformation<*>): Basis3D = t transform this
@@ -148,14 +134,14 @@ public infix fun Transformation<*>.transform(t: Transform3D): Transform3D = Tran
 
 public inline infix fun Bounds3D.transformBy(t: Transformation<*>): Bounds3D = t transform this
 public infix fun Transformation<*>.transform(b: Bounds3D): Bounds3D = Bounds3D.of(
-    transform(Point3D(b.xMin, b.yMin, b.zMin)),
-    transform(Point3D(b.xMin, b.yMin, b.zMax)),
-    transform(Point3D(b.xMin, b.yMax, b.zMin)),
-    transform(Point3D(b.xMin, b.yMax, b.zMax)),
-    transform(Point3D(b.xMax, b.yMin, b.zMin)),
-    transform(Point3D(b.xMax, b.yMin, b.zMax)),
-    transform(Point3D(b.xMax, b.yMax, b.zMin)),
-    transform(Point3D(b.xMax, b.yMax, b.zMax)),
+    transform(Vector3D(b.xMin, b.yMin, b.zMin)),
+    transform(Vector3D(b.xMin, b.yMin, b.zMax)),
+    transform(Vector3D(b.xMin, b.yMax, b.zMin)),
+    transform(Vector3D(b.xMin, b.yMax, b.zMax)),
+    transform(Vector3D(b.xMax, b.yMin, b.zMin)),
+    transform(Vector3D(b.xMax, b.yMin, b.zMax)),
+    transform(Vector3D(b.xMax, b.yMax, b.zMin)),
+    transform(Vector3D(b.xMax, b.yMax, b.zMax)),
 )
 
 // Components

@@ -4,39 +4,48 @@ import mathx.Interpolator
 import mathx.lerp
 import kotlin.math.sqrt
 
-public data class Vector3D(val x: Double, val y: Double, val z: Double) : Transformation<Vector3D> {
+public data class Vector3D(
+    val x: Double,
+    val y: Double,
+    val z: Double,
+    val w: Double = 1.0,
+) : Transformation<Vector3D> {
     override val tx: Double get() = x
     override val ty: Double get() = y
     override val tz: Double get() = z
-    override val tw: Double get() = 0.0
+    override val tw: Double get() = w
 
-    public operator fun plus(vector: Vector3D): Vector3D = Vector3D(x + vector.x, y + vector.y, z + vector.z)
-    public operator fun minus(vector: Vector3D): Vector3D = Vector3D(x - vector.x, y - vector.y, z - vector.z)
-    public operator fun times(scale: Double): Vector3D = Vector3D(x * scale, y * scale, z * scale)
-    public operator fun div(scale: Double): Vector3D = Vector3D(x / scale, y / scale, z / scale)
+    public operator fun plus(v: Vector3D): Vector3D = Vector3D(x + v.x, y + v.y, z + v.z, w)
+    public operator fun minus(v: Vector3D): Vector3D = Vector3D(x - v.x, y - v.y, z - v.z, w)
+    public operator fun times(s: Double): Vector3D = Vector3D(x * s, y * s, z * s, w)
+    public operator fun div(s: Double): Vector3D = Vector3D(x / s, y / s, z / s, w)
 
     @JvmName("negate")
-    public operator fun unaryMinus(): Vector3D = Vector3D(-x, -y, -z)
+    public operator fun unaryMinus(): Vector3D = Vector3D(-x, -y, -z, w)
 
-    public fun length(): Double = sqrt(x * x + y * y + z * z)
+    public infix fun distanceTo(v: Vector3D): Double = Companion.length(x - v.x, y - v.y, z - v.z)
+
+    public fun length(): Double = length(x, y, z)
 
     public fun normalize(): Vector3D {
         val len = length()
-        return if (len == 0.0) ZERO else div(len)
+        return if (len == 0.0) Vector3D(0.0, 0.0, 0.0, w) else div(len)
     }
 
-    public infix fun dot(vector: Vector3D): Double = x * vector.x + y * vector.y + z * vector.z
+    public infix fun dot(v: Vector3D): Double = x * v.x + y * v.y + z * v.z
 
-    public infix fun cross(vector: Vector3D): Vector3D = Vector3D(
-        x = y * vector.z - z * vector.y,
-        y = z * vector.x - x * vector.z,
-        z = x * vector.y - y * vector.x,
+    public infix fun cross(v: Vector3D): Vector3D = Vector3D(
+        x = y * v.z - z * v.y,
+        y = z * v.x - x * v.z,
+        z = x * v.y - y * v.x,
+        w = w,
     )
 
     override fun interpolate(b: Vector3D, t: Double): Vector3D = Vector3D(
         x = lerp(x, b.x, t),
         y = lerp(y, b.y, t),
         z = lerp(z, b.z, t),
+        w = lerp(w, b.w, t),
     )
 
     public companion object : Interpolator<Vector3D> {
@@ -57,11 +66,13 @@ public data class Vector3D(val x: Double, val y: Double, val z: Double) : Transf
         )
         public val NaN: Vector3D = Vector3D(Double.NaN, Double.NaN, Double.NaN)
 
-        public fun x(x: Double): Vector3D = Vector3D(x, 0.0, 0.0)
-        public fun y(y: Double): Vector3D = Vector3D(0.0, y, 0.0)
-        public fun z(z: Double): Vector3D = Vector3D(0.0, 0.0, z)
+        public fun x(x: Double, w: Double = 1.0): Vector3D = Vector3D(x, 0.0, 0.0, w)
+        public fun y(y: Double, w: Double = 1.0): Vector3D = Vector3D(0.0, y, 0.0, w)
+        public fun z(z: Double, w: Double = 1.0): Vector3D = Vector3D(0.0, 0.0, z, w)
 
         override fun interpolate(a: Vector3D, b: Vector3D, t: Double): Vector3D = a.interpolate(b, t)
+
+        private inline fun length(x: Double, y: Double, z: Double): Double = sqrt(x * x + y * y + z * z)
 
         override fun toString(): String = "Vector3D"
     }

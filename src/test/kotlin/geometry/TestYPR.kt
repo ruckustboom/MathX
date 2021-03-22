@@ -41,10 +41,9 @@ class TestYPR {
                 y = Random.nextDouble() * TAU - PI,
                 z = Random.nextDouble() * TAU - PI,
             )
-            val pos = rot.toPoint3D()
-            val affine = Affine3D.ypr(rot, pos)
+            val affine = Affine3D.ypr(rot, rot)
             affine.toBasis3D() shouldBe Basis3D.ypr(rot)
-            affine.toPoint3D() shouldBe pos
+            affine.toVector3D() shouldBe rot
         }
     }
 

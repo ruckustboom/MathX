@@ -9,7 +9,7 @@ public class Bounds3D(
     yMin: Double, yMax: Double,
     zMin: Double, zMax: Double,
 ) {
-    public constructor(min: Point3D, max: Point3D) : this(
+    public constructor(min: Vector3D, max: Vector3D) : this(
         xMin = min.x, xMax = max.x,
         yMin = min.y, yMax = max.y,
         zMin = min.z, zMax = max.z,
@@ -36,20 +36,20 @@ public class Bounds3D(
     public val zCenter: Double get() = (zMin + zMax) / 2.0
     public val zSize: Double get() = this.zMax - this.zMin
 
-    public val min: Point3D get() = Point3D(xMin, yMin, zMin)
-    public val max: Point3D get() = Point3D(xMax, yMax, zMax)
-    public val center: Point3D get() = Point3D(xCenter, yCenter, zCenter)
+    public val min: Vector3D get() = Vector3D(xMin, yMin, zMin)
+    public val max: Vector3D get() = Vector3D(xMax, yMax, zMax)
+    public val center: Vector3D get() = Vector3D(xCenter, yCenter, zCenter)
     public val size: Vector3D get() = Vector3D(xSize, ySize, zSize)
 
-    public operator fun contains(p: Point3D): Boolean = p.x in xMin..xMax && p.y in xMin..yMax && p.z in zMin..zMax
+    public operator fun contains(v: Vector3D): Boolean = v.x in xMin..xMax && v.y in xMin..yMax && v.z in zMin..zMax
 
     public infix fun intersects(b: Bounds3D): Boolean =
         (xMin <= b.xMax && xMax >= b.xMin) && (yMin <= b.yMax && yMax >= b.yMin) && (zMin <= b.zMax && zMax >= b.zMin)
 
-    public operator fun plus(p: Point3D): Bounds3D = Bounds3D(
-        xMin = min(xMin, p.x), xMax = max(xMax, p.x),
-        yMin = min(yMin, p.y), yMax = max(yMax, p.y),
-        zMin = min(zMin, p.z), zMax = max(zMax, p.z),
+    public operator fun plus(v: Vector3D): Bounds3D = Bounds3D(
+        xMin = min(xMin, v.x), xMax = max(xMax, v.x),
+        yMin = min(yMin, v.y), yMax = max(yMax, v.y),
+        zMin = min(zMin, v.z), zMax = max(zMax, v.z),
     )
 
     public operator fun plus(b: Bounds3D): Bounds3D = Bounds3D(
@@ -97,7 +97,7 @@ public class Bounds3D(
         public val x: ClosedRange<Double> = 0.0..1.0
 
         @JvmStatic
-        public fun of(points: Iterator<Point3D>): Bounds3D {
+        public fun of(points: Iterator<Vector3D>): Bounds3D {
             var xMin = Double.POSITIVE_INFINITY
             var xMax = Double.NEGATIVE_INFINITY
             var yMin = Double.POSITIVE_INFINITY
@@ -120,9 +120,9 @@ public class Bounds3D(
         }
 
         @JvmStatic
-        public fun of(vararg points: Point3D): Bounds3D = of(points.iterator())
+        public fun of(vararg points: Vector3D): Bounds3D = of(points.iterator())
 
         @JvmStatic
-        public fun of(points: Iterable<Point3D>): Bounds3D = of(points.iterator())
+        public fun of(points: Iterable<Vector3D>): Bounds3D = of(points.iterator())
     }
 }

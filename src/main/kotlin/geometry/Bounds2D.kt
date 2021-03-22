@@ -8,7 +8,7 @@ public class Bounds2D(
     xMin: Double, xMax: Double,
     yMin: Double, yMax: Double,
 ) {
-    public constructor(min: Point2D, max: Point2D) : this(
+    public constructor(min: Vector2D, max: Vector2D) : this(
         xMin = min.x, xMax = max.x,
         yMin = min.y, yMax = max.y,
     )
@@ -28,19 +28,19 @@ public class Bounds2D(
     public val yCenter: Double get() = (yMin + yMax) / 2.0
     public val ySize: Double get() = yMax - yMin
 
-    public val min: Point2D get() = Point2D(xMin, yMin)
-    public val max: Point2D get() = Point2D(xMax, yMax)
-    public val center: Point2D get() = Point2D(xCenter, yCenter)
+    public val min: Vector2D get() = Vector2D(xMin, yMin)
+    public val max: Vector2D get() = Vector2D(xMax, yMax)
+    public val center: Vector2D get() = Vector2D(xCenter, yCenter)
     public val size: Vector2D get() = Vector2D(xSize, ySize)
 
-    public operator fun contains(p: Point2D): Boolean = p.x in xMin..xMax && p.y in xMin..yMax
+    public operator fun contains(v: Vector2D): Boolean = v.x in xMin..xMax && v.y in xMin..yMax
 
     public infix fun intersects(b: Bounds2D): Boolean =
         (xMin <= b.xMax && xMax >= b.xMin) && (yMin <= b.yMax && yMax >= b.yMin)
 
-    public operator fun plus(p: Point2D): Bounds2D = Bounds2D(
-        xMin = min(xMin, p.x), xMax = max(xMax, p.x),
-        yMin = min(yMin, p.y), yMax = max(yMax, p.y),
+    public operator fun plus(v: Vector2D): Bounds2D = Bounds2D(
+        xMin = min(xMin, v.x), xMax = max(xMax, v.x),
+        yMin = min(yMin, v.y), yMax = max(yMax, v.y),
     )
 
     public operator fun plus(b: Bounds2D): Bounds2D = Bounds2D(
@@ -79,7 +79,7 @@ public class Bounds2D(
 
     public companion object {
         @JvmStatic
-        public fun of(points: Iterator<Point2D>): Bounds2D {
+        public fun of(points: Iterator<Vector2D>): Bounds2D {
             var xMin = Double.POSITIVE_INFINITY
             var xMax = Double.NEGATIVE_INFINITY
             var yMin = Double.POSITIVE_INFINITY
@@ -97,9 +97,9 @@ public class Bounds2D(
         }
 
         @JvmStatic
-        public fun of(vararg points: Point2D): Bounds2D = of(points.iterator())
+        public fun of(vararg points: Vector2D): Bounds2D = of(points.iterator())
 
         @JvmStatic
-        public fun of(points: Iterable<Point2D>): Bounds2D = of(points.iterator())
+        public fun of(points: Iterable<Vector2D>): Bounds2D = of(points.iterator())
     }
 }
