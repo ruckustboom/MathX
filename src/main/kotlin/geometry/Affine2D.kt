@@ -17,6 +17,12 @@ public data class Affine2D(
         tx = lerp(tx, b.tx, t), ty = lerp(ty, b.ty, t),
     )
 
+    override fun transformBy(t: Transformation<*>): Affine2D = Affine2D(
+        xx = t xx this, xy = t xy this,
+        yx = t yx this, yy = t yy this,
+        tx = t tx this, ty = t ty this,
+    )
+
     public companion object : TransformationCompanion<Affine2D> {
         public val IDENTITY: Affine2D = Affine2D(
             xx = 1.0, xy = 0.0,

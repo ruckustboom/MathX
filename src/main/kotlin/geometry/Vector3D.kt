@@ -47,6 +47,8 @@ public data class Vector3D(
         w = lerp(w, b.w, t),
     )
 
+    override fun transformBy(t: Transformation<*>): Vector3D = Vector3D(t tx this, t ty this, t tz this, t tw this)
+
     public companion object : TransformationCompanion<Vector3D> {
         public val ZERO: Vector3D = Vector3D(0.0, 0.0, 0.0)
         public val X: Vector3D = x(1.0)

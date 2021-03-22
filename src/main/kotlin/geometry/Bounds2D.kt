@@ -7,7 +7,7 @@ import kotlin.math.min
 public class Bounds2D(
     xMin: Double, xMax: Double,
     yMin: Double, yMax: Double,
-) {
+) : Transformable<Bounds2D> {
     public constructor(min: Vector2D, max: Vector2D) : this(
         xMin = min.x, xMax = max.x,
         yMin = min.y, yMax = max.y,
@@ -46,6 +46,13 @@ public class Bounds2D(
     public operator fun plus(b: Bounds2D): Bounds2D = Bounds2D(
         xMin = min(xMin, b.xMin), xMax = max(xMax, b.xMax),
         yMin = min(yMin, b.yMin), yMax = max(yMax, b.yMax),
+    )
+
+    override fun transformBy(t: Transformation<*>): Bounds2D = of(
+        Vector2D(xMin, yMin) transformBy t,
+        Vector2D(xMin, yMax) transformBy t,
+        Vector2D(xMax, yMin) transformBy t,
+        Vector2D(xMax, yMax) transformBy t,
     )
 
     public operator fun component1(): Double = xMin

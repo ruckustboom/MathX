@@ -8,7 +8,7 @@ public class Bounds3D(
     xMin: Double, xMax: Double,
     yMin: Double, yMax: Double,
     zMin: Double, zMax: Double,
-) {
+) : Transformable<Bounds3D> {
     public constructor(min: Vector3D, max: Vector3D) : this(
         xMin = min.x, xMax = max.x,
         yMin = min.y, yMax = max.y,
@@ -56,6 +56,17 @@ public class Bounds3D(
         xMin = min(xMin, b.xMin), xMax = max(xMax, b.xMax),
         yMin = min(yMin, b.yMin), yMax = max(yMax, b.yMax),
         zMin = min(zMin, b.zMin), zMax = max(zMax, b.zMax),
+    )
+
+    override fun transformBy(t: Transformation<*>): Bounds3D = of(
+        Vector3D(xMin, yMin, zMin) transformBy t,
+        Vector3D(xMin, yMin, zMax) transformBy t,
+        Vector3D(xMin, yMax, zMin) transformBy t,
+        Vector3D(xMin, yMax, zMax) transformBy t,
+        Vector3D(xMax, yMin, zMin) transformBy t,
+        Vector3D(xMax, yMin, zMax) transformBy t,
+        Vector3D(xMax, yMax, zMin) transformBy t,
+        Vector3D(xMax, yMax, zMax) transformBy t,
     )
 
     public operator fun component1(): Double = xMin

@@ -15,6 +15,13 @@ public data class Transform3D(
         tx = lerp(tx, b.tx, t), ty = lerp(ty, b.ty, t), tz = lerp(tz, b.tz, t), tw = lerp(tw, b.tw, t),
     )
 
+    override fun transformBy(t: Transformation<*>): Transform3D = Transform3D(
+        xx = t xx this, xy = t xy this, xz = t xz this, xw = t xw this,
+        yx = t yx this, yy = t yy this, yz = t yz this, yw = t yw this,
+        zx = t zx this, zy = t zy this, zz = t zz this, zw = t zw this,
+        tx = t tx this, ty = t ty this, tz = t tz this, tw = t tw this,
+    )
+
     public companion object : TransformationCompanion<Transform3D> {
         public val IDENTITY: Transform3D = Transform3D(
             xx = 1.0, xy = 0.0, xz = 0.0, xw = 0.0,

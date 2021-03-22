@@ -33,6 +33,8 @@ public data class Vector2D(val x: Double, val y: Double, val w: Double = 1.0) : 
         w = lerp(w, b.w, t),
     )
 
+    override fun transformBy(t: Transformation<*>): Vector2D = Vector2D(t tx this, t ty this, t tw this)
+
     public companion object : TransformationCompanion<Vector2D> {
         public val ZERO: Vector2D = Vector2D(0.0, 0.0)
         public val X: Vector2D = x(1.0)

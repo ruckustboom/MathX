@@ -1,6 +1,5 @@
 package mathx.geometry
 
-import mathx.Interpolator
 import mathx.lerp
 
 public data class Basis2D(
@@ -13,6 +12,11 @@ public data class Basis2D(
     override fun interpolate(b: Basis2D, t: Double): Basis2D = Basis2D(
         xx = lerp(xx, b.xx, t), xy = lerp(xy, b.xy, t),
         yx = lerp(yx, b.yx, t), yy = lerp(yy, b.yy, t),
+    )
+
+    override fun transformBy(t: Transformation<*>): Basis2D = Basis2D(
+        xx = t xx this, xy = t xy this,
+        yx = t yx this, yy = t yy this,
     )
 
     public companion object : TransformationCompanion<Basis2D> {
@@ -31,6 +35,7 @@ public data class Basis2D(
             xx = xx, xy = xy,
             yx = yx, yy = yy
         )
+
         override fun toString(): String = "Basis2D"
     }
 }

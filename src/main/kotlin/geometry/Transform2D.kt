@@ -1,6 +1,6 @@
 package mathx.geometry
 
-import mathx.*
+import mathx.lerp
 
 public data class Transform2D(
     override val xx: Double, override val xy: Double, override val xw: Double,
@@ -11,6 +11,12 @@ public data class Transform2D(
         xx = lerp(xx, b.xx, t), xy = lerp(xy, b.xy, t), xw = lerp(xw, b.xw, t),
         yx = lerp(yx, b.yx, t), yy = lerp(yy, b.yy, t), yw = lerp(yw, b.yw, t),
         tx = lerp(tx, b.tx, t), ty = lerp(ty, b.ty, t), tw = lerp(tw, b.tw, t),
+    )
+
+    override fun transformBy(t: Transformation<*>): Transform2D = Transform2D(
+        xx = t xx this, xy = t xy this, xw = t xw this,
+        yx = t yx this, yy = t yy this, yw = t yw this,
+        tx = t tx this, ty = t ty this, tw = t tw this,
     )
 
     public companion object : TransformationCompanion<Transform2D> {
@@ -31,6 +37,7 @@ public data class Transform2D(
             yx = yx, yy = yy, yw = yw,
             tx = tx, ty = ty, tw = tw,
         )
+
         override fun toString(): String = "Transform2D"
     }
 }

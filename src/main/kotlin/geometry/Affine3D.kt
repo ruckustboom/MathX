@@ -1,8 +1,6 @@
 package mathx.geometry
 
 import mathx.lerp
-import kotlin.math.cos
-import kotlin.math.sin
 
 public data class Affine3D(
     override val xx: Double, override val xy: Double, override val xz: Double,
@@ -20,6 +18,13 @@ public data class Affine3D(
         yx = lerp(yx, b.yx, t), yy = lerp(yy, b.yy, t), yz = lerp(yz, b.yz, t),
         zx = lerp(zx, b.zx, t), zy = lerp(zy, b.zy, t), zz = lerp(zz, b.zz, t),
         tx = lerp(tx, b.tx, t), ty = lerp(ty, b.ty, t), tz = lerp(tz, b.tz, t),
+    )
+
+    override fun transformBy(t: Transformation<*>): Affine3D = Affine3D(
+        xx = t xx this, xy = t xy this, xz = t xz this,
+        yx = t yx this, yy = t yy this, yz = t yz this,
+        zx = t zx this, zy = t zy this, zz = t zz this,
+        tx = t tx this, ty = t ty this, tz = t tz this,
     )
 
     public companion object : TransformationCompanion<Affine3D> {

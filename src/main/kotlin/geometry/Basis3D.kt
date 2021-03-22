@@ -1,8 +1,6 @@
 package mathx.geometry
 
 import mathx.lerp
-import kotlin.math.cos
-import kotlin.math.sin
 
 public data class Basis3D(
     override val xx: Double, override val xy: Double, override val xz: Double,
@@ -17,6 +15,12 @@ public data class Basis3D(
         xx = lerp(xx, b.xx, t), xy = lerp(xy, b.xy, t), xz = lerp(xz, b.xz, t),
         yx = lerp(yx, b.yx, t), yy = lerp(yy, b.yy, t), yz = lerp(yz, b.yz, t),
         zx = lerp(zx, b.zx, t), zy = lerp(zy, b.zy, t), zz = lerp(zz, b.zz, t),
+    )
+
+    override fun transformBy(t: Transformation<*>): Basis3D = Basis3D(
+        xx = t xx this, xy = t xy this, xz = t xz this,
+        yx = t yx this, yy = t yy this, yz = t yz this,
+        zx = t zx this, zy = t zy this, zz = t zz this,
     )
 
     public companion object : TransformationCompanion<Basis3D> {
