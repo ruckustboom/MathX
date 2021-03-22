@@ -1,6 +1,5 @@
 package mathx.geometry
 
-import mathx.Interpolator
 import mathx.lerp
 import kotlin.math.sqrt
 
@@ -48,7 +47,7 @@ public data class Vector3D(
         w = lerp(w, b.w, t),
     )
 
-    public companion object : Interpolator<Vector3D> {
+    public companion object : TransformationCompanion<Vector3D> {
         public val ZERO: Vector3D = Vector3D(0.0, 0.0, 0.0)
         public val X: Vector3D = x(1.0)
         public val Y: Vector3D = y(1.0)
@@ -73,6 +72,13 @@ public data class Vector3D(
         override fun interpolate(a: Vector3D, b: Vector3D, t: Double): Vector3D = a.interpolate(b, t)
 
         private inline fun length(x: Double, y: Double, z: Double): Double = sqrt(x * x + y * y + z * z)
+
+        override fun from(
+            xx: Double, xy: Double, xz: Double, xw: Double,
+            yx: Double, yy: Double, yz: Double, yw: Double,
+            zx: Double, zy: Double, zz: Double, zw: Double,
+            tx: Double, ty: Double, tz: Double, tw: Double,
+        ): Vector3D = Vector3D(x = tx, y = ty, z = tz, w = tw)
 
         override fun toString(): String = "Vector3D"
     }

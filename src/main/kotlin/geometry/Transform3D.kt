@@ -1,6 +1,6 @@
 package mathx.geometry
 
-import mathx.*
+import mathx.lerp
 
 public data class Transform3D(
     override val xx: Double, override val xy: Double, override val xz: Double, override val xw: Double,
@@ -15,7 +15,7 @@ public data class Transform3D(
         tx = lerp(tx, b.tx, t), ty = lerp(ty, b.ty, t), tz = lerp(tz, b.tz, t), tw = lerp(tw, b.tw, t),
     )
 
-    public companion object : Interpolator<Transform3D> {
+    public companion object : TransformationCompanion<Transform3D> {
         public val IDENTITY: Transform3D = Transform3D(
             xx = 1.0, xy = 0.0, xz = 0.0, xw = 0.0,
             yx = 0.0, yy = 1.0, yz = 0.0, yw = 0.0,
@@ -24,6 +24,18 @@ public data class Transform3D(
         )
 
         override fun interpolate(a: Transform3D, b: Transform3D, t: Double): Transform3D = a.interpolate(b, t)
+
+        override fun from(
+            xx: Double, xy: Double, xz: Double, xw: Double,
+            yx: Double, yy: Double, yz: Double, yw: Double,
+            zx: Double, zy: Double, zz: Double, zw: Double,
+            tx: Double, ty: Double, tz: Double, tw: Double,
+        ): Transform3D = Transform3D(
+            xx = xx, xy = xy, xz = xz, xw = xw,
+            yx = yx, yy = yy, yz = yz, yw = yw,
+            zx = zx, zy = zy, zz = zz, zw = zw,
+            tx = tx, ty = ty, tz = tz, tw = tw
+        )
 
         override fun toString(): String = "Transform3D"
     }

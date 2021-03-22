@@ -1,6 +1,5 @@
 package mathx.geometry
 
-import mathx.Interpolator
 import mathx.lerp
 import kotlin.math.cos
 import kotlin.math.sin
@@ -23,7 +22,7 @@ public data class Affine3D(
         tx = lerp(tx, b.tx, t), ty = lerp(ty, b.ty, t), tz = lerp(tz, b.tz, t),
     )
 
-    public companion object : Interpolator<Affine3D> {
+    public companion object : TransformationCompanion<Affine3D> {
         public val IDENTITY: Affine3D = Affine3D(
             xx = 1.0, xy = 0.0, xz = 0.0,
             yx = 0.0, yy = 1.0, yz = 0.0,
@@ -31,43 +30,18 @@ public data class Affine3D(
             tx = 0.0, ty = 0.0, tz = 0.0,
         )
 
-        public fun ypr(euler: Vector3D, t: Vector3D): Affine3D = ypr(
-            yaw = euler.y,
-            pitch = euler.x,
-            roll = euler.z,
-            tx = t.x,
-            ty = t.y,
-            tz = t.z,
-        )
-
-        public fun ypr(yaw: Double, pitch: Double, roll: Double, tx: Double, ty: Double, tz: Double): Affine3D {
-            val cy = cos(yaw)
-            val sy = sin(yaw)
-            val cp = cos(pitch)
-            val sp = sin(pitch)
-            val cr = cos(roll)
-            val sr = sin(roll)
-
-            return Affine3D(
-                xx = cy * cr + sy * sp * sr,
-                xy = cp * sr,
-                xz = -sy * cr + cy * sp * sr,
-
-                yx = cy * -sr + sy * sp * cr,
-                yy = cp * cr,
-                yz = -sy * -sr + cy * sp * cr,
-
-                zx = sy * cp,
-                zy = -sp,
-                zz = cy * cp,
-
-                tx = tx,
-                ty = ty,
-                tz = tz,
-            )
-        }
-
         override fun interpolate(a: Affine3D, b: Affine3D, t: Double): Affine3D = a.interpolate(b, t)
+        override fun from(
+            xx: Double, xy: Double, xz: Double, xw: Double,
+            yx: Double, yy: Double, yz: Double, yw: Double,
+            zx: Double, zy: Double, zz: Double, zw: Double,
+            tx: Double, ty: Double, tz: Double, tw: Double,
+        ): Affine3D = Affine3D(
+            xx = xx, xy = xy, xz = xz,
+            yx = yx, yy = yy, yz = yz,
+            zx = zx, zy = zy, zz = zz,
+            tx = tx, ty = ty, tz = tz,
+        )
 
         override fun toString(): String = "Affine3D"
     }

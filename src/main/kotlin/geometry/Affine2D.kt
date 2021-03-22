@@ -1,6 +1,5 @@
 package mathx.geometry
 
-import mathx.Interpolator
 import mathx.lerp
 
 public data class Affine2D(
@@ -18,7 +17,7 @@ public data class Affine2D(
         tx = lerp(tx, b.tx, t), ty = lerp(ty, b.ty, t),
     )
 
-    public companion object : Interpolator<Affine2D> {
+    public companion object : TransformationCompanion<Affine2D> {
         public val IDENTITY: Affine2D = Affine2D(
             xx = 1.0, xy = 0.0,
             yx = 0.0, yy = 1.0,
@@ -26,6 +25,17 @@ public data class Affine2D(
         )
 
         override fun interpolate(a: Affine2D, b: Affine2D, t: Double): Affine2D = a.interpolate(b, t)
+
+        override fun from(
+            xx: Double, xy: Double, xz: Double, xw: Double,
+            yx: Double, yy: Double, yz: Double, yw: Double,
+            zx: Double, zy: Double, zz: Double, zw: Double,
+            tx: Double, ty: Double, tz: Double, tw: Double,
+        ): Affine2D = Affine2D(
+            xx = xx, xy = xy,
+            yx = yx, yy = yy,
+            tx = tx, ty = ty,
+        )
 
         override fun toString(): String = "Affine2D"
     }

@@ -3,6 +3,9 @@
 package mathx.geometry
 
 import mathx.Interpolated
+import mathx.Interpolator
+import kotlin.math.cos
+import kotlin.math.sin
 
 public interface Transformation<T : Transformation<T>> : Interpolated<T> {
     public val xx: Double get() = 1.0
@@ -28,24 +31,10 @@ public interface Transformation<T : Transformation<T>> : Interpolated<T> {
 
 // 2D
 
-public fun Transformation<*>.toVector2D(): Vector2D = Vector2D(x = tx, y = ty, w = tw)
-
-public fun Transformation<*>.toBasis2D(): Basis2D = Basis2D(
-    xx = xx, xy = xy,
-    yx = yx, yy = yy,
-)
-
-public fun Transformation<*>.toAffine2D(): Affine2D = Affine2D(
-    xx = xx, xy = xy,
-    yx = yx, yy = yy,
-    tx = tx, ty = ty,
-)
-
-public fun Transformation<*>.toTransform2D(): Transform2D = Transform2D(
-    xx = xx, xy = xy, xw = xw,
-    yx = yx, yy = yy, yw = yw,
-    tx = tx, ty = ty, tw = tw,
-)
+public inline fun Transformation<*>.toVector2D(): Vector2D = Vector2D from this
+public inline fun Transformation<*>.toBasis2D(): Basis2D = Basis2D from this
+public inline fun Transformation<*>.toAffine2D(): Affine2D = Affine2D from this
+public inline fun Transformation<*>.toTransform2D(): Transform2D = Transform2D from this
 
 public inline infix fun Vector2D.transformBy(t: Transformation<*>): Vector2D = t transform this
 public infix fun Transformation<*>.transform(v: Vector2D): Vector2D = Vector2D(
@@ -82,27 +71,10 @@ public infix fun Transformation<*>.transform(b: Bounds2D): Bounds2D = Bounds2D.o
 
 // 3D
 
-public fun Transformation<*>.toVector3D(): Vector3D = Vector3D(x = tx, y = ty, z = tz, w = tw)
-
-public fun Transformation<*>.toBasis3D(): Basis3D = Basis3D(
-    xx = xx, xy = xy, xz = xz,
-    yx = yx, yy = yy, yz = yz,
-    zx = zx, zy = zy, zz = zz,
-)
-
-public fun Transformation<*>.toAffine3D(): Affine3D = Affine3D(
-    xx = xx, xy = xy, xz = xz,
-    yx = yx, yy = yy, yz = yz,
-    zx = zx, zy = zy, zz = zz,
-    tx = tx, ty = ty, tz = tz,
-)
-
-public fun Transformation<*>.toTransform3D(): Transform3D = Transform3D(
-    xx = xx, xy = xy, xz = xz, xw = xw,
-    yx = yx, yy = yy, yz = yz, yw = yw,
-    zx = zx, zy = zy, zz = zz, zw = zw,
-    tx = tx, ty = ty, tz = tz, tw = tw,
-)
+public fun Transformation<*>.toVector3D(): Vector3D = Vector3D from this
+public fun Transformation<*>.toBasis3D(): Basis3D = Basis3D from this
+public fun Transformation<*>.toAffine3D(): Affine3D = Affine3D from this
+public fun Transformation<*>.toTransform3D(): Transform3D = Transform3D from this
 
 public inline infix fun Vector3D.transformBy(t: Transformation<*>): Vector3D = t transform this
 public infix fun Transformation<*>.transform(v: Vector3D): Vector3D = Vector3D(
@@ -165,3 +137,69 @@ private inline fun Transformation<*>.tx(t: Transformation<*>) = xx * t.tx + yx *
 private inline fun Transformation<*>.ty(t: Transformation<*>) = xy * t.tx + yy * t.ty + zy * t.tz + ty * t.tw
 private inline fun Transformation<*>.tz(t: Transformation<*>) = xz * t.tx + yz * t.ty + zz * t.tz + tz * t.tw
 private inline fun Transformation<*>.tw(t: Transformation<*>) = xw * t.tx + yw * t.ty + zw * t.tz + tw * t.tw
+
+// Companion
+
+public interface TransformationCompanion<T : Transformation<T>> : Interpolator<T> {
+    public fun from(
+        xx: Double = 1.0, xy: Double = 0.0, xz: Double = 0.0, xw: Double = 0.0,
+        yx: Double = 0.0, yy: Double = 1.0, yz: Double = 0.0, yw: Double = 0.0,
+        zx: Double = 0.0, zy: Double = 0.0, zz: Double = 1.0, zw: Double = 0.0,
+        tx: Double = 0.0, ty: Double = 0.0, tz: Double = 0.0, tw: Double = 1.0,
+    ): T
+}
+
+public infix fun <T : Transformation<T>> TransformationCompanion<T>.from(t: Transformation<*>): T = from(
+    xx = t.xx, xy = t.xy, xz = t.xz, xw = t.xw,
+    yx = t.yx, yy = t.yy, yz = t.yz, yw = t.yw,
+    zx = t.zx, zy = t.zy, zz = t.zz, zw = t.zw,
+    tx = t.tx, ty = t.ty, tz = t.tz, tw = t.tw,
+)
+
+public fun <T : Transformation<T>> TransformationCompanion<T>.ypr(euler: Vector3D): T =
+    ypr(yaw = euler.y, pitch = euler.x, roll = euler.z)
+
+public fun <T : Transformation<T>> TransformationCompanion<T>.yaw(r: Double): T =
+    ypr(yaw = r, pitch = 0.0, roll = 0.0)
+
+public fun <T : Transformation<T>> TransformationCompanion<T>.pitch(r: Double): T =
+    ypr(yaw = 0.0, pitch = r, roll = 0.0)
+
+public fun <T : Transformation<T>> TransformationCompanion<T>.roll(r: Double): T =
+    ypr(yaw = 0.0, pitch = 0.0, roll = r)
+
+public fun <T : Transformation<T>> TransformationCompanion<T>.ypr(yaw: Double, pitch: Double, roll: Double): T =
+    ypr(yaw, pitch, roll, 0.0, 0.0, 0.0)
+
+public fun <T : Transformation<T>> TransformationCompanion<T>.ypr(euler: Vector3D, t: Vector3D): T =
+    ypr(yaw = euler.y, pitch = euler.x, roll = euler.z, x = t.x, y = t.y, z = t.z)
+
+public fun <T : Transformation<T>> TransformationCompanion<T>.ypr(
+    yaw: Double, pitch: Double, roll: Double,
+    x: Double, y: Double, z: Double,
+): T {
+    val cy = cos(yaw)
+    val sy = sin(yaw)
+    val cp = cos(pitch)
+    val sp = sin(pitch)
+    val cr = cos(roll)
+    val sr = sin(roll)
+
+    return from(
+        xx = cy * cr + sy * sp * sr,
+        xy = cp * sr,
+        xz = -sy * cr + cy * sp * sr,
+
+        yx = cy * -sr + sy * sp * cr,
+        yy = cp * cr,
+        yz = -sy * -sr + cy * sp * cr,
+
+        zx = sy * cp,
+        zy = -sp,
+        zz = cy * cp,
+
+        tx = x,
+        ty = y,
+        tz = z,
+    )
+}

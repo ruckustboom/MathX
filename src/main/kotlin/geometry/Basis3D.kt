@@ -1,6 +1,5 @@
 package mathx.geometry
 
-import mathx.Interpolator
 import mathx.lerp
 import kotlin.math.cos
 import kotlin.math.sin
@@ -20,42 +19,24 @@ public data class Basis3D(
         zx = lerp(zx, b.zx, t), zy = lerp(zy, b.zy, t), zz = lerp(zz, b.zz, t),
     )
 
-    public companion object : Interpolator<Basis3D> {
+    public companion object : TransformationCompanion<Basis3D> {
         public val IDENTITY: Basis3D = Basis3D(
             xx = 1.0, xy = 0.0, xz = 0.0,
             yx = 0.0, yy = 1.0, yz = 0.0,
             zx = 0.0, zy = 0.0, zz = 1.0,
         )
 
-        public fun ypr(euler: Vector3D): Basis3D = ypr(yaw = euler.y, pitch = euler.x, roll = euler.z)
-        public fun ypr(yaw: Double, pitch: Double, roll: Double): Basis3D {
-            val cy = cos(yaw)
-            val sy = sin(yaw)
-            val cp = cos(pitch)
-            val sp = sin(pitch)
-            val cr = cos(roll)
-            val sr = sin(roll)
-
-            return Basis3D(
-                xx = cy * cr + sy * sp * sr,
-                xy = cp * sr,
-                xz = -sy * cr + cy * sp * sr,
-
-                yx = cy * -sr + sy * sp * cr,
-                yy = cp * cr,
-                yz = -sy * -sr + cy * sp * cr,
-
-                zx = sy * cp,
-                zy = -sp,
-                zz = cy * cp,
-            )
-        }
-
-        public fun yaw(radians: Double): Basis3D = ypr(radians, 0.0, 0.0)
-        public fun pitch(radians: Double): Basis3D = ypr(0.0, radians, 0.0)
-        public fun roll(radians: Double): Basis3D = ypr(0.0, 0.0, radians)
-
         override fun interpolate(a: Basis3D, b: Basis3D, t: Double): Basis3D = a.interpolate(b, t)
+        override fun from(
+            xx: Double, xy: Double, xz: Double, xw: Double,
+            yx: Double, yy: Double, yz: Double, yw: Double,
+            zx: Double, zy: Double, zz: Double, zw: Double,
+            tx: Double, ty: Double, tz: Double, tw: Double,
+        ): Basis3D = Basis3D(
+            xx = xx, xy = xy, xz = xz,
+            yx = yx, yy = yy, yz = yz,
+            zx = zx, zy = zy, zz = zz,
+        )
 
         override fun toString(): String = "Basis3D"
     }
