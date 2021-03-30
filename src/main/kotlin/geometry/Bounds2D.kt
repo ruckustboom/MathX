@@ -1,5 +1,7 @@
 package mathx.geometry
 
+import mathx.Interpolator
+import mathx.lerp
 import kotlin.math.max
 import kotlin.math.min
 
@@ -55,6 +57,11 @@ public class Bounds2D(
         Vector2D(xMax, yMax) transformBy t,
     )
 
+    override fun interpolate(b: Bounds2D, t: Double): Bounds2D = Bounds2D(
+        xMin = lerp(xMin, b.xMin, t), xMax = lerp(xMax, b.xMax, t),
+        yMin = lerp(yMin, b.yMin, t), yMax = lerp(yMax, b.yMax, t),
+    )
+
     public operator fun component1(): Double = xMin
     public operator fun component2(): Double = xMax
     public operator fun component3(): Double = yMin
@@ -84,7 +91,7 @@ public class Bounds2D(
 
     override fun toString(): String = "Bounds2D(xMin=$xMin, xMax=$xMax, yMin=$yMin, yMax=$yMax)"
 
-    public companion object {
+    public companion object : Interpolator<Bounds2D> {
         @JvmStatic
         public fun of(points: Iterator<Vector2D>): Bounds2D {
             var xMin = Double.POSITIVE_INFINITY
@@ -108,5 +115,7 @@ public class Bounds2D(
 
         @JvmStatic
         public fun of(points: Iterable<Vector2D>): Bounds2D = of(points.iterator())
+
+        override fun interpolate(a: Bounds2D, b: Bounds2D, t: Double): Bounds2D = a.interpolate(b, t)
     }
 }

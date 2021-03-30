@@ -1,7 +1,8 @@
 package mathx.geometry
 
+import mathx.Interpolator
+import mathx.length
 import mathx.lerp
-import kotlin.math.sqrt
 
 public data class Vector3D(
     val x: Double,
@@ -22,7 +23,7 @@ public data class Vector3D(
     @JvmName("negate")
     public operator fun unaryMinus(): Vector3D = Vector3D(-x, -y, -z, w)
 
-    public infix fun distanceTo(v: Vector3D): Double = Companion.length(x - v.x, y - v.y, z - v.z)
+    public infix fun distanceTo(v: Vector3D): Double = length(x - v.x, y - v.y, z - v.z)
 
     public fun length(): Double = length(x, y, z)
 
@@ -49,7 +50,7 @@ public data class Vector3D(
 
     override fun transformBy(t: Transformation<*>): Vector3D = Vector3D(t tx this, t ty this, t tz this, t tw this)
 
-    public companion object : TransformationCompanion<Vector3D> {
+    public companion object : Transformation.Builder<Vector3D>, Interpolator<Vector3D> {
         public val ZERO: Vector3D = Vector3D(0.0, 0.0, 0.0)
         public val X: Vector3D = x(1.0)
         public val Y: Vector3D = y(1.0)
@@ -73,9 +74,7 @@ public data class Vector3D(
 
         override fun interpolate(a: Vector3D, b: Vector3D, t: Double): Vector3D = a.interpolate(b, t)
 
-        private inline fun length(x: Double, y: Double, z: Double): Double = sqrt(x * x + y * y + z * z)
-
-        override fun from(
+        override fun build(
             xx: Double, xy: Double, xz: Double, xw: Double,
             yx: Double, yy: Double, yz: Double, yw: Double,
             zx: Double, zy: Double, zz: Double, zw: Double,

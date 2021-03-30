@@ -1,7 +1,8 @@
 package mathx.geometry
 
+import mathx.Interpolator
+import mathx.length
 import mathx.lerp
-import kotlin.math.sqrt
 
 public data class Vector2D(val x: Double, val y: Double, val w: Double = 1.0) : Transformation<Vector2D> {
     override val tx: Double get() = x
@@ -35,7 +36,7 @@ public data class Vector2D(val x: Double, val y: Double, val w: Double = 1.0) : 
 
     override fun transformBy(t: Transformation<*>): Vector2D = Vector2D(t tx this, t ty this, t tw this)
 
-    public companion object : TransformationCompanion<Vector2D> {
+    public companion object : Transformation.Builder<Vector2D>, Interpolator<Vector2D> {
         public val ZERO: Vector2D = Vector2D(0.0, 0.0)
         public val X: Vector2D = x(1.0)
         public val Y: Vector2D = y(1.0)
@@ -49,7 +50,7 @@ public data class Vector2D(val x: Double, val y: Double, val w: Double = 1.0) : 
 
         override fun interpolate(a: Vector2D, b: Vector2D, t: Double): Vector2D = a.interpolate(b, t)
 
-        override fun from(
+        override fun build(
             xx: Double, xy: Double, xz: Double, xw: Double,
             yx: Double, yy: Double, yz: Double, yw: Double,
             zx: Double, zy: Double, zz: Double, zw: Double,
@@ -57,7 +58,5 @@ public data class Vector2D(val x: Double, val y: Double, val w: Double = 1.0) : 
         ): Vector2D = Vector2D(x = tx, y = ty, w = tw)
 
         override fun toString(): String = "Vector2D"
-
-        private inline fun length(x: Double, y: Double): Double = sqrt(x * x + y * y)
     }
 }

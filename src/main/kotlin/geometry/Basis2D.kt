@@ -1,5 +1,6 @@
 package mathx.geometry
 
+import mathx.Interpolator
 import mathx.lerp
 
 public data class Basis2D(
@@ -19,14 +20,14 @@ public data class Basis2D(
         yx = t yx this, yy = t yy this,
     )
 
-    public companion object : TransformationCompanion<Basis2D> {
+    public companion object : Transformation.Builder<Basis2D>, Interpolator<Basis2D> {
         public val IDENTITY: Basis2D = Basis2D(
             xx = 1.0, xy = 0.0,
             yx = 0.0, yy = 1.0,
         )
 
         override fun interpolate(a: Basis2D, b: Basis2D, t: Double): Basis2D = a.interpolate(b, t)
-        override fun from(
+        override fun build(
             xx: Double, xy: Double, xz: Double, xw: Double,
             yx: Double, yy: Double, yz: Double, yw: Double,
             zx: Double, zy: Double, zz: Double, zw: Double,

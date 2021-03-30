@@ -1,5 +1,6 @@
 package mathx.geometry
 
+import mathx.Interpolator
 import mathx.lerp
 
 public data class Transform2D(
@@ -19,7 +20,7 @@ public data class Transform2D(
         tx = t tx this, ty = t ty this, tw = t tw this,
     )
 
-    public companion object : TransformationCompanion<Transform2D> {
+    public companion object : Transformation.Builder<Transform2D>, Interpolator<Transform2D> {
         public val IDENTITY: Transform2D = Transform2D(
             xx = 1.0, xy = 0.0, xw = 0.0,
             yx = 0.0, yy = 1.0, yw = 0.0,
@@ -27,7 +28,7 @@ public data class Transform2D(
         )
 
         override fun interpolate(a: Transform2D, b: Transform2D, t: Double): Transform2D = a.interpolate(b, t)
-        override fun from(
+        override fun build(
             xx: Double, xy: Double, xz: Double, xw: Double,
             yx: Double, yy: Double, yz: Double, yw: Double,
             zx: Double, zy: Double, zz: Double, zw: Double,

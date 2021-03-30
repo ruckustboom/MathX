@@ -1,5 +1,7 @@
 package mathx.geometry
 
+import mathx.Interpolator
+import mathx.lerp
 import kotlin.math.max
 import kotlin.math.min
 
@@ -69,6 +71,12 @@ public class Bounds3D(
         Vector3D(xMax, yMax, zMax) transformBy t,
     )
 
+    override fun interpolate(b: Bounds3D, t: Double): Bounds3D = Bounds3D(
+        xMin = lerp(xMin, b.xMin, t), xMax = lerp(xMax, b.xMax, t),
+        yMin = lerp(yMin, b.yMin, t), yMax = lerp(yMax, b.yMax, t),
+        zMin = lerp(zMin, b.zMin, t), zMax = lerp(zMax, b.zMax, t),
+    )
+
     public operator fun component1(): Double = xMin
     public operator fun component2(): Double = xMax
     public operator fun component3(): Double = yMin
@@ -104,7 +112,7 @@ public class Bounds3D(
 
     override fun toString(): String = "Bounds3D(xMin=$xMin, xMax=$xMax, yMin=$yMin, yMax=$yMax, zMin=$zMin, zMax=$zMax)"
 
-    public companion object {
+    public companion object : Interpolator<Bounds3D> {
         public val x: ClosedRange<Double> = 0.0..1.0
 
         @JvmStatic
@@ -135,5 +143,7 @@ public class Bounds3D(
 
         @JvmStatic
         public fun of(points: Iterable<Vector3D>): Bounds3D = of(points.iterator())
+
+        override fun interpolate(a: Bounds3D, b: Bounds3D, t: Double): Bounds3D = a.interpolate(b, t)
     }
 }

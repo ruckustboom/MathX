@@ -1,5 +1,6 @@
 package mathx.geometry
 
+import mathx.Interpolator
 import mathx.lerp
 
 public data class Transform3D(
@@ -22,7 +23,7 @@ public data class Transform3D(
         tx = t tx this, ty = t ty this, tz = t tz this, tw = t tw this,
     )
 
-    public companion object : TransformationCompanion<Transform3D> {
+    public companion object : Transformation.Builder<Transform3D>, Interpolator<Transform3D> {
         public val IDENTITY: Transform3D = Transform3D(
             xx = 1.0, xy = 0.0, xz = 0.0, xw = 0.0,
             yx = 0.0, yy = 1.0, yz = 0.0, yw = 0.0,
@@ -32,7 +33,7 @@ public data class Transform3D(
 
         override fun interpolate(a: Transform3D, b: Transform3D, t: Double): Transform3D = a.interpolate(b, t)
 
-        override fun from(
+        override fun build(
             xx: Double, xy: Double, xz: Double, xw: Double,
             yx: Double, yy: Double, yz: Double, yw: Double,
             zx: Double, zy: Double, zz: Double, zw: Double,

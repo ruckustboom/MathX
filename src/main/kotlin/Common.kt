@@ -16,6 +16,19 @@ public inline fun ceil(x: Double, base: Double): Double = ceil(x / base) * base
 public inline fun roundToPrecision(x: Double, precision: Int): Double = round(x, 1.0 / 10.0.pow(precision))
 public inline fun nearest(x: Double, a: Double, b: Double): Double = if (abs(x - a) < abs(x - b)) a else b
 
+public inline fun length2(x: Double, y: Double): Double = (x * x + y * y)
+public inline fun length(x: Double, y: Double): Double = sqrt(length2(x, y))
+public inline fun length2(x: Double, y: Double, z: Double): Double = (x * x + y * y + z * z)
+public inline fun length(x: Double, y: Double, z: Double): Double = sqrt(length2(x, y, z))
+public inline fun length2(components: DoubleArray): Double = (components.fold(0.0) { acc, x -> acc + x * x })
+public inline fun length(components: DoubleArray): Double = sqrt(length2(components))
+
+@JvmName("length2Variadic")
+public inline fun length2(vararg components: Double): Double = length2(components)
+
+@JvmName("lengthVariadic")
+public inline fun length(vararg components: Double): Double = length(components)
+
 public inline infix fun Double.chunkRem(x: Double): Double = (rem(x) + x) % x
 public inline infix fun Double.chunkDiv(x: Double): Double = minus(chunkRem(x)) / x
 public inline fun lerp(a: Double, b: Double, t: Double): Double = a + (b - a) * t

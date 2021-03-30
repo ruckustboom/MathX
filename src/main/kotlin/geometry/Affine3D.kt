@@ -1,5 +1,6 @@
 package mathx.geometry
 
+import mathx.Interpolator
 import mathx.lerp
 
 public data class Affine3D(
@@ -27,7 +28,7 @@ public data class Affine3D(
         tx = t tx this, ty = t ty this, tz = t tz this,
     )
 
-    public companion object : TransformationCompanion<Affine3D> {
+    public companion object : Transformation.Builder<Affine3D>, Interpolator<Affine3D> {
         public val IDENTITY: Affine3D = Affine3D(
             xx = 1.0, xy = 0.0, xz = 0.0,
             yx = 0.0, yy = 1.0, yz = 0.0,
@@ -36,7 +37,7 @@ public data class Affine3D(
         )
 
         override fun interpolate(a: Affine3D, b: Affine3D, t: Double): Affine3D = a.interpolate(b, t)
-        override fun from(
+        override fun build(
             xx: Double, xy: Double, xz: Double, xw: Double,
             yx: Double, yy: Double, yz: Double, yw: Double,
             zx: Double, zy: Double, zz: Double, zw: Double,

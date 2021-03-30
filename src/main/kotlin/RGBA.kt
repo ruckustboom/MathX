@@ -2,6 +2,7 @@
 
 package mathx
 
+import kotlin.math.floor
 import kotlin.math.nextDown
 import kotlin.math.pow
 
@@ -13,6 +14,60 @@ public object RGBA {
                 (green.coerceIn(0x00, 0xFF) shl 16) or
                 (blue.coerceIn(0x00, 0xFF) shl 8) or
                 alpha.coerceIn(0x00, 0xFF)
+
+    @JvmStatic
+    @Suppress("NAME_SHADOWING")
+    public fun fromHSB(hue: Double, saturation: Double, brightness: Double, alpha: Double = 1.0): Int {
+        val saturation = saturation.coerceIn(0.0, 1.0)
+        val brightness = brightness.coerceIn(0.0, 1.0)
+        var r = 0.0
+        var g = 0.0
+        var b = 0.0
+        if (saturation == 0.0) {
+            r = brightness
+            g = brightness
+            b = brightness
+        } else {
+            val h = repeated(hue) * 6.0
+            val f = h - floor(h)
+            val p = brightness * (1.0 - saturation)
+            val q = brightness * (1.0 - saturation * f)
+            val t = brightness * (1.0 - saturation * (1.0 - f))
+            when (h.toInt()) {
+                0 -> {
+                    r = brightness
+                    g = t
+                    b = p
+                }
+                1 -> {
+                    r = q
+                    g = brightness
+                    b = p
+                }
+                2 -> {
+                    r = p
+                    g = brightness
+                    b = t
+                }
+                3 -> {
+                    r = p
+                    g = q
+                    b = brightness
+                }
+                4 -> {
+                    r = t
+                    g = p
+                    b = brightness
+                }
+                5 -> {
+                    r = brightness
+                    g = p
+                    b = q
+                }
+            }
+        }
+        return invoke(toChannel(r), toChannel(g), toChannel(b), toChannel(alpha))
+    }
 
     @JvmStatic
     public inline fun gray(gray: Int = 0x80, alpha: Int = 0xFF): Int = RGBA(gray, gray, gray, alpha)
