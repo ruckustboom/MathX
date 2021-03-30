@@ -1,6 +1,9 @@
-package mathx.geometry
+package mathx.geometry.primitives
 
 import mathx.Interpolator
+import mathx.geometry.Transformable
+import mathx.geometry.Transformation
+import mathx.geometry.Vector3D
 import mathx.lerp
 import kotlin.math.max
 import kotlin.math.min

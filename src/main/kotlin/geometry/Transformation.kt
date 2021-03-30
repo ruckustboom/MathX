@@ -2,15 +2,8 @@
 
 package mathx.geometry
 
-import mathx.Interpolated
-import mathx.Interpolator
-import mathx.TAU
 import kotlin.math.cos
 import kotlin.math.sin
-
-public interface Transformable<T : Transformable<T>>: Interpolated<T> {
-    public infix fun transformBy(t: Transformation<*>): T
-}
 
 public interface Transformation<T : Transformation<T>> : Transformable<T> {
     public val xx: Double get() = 1.0
