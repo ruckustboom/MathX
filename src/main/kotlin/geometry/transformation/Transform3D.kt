@@ -1,4 +1,4 @@
-package mathx.geometry
+package mathx.geometry.transformation
 
 import mathx.Interpolator
 import mathx.lerp

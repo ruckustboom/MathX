@@ -1,9 +1,14 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package mathx.geometry
+package mathx.geometry.transformation
 
+import mathx.Interpolated
 import kotlin.math.cos
 import kotlin.math.sin
+
+public interface Transformable<T : Transformable<T>>: Interpolated<T> {
+    public infix fun transformBy(t: Transformation<*>): T
+}
 
 public interface Transformation<T : Transformation<T>> : Transformable<T> {
     public val xx: Double get() = 1.0
