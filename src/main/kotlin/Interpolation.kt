@@ -48,7 +48,7 @@ public inline fun remap(a1: Double, b1: Double, a2: Double, b2: Double, x: Doubl
     lerp(a2, b2, unlerp(a1, b1, x))
 
 public inline fun repeated(a: Double, b: Double, x: Double): Double = lerp(a, b, repeated(unlerp(a, b, x)))
-public inline fun repeated(x: Double): Double = x chunkRem 1.0
+public inline fun repeated(x: Double): Double = x.mod(1.0)
 
 public inline fun reflected(a: Double, b: Double, x: Double): Double = lerp(a, b, reflected(unlerp(a, b, x)))
 public inline fun reflected(x: Double): Double {

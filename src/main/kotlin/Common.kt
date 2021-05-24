@@ -38,10 +38,20 @@ public inline fun length(vararg components: Double): Double = length(components)
 
 // Chunks
 
-public inline infix fun Double.chunkRem(x: Double): Double = (rem(x) + x) % x
-public inline infix fun Double.chunkStart(x: Double): Double = minus(chunkRem(x))
-public inline infix fun Double.chunkDiv(x: Double): Double = chunkStart(x) / x
+public inline fun offsetInChunk(x: Double, size: Double, origin: Double = 0.0): Double =
+    ((x - origin) % size + size) % size
 
-public inline infix fun Int.chunkRem(x: Int): Int = (rem(x) + x) % x
-public inline infix fun Int.chunkStart(x: Int): Int = minus(chunkRem(x))
-public inline infix fun Int.chunkDiv(x: Int): Int = chunkStart(x) / x
+public inline fun startOfChunk(x: Double, size: Double, origin: Double = 0.0): Double =
+    x - offsetInChunk(x, size, origin)
+
+public inline fun indexOfChunk(x: Double, size: Double, origin: Double = 0.0): Double =
+    (startOfChunk(x, size, origin) - origin) / size
+
+public inline fun offsetInChunk(x: Int, size: Int, origin: Int = 0): Int =
+    ((x - origin) % size + size) % size
+
+public inline fun startOfChunk(x: Int, size: Int, origin: Int = 0): Int =
+    x - offsetInChunk(x, size, origin)
+
+public inline fun indexOfChunk(x: Int, size: Int, origin: Int = 0): Int =
+    (startOfChunk(x, size, origin) - origin) / size
