@@ -5,21 +5,20 @@ package mathx
 
 import kotlin.math.abs
 
-public inline fun <T> cerp(a: T, b: T, t: Double, threshold: Double): T = if (t < threshold) a else b
-public inline fun <T> cerp(a: T, b: T, t: Double): T = cerp(a, b, t, 1.0)
-public inline fun lerp(a: Double, b: Double, t: Double): Double = a + (b - a) * t
-public inline fun unlerp(a: Double, b: Double, x: Double): Double = if (a == b) 0.0 else (x - a) / (b - a)
-public inline fun remap(a1: Double, b1: Double, a2: Double, b2: Double, x: Double): Double =
-    lerp(a2, b2, unlerp(a1, b1, x))
+public inline fun <T> cerp(from: T, to: T, by: Double, threshold: Double = 1.0): T = if (by < threshold) from else to
+public inline fun lerp(from: Double, to: Double, by: Double): Double = from + (to - from) * by
+public inline fun normalize(x: Double, min: Double, max: Double): Double =
+    if (min == max) 0.0 else (x - min) / (max - min)
 
-public inline fun repeated(a: Double, b: Double, x: Double): Double = lerp(a, b, repeated(unlerp(a, b, x)))
 public inline fun repeated(x: Double): Double = x.mod(1.0)
 
-public inline fun reflected(a: Double, b: Double, x: Double): Double = lerp(a, b, reflected(unlerp(a, b, x)))
 public inline fun reflected(x: Double): Double {
     val dist = abs(x) % 2.0
     return if (dist < 1.0) dist else 2.0 - dist
 }
+
+public inline fun reflected(x: Double, min: Double, max: Double): Double =
+    lerp(min, max, reflected(normalize(x, min, max)))
 
 // Interfaces
 
