@@ -1,4 +1,3 @@
-@file:JvmName("MathX")
 @file:Suppress("NOTHING_TO_INLINE")
 
 package mathx
@@ -23,15 +22,9 @@ public inline fun nearest(x: Double, a: Double, b: Double): Double = if (abs(x -
 
 // Length
 
-public inline fun length2(x: Double, y: Double): Double = (x * x + y * y)
-public inline fun length(x: Double, y: Double): Double = sqrt(length2(x, y))
-public inline fun length2(x: Double, y: Double, z: Double): Double = (x * x + y * y + z * z)
-public inline fun length(x: Double, y: Double, z: Double): Double = sqrt(length2(x, y, z))
-public inline fun length2(components: DoubleArray): Double = components.fold(0.0) { acc, x -> acc + x * x }
-public inline fun length(components: DoubleArray): Double = sqrt(length2(components))
-
-@JvmName("length2Variadic")
-public inline fun length2(vararg components: Double): Double = length2(components)
+public inline fun length(x: Double, y: Double): Double = sqrt(x * x + y * y)
+public inline fun length(x: Double, y: Double, z: Double): Double = sqrt(x * x + y * y + z * z)
+public inline fun length(components: DoubleArray): Double = sqrt(components.fold(0.0) { acc, x -> acc + x * x })
 
 @JvmName("lengthVariadic")
 public inline fun length(vararg components: Double): Double = length(components)
@@ -45,13 +38,4 @@ public inline fun startOfChunk(x: Double, size: Double, origin: Double = 0.0): D
     x - offsetInChunk(x, size, origin)
 
 public inline fun indexOfChunk(x: Double, size: Double, origin: Double = 0.0): Double =
-    (startOfChunk(x, size, origin) - origin) / size
-
-public inline fun offsetInChunk(x: Int, size: Int, origin: Int = 0): Int =
-    ((x - origin) % size + size) % size
-
-public inline fun startOfChunk(x: Int, size: Int, origin: Int = 0): Int =
-    x - offsetInChunk(x, size, origin)
-
-public inline fun indexOfChunk(x: Int, size: Int, origin: Int = 0): Int =
     (startOfChunk(x, size, origin) - origin) / size
