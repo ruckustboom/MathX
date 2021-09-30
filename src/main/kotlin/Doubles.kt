@@ -39,3 +39,31 @@ public inline fun startOfChunk(x: Double, size: Double, origin: Double = 0.0): D
 
 public inline fun indexOfChunk(x: Double, size: Double, origin: Double = 0.0): Double =
     (startOfChunk(x, size, origin) - origin) / size
+
+// Interpolation
+
+public inline fun <T> cerp(from: T, to: T, by: Double, threshold: Double = 1.0): T = if (by < threshold) from else to
+public inline fun lerp(from: Double, to: Double, by: Double): Double = from + (to - from) * by
+public inline fun normalize(x: Double, min: Double, max: Double): Double =
+    if (min == max) 0.0 else (x - min) / (max - min)
+
+public inline fun repeat(x: Double): Double = x.mod(1.0)
+
+public inline fun reflect(x: Double): Double {
+    val dist = abs(x) % 2.0
+    return if (dist < 1.0) dist else 2.0 - dist
+}
+
+public inline fun repeat(x: Double, min: Double, max: Double): Double =
+    lerp(min, max, repeat(normalize(x, min, max)))
+
+public inline fun reflect(x: Double, min: Double, max: Double): Double =
+    lerp(min, max, reflect(normalize(x, min, max)))
+
+public fun interface Interpolated<T> {
+    public fun interpolate(b: T, t: Double): T
+}
+
+public fun interface Interpolator<T> {
+    public fun interpolate(a: T, b: T, t: Double): T
+}
