@@ -17,7 +17,6 @@ public inline fun radToDeg(rad: Double): Double = rad * RAD_TO_DEG
 public inline fun round(x: Double, base: Double): Double = round(x / base) * base
 public inline fun floor(x: Double, base: Double): Double = floor(x / base) * base
 public inline fun ceil(x: Double, base: Double): Double = ceil(x / base) * base
-public inline fun roundToPrecision(x: Double, precision: Int): Double = round(x, 1.0 / 10.0.pow(precision))
 public inline fun nearest(x: Double, a: Double, b: Double): Double = if (abs(x - a) < abs(x - b)) a else b
 
 // Length
@@ -44,7 +43,7 @@ public inline fun indexOfChunk(x: Double, size: Double, origin: Double = 0.0): D
 
 public inline fun <T> cerp(from: T, to: T, by: Double, threshold: Double = 1.0): T = if (by < threshold) from else to
 public inline fun lerp(from: Double, to: Double, by: Double): Double = from + (to - from) * by
-public inline fun normalize(x: Double, min: Double, max: Double): Double =
+public inline fun normalizeIn(x: Double, min: Double, max: Double): Double =
     if (min == max) 0.0 else (x - min) / (max - min)
 
 public inline fun repeat(x: Double): Double = x.mod(1.0)
@@ -55,15 +54,7 @@ public inline fun reflect(x: Double): Double {
 }
 
 public inline fun repeat(x: Double, min: Double, max: Double): Double =
-    lerp(min, max, repeat(normalize(x, min, max)))
+    lerp(min, max, repeat(normalizeIn(x, min, max)))
 
 public inline fun reflect(x: Double, min: Double, max: Double): Double =
-    lerp(min, max, reflect(normalize(x, min, max)))
-
-public fun interface Interpolated<T> {
-    public fun interpolate(b: T, t: Double): T
-}
-
-public fun interface Interpolator<T> {
-    public fun interpolate(a: T, b: T, t: Double): T
-}
+    lerp(min, max, reflect(normalizeIn(x, min, max)))

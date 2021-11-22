@@ -17,7 +17,6 @@ public inline fun radToDeg(rad: Float): Float = rad * RAD_TO_DEG_F
 public inline fun round(x: Float, base: Float): Float = round(x / base) * base
 public inline fun floor(x: Float, base: Float): Float = floor(x / base) * base
 public inline fun ceil(x: Float, base: Float): Float = ceil(x / base) * base
-public inline fun roundToPrecision(x: Float, precision: Int): Float = round(x, 1F / 10F.pow(precision))
 public inline fun nearest(x: Float, a: Float, b: Float): Float = if (abs(x - a) < abs(x - b)) a else b
 
 // Length
@@ -44,7 +43,7 @@ public inline fun indexOfChunk(x: Float, size: Float, origin: Float = 0F): Float
 
 public inline fun <T> cerp(from: T, to: T, by: Float, threshold: Float = 1F): T = if (by < threshold) from else to
 public inline fun lerp(from: Float, to: Float, by: Float): Float = from + (to - from) * by
-public inline fun normalize(x: Float, min: Float, max: Float): Float =
+public inline fun normalizeIn(x: Float, min: Float, max: Float): Float =
     if (min == max) 0F else (x - min) / (max - min)
 
 public inline fun repeat(x: Float): Float = x.mod(1F)
@@ -55,15 +54,7 @@ public inline fun reflect(x: Float): Float {
 }
 
 public inline fun repeat(x: Float, min: Float, max: Float): Float =
-    lerp(min, max, repeat(normalize(x, min, max)))
+    lerp(min, max, repeat(normalizeIn(x, min, max)))
 
 public inline fun reflect(x: Float, min: Float, max: Float): Float =
-    lerp(min, max, reflect(normalize(x, min, max)))
-
-public fun interface InterpolatedF<T> {
-    public fun interpolate(b: T, t: Float): T
-}
-
-public fun interface InterpolatorF<T> {
-    public fun interpolate(a: T, b: T, t: Float): T
-}
+    lerp(min, max, reflect(normalizeIn(x, min, max)))
