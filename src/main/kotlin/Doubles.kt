@@ -37,8 +37,25 @@ public inline fun chunkIndex(x: Double, size: Double, origin: Double = 0.0): Dou
 
 // Interpolation
 
+/**
+ * Constant interpolation between [a] and [b] by ratio [t]
+ *
+ * If [t] is less than the given [threshold] (default `1.0`) returns [a], otherwise returns [b].
+ */
 public inline fun <T> cerp(t: Double, a: T, b: T, threshold: Double = 1.0): T = if (t < threshold) a else b
+
+/** Linearly interpolates from [a] to [b] by ratio [t] */
 public inline fun lerp(t: Double, a: Double, b: Double): Double = a + (b - a) * t
+
+/**
+ * Normalizes [x] in the range from [a] to [b]
+ *
+ * The opposite of [lerp]
+ * ```kotlin
+ * x = lerp(t, a, b)
+ * t = unlerp(x, a, b)
+ * ```
+ */
 public inline fun unlerp(x: Double, a: Double, b: Double): Double = if (a == b) 0.0 else (x - a) / (b - a)
 
 public inline fun repeat(t: Double): Double = t.mod(1.0)
