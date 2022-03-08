@@ -6,7 +6,8 @@ import kotlin.math.*
 
 // Trig
 
-public const val TAU_F: Float = 2F * PI.toFloat()
+public const val PI_F: Float = PI.toFloat()
+public const val TAU_F: Float = 2F * PI_F
 public const val RAD_TO_DEG_F: Float = 360F / TAU_F
 
 public inline fun degToRad(deg: Float): Float = deg / RAD_TO_DEG_F
@@ -30,31 +31,22 @@ public inline fun length(vararg components: Float): Float = length(components)
 
 // Chunks
 
-public inline fun offsetInChunk(x: Float, size: Float, origin: Float = 0F): Float =
-    ((x - origin) % size + size) % size
-
-public inline fun startOfChunk(x: Float, size: Float, origin: Float = 0F): Float =
-    x - offsetInChunk(x, size, origin)
-
-public inline fun indexOfChunk(x: Float, size: Float, origin: Float = 0F): Float =
-    (startOfChunk(x, size, origin) - origin) / size
+public inline fun chunkOffset(x: Float, size: Float, origin: Float = 0F): Float = (x - origin).mod(size)
+public inline fun chunkStart(x: Float, size: Float, origin: Float = 0F): Float = x - chunkOffset(x, size, origin)
+public inline fun chunkIndex(x: Float, size: Float, origin: Float = 0F): Float =
+    (chunkStart(x, size, origin) - origin) / size
 
 // Interpolation
 
-public inline fun <T> cerp(from: T, to: T, by: Float, threshold: Float = 1F): T = if (by < threshold) from else to
-public inline fun lerp(from: Float, to: Float, by: Float): Float = from + (to - from) * by
-public inline fun normalizeIn(x: Float, min: Float, max: Float): Float =
-    if (min == max) 0F else (x - min) / (max - min)
+public inline fun <T> cerp(t: Float, a: T, b: T, threshold: Float = 1F): T = if (t < threshold) a else b
+public inline fun lerp(t: Float, a: Float, b: Float): Float = a + (b - a) * t
+public inline fun unlerp(x: Float, a: Float, b: Float): Float = if (a == b) 0F else (x - a) / (b - a)
 
-public inline fun repeat(x: Float): Float = x.mod(1F)
-
-public inline fun reflect(x: Float): Float {
-    val dist = abs(x) % 2F
+public inline fun repeat(t: Float): Float = t.mod(1F)
+public inline fun reflect(t: Float): Float {
+    val dist = abs(t) % 2F
     return if (dist < 1F) dist else 2F - dist
 }
 
-public inline fun repeat(x: Float, min: Float, max: Float): Float =
-    lerp(min, max, repeat(normalizeIn(x, min, max)))
-
-public inline fun reflect(x: Float, min: Float, max: Float): Float =
-    lerp(min, max, reflect(normalizeIn(x, min, max)))
+public inline fun repeat(x: Float, a: Float, b: Float): Float = lerp(repeat(unlerp(x, a, b)), a, b)
+public inline fun reflect(x: Float, a: Float, b: Float): Float = lerp(reflect(unlerp(x, a, b)), a, b)

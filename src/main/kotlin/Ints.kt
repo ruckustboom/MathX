@@ -8,24 +8,16 @@ import kotlin.math.abs
 
 public inline fun nearest(x: Int, a: Int, b: Int): Int = if (abs(x - a) < abs(x - b)) a else b
 
-public inline fun offsetInChunk(x: Int, size: Int, origin: Int = 0): Int =
-    ((x - origin) % size + size) % size
-
-public inline fun startOfChunk(x: Int, size: Int, origin: Int = 0): Int =
-    x - offsetInChunk(x, size, origin)
-
-public inline fun indexOfChunk(x: Int, size: Int, origin: Int = 0): Int =
-    (startOfChunk(x, size, origin) - origin) / size
+public inline fun chunkOffset(x: Int, size: Int, origin: Int = 0): Int = (x - origin).mod(size)
+public inline fun chunkStart(x: Int, size: Int, origin: Int = 0): Int = x - chunkOffset(x, size, origin)
+public inline fun chunkIndex(x: Int, size: Int, origin: Int = 0): Int =
+    (chunkStart(x, size, origin) - origin) / size
 
 // Long
 
 public inline fun nearest(x: Long, a: Long, b: Long): Long = if (abs(x - a) < abs(x - b)) a else b
 
-public inline fun offsetInChunk(x: Long, size: Long, origin: Long = 0): Long =
-    ((x - origin) % size + size) % size
-
-public inline fun startOfChunk(x: Long, size: Long, origin: Long = 0): Long =
-    x - offsetInChunk(x, size, origin)
-
-public inline fun indexOfChunk(x: Long, size: Long, origin: Long = 0): Long =
-    (startOfChunk(x, size, origin) - origin) / size
+public inline fun chunkOffset(x: Long, size: Long, origin: Long = 0): Long = (x - origin).mod(size)
+public inline fun chunkStart(x: Long, size: Long, origin: Long = 0): Long = x - chunkOffset(x, size, origin)
+public inline fun chunkIndex(x: Long, size: Long, origin: Long = 0): Long =
+    (chunkStart(x, size, origin) - origin) / size
