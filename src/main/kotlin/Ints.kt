@@ -6,7 +6,7 @@ import kotlin.math.abs
 
 // Int
 
-public inline fun nearest(x: Int, a: Int, b: Int): Int = if (abs(x - a) < abs(x - b)) a else b
+public inline fun nearest(x: Int, a: Int, b: Int): Int = if (abs(x - b) < abs(x - a)) b else a
 
 public inline fun chunkOffset(x: Int, size: Int, origin: Int = 0): Int = (x - origin).mod(size)
 public inline fun chunkStart(x: Int, size: Int, origin: Int = 0): Int = x - chunkOffset(x, size, origin)
@@ -15,7 +15,7 @@ public inline fun chunkIndex(x: Int, size: Int, origin: Int = 0): Int =
 
 // Long
 
-public inline fun nearest(x: Long, a: Long, b: Long): Long = if (abs(x - a) < abs(x - b)) a else b
+public inline fun nearest(x: Long, a: Long, b: Long): Long = if (abs(x - b) < abs(x - a)) b else a
 
 public inline fun chunkOffset(x: Long, size: Long, origin: Long = 0): Long = (x - origin).mod(size)
 public inline fun chunkStart(x: Long, size: Long, origin: Long = 0): Long = x - chunkOffset(x, size, origin)

@@ -17,7 +17,7 @@ public inline fun radToDeg(rad: Double): Double = rad * RAD_TO_DEG
 public inline fun round(x: Double, base: Double): Double = round(x / base) * base
 public inline fun floor(x: Double, base: Double): Double = floor(x / base) * base
 public inline fun ceil(x: Double, base: Double): Double = ceil(x / base) * base
-public inline fun nearest(x: Double, a: Double, b: Double): Double = if (abs(x - a) < abs(x - b)) a else b
+public inline fun nearest(x: Double, a: Double, b: Double): Double = if (abs(x - b) < abs(x - a)) b else a
 
 // Length
 
@@ -48,7 +48,7 @@ public inline fun <T> cerp(t: Double, a: T, b: T, threshold: Double = 1.0): T = 
 public inline fun lerp(t: Double, a: Double, b: Double): Double = a + (b - a) * t
 
 /**
- * Normalizes [x] in the range from [a] to [b]
+ * Linearly normalizes [x] in the range from [a] to [b]
  *
  * The opposite of [lerp]
  * ```kotlin
@@ -57,6 +57,20 @@ public inline fun lerp(t: Double, a: Double, b: Double): Double = a + (b - a) * 
  * ```
  */
 public inline fun unlerp(x: Double, a: Double, b: Double): Double = if (a == b) 0.0 else (x - a) / (b - a)
+
+public inline fun smoothStep(x: Double, a: Double, b: Double): Double = smoothStep(unlerp(x, a, b))
+public inline fun smoothStep(t: Double): Double = when {
+    t < 0.0 -> 0.0
+    t > 1.0 -> 1.0
+    else -> t * t * (3.0 - 2.0 * t)
+}
+
+public inline fun smootherStep(x: Double, a: Double, b: Double): Double = smootherStep(unlerp(x, a, b))
+public inline fun smootherStep(t: Double): Double = when {
+    t < 0.0 -> 0.0
+    t > 1.0 -> 1.0
+    else -> t * t * t * (t * (t * 6.0 - 15.0) + 10.0)
+}
 
 public inline fun repeat(t: Double): Double = t.mod(1.0)
 public inline fun reflect(t: Double): Double {

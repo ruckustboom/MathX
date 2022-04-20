@@ -22,7 +22,17 @@ class TestFloats {
 
     @Test
     fun testRounding() {
-        fail()
+        fail("round")
+        fail("floor")
+        fail("ceil")
+
+        nearest(0F, 1F, 5F) shouldBe 1F
+        nearest(1F, 1F, 5F) shouldBe 1F
+        nearest(2F, 1F, 5F) shouldBe 1F
+        nearest(3F, 1F, 5F) shouldBe 1F
+        nearest(4F, 1F, 5F) shouldBe 5F
+        nearest(5F, 1F, 5F) shouldBe 5F
+        nearest(6F, 1F, 5F) shouldBe 5F
     }
 
     @Test

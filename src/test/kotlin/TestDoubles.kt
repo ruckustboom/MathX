@@ -23,7 +23,17 @@ class TestDoubles {
 
     @Test
     fun testRounding() {
-        fail()
+        fail("round")
+        fail("floor")
+        fail("ceil")
+        
+        nearest(0.0, 1.0, 5.0) shouldBe 1.0
+        nearest(1.0, 1.0, 5.0) shouldBe 1.0
+        nearest(2.0, 1.0, 5.0) shouldBe 1.0
+        nearest(3.0, 1.0, 5.0) shouldBe 1.0
+        nearest(4.0, 1.0, 5.0) shouldBe 5.0
+        nearest(5.0, 1.0, 5.0) shouldBe 5.0
+        nearest(6.0, 1.0, 5.0) shouldBe 5.0
     }
 
     @Test

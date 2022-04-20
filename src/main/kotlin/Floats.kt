@@ -18,7 +18,7 @@ public inline fun radToDeg(rad: Float): Float = rad * RAD_TO_DEG_F
 public inline fun round(x: Float, base: Float): Float = round(x / base) * base
 public inline fun floor(x: Float, base: Float): Float = floor(x / base) * base
 public inline fun ceil(x: Float, base: Float): Float = ceil(x / base) * base
-public inline fun nearest(x: Float, a: Float, b: Float): Float = if (abs(x - a) < abs(x - b)) a else b
+public inline fun nearest(x: Float, a: Float, b: Float): Float = if (abs(x - b) < abs(x - a)) b else a
 
 // Length
 
@@ -41,6 +41,20 @@ public inline fun chunkIndex(x: Float, size: Float, origin: Float = 0F): Float =
 public inline fun <T> cerp(t: Float, a: T, b: T, threshold: Float = 1F): T = if (t < threshold) a else b
 public inline fun lerp(t: Float, a: Float, b: Float): Float = a + (b - a) * t
 public inline fun unlerp(x: Float, a: Float, b: Float): Float = if (a == b) 0F else (x - a) / (b - a)
+
+public inline fun smoothStep(x: Float, a: Float, b: Float): Float = smoothStep(unlerp(x, a, b))
+public inline fun smoothStep(t: Float): Float = when {
+    t < 0F -> 0F
+    t > 1F -> 1F
+    else -> t * t * (3F - 2F * t)
+}
+
+public inline fun smootherStep(x: Float, a: Float, b: Float): Float = smootherStep(unlerp(x, a, b))
+public inline fun smootherStep(t: Float): Float = when {
+    t < 0.0 -> 0F
+    t > 1.0 -> 1F
+    else -> t * t * t * (t * (t * 6F - 15F) + 10F)
+}
 
 public inline fun repeat(t: Float): Float = t.mod(1F)
 public inline fun reflect(t: Float): Float {
