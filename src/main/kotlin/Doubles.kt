@@ -30,10 +30,9 @@ public inline fun length(vararg components: Double): Double = length(components)
 
 // Chunks
 
-public inline fun chunkOffset(x: Double, size: Double, origin: Double = 0.0): Double = (x - origin).mod(size)
-public inline fun chunkStart(x: Double, size: Double, origin: Double = 0.0): Double = x - chunkOffset(x, size, origin)
-public inline fun chunkIndex(x: Double, size: Double, origin: Double = 0.0): Double =
-    (chunkStart(x, size, origin) - origin) / size
+public inline fun chunkOffset(x: Double, size: Double): Double = x.mod(size)
+public inline fun chunkStart(x: Double, size: Double): Double = x - chunkOffset(x, size)
+public inline fun chunkIndex(x: Double, size: Double): Double = chunkStart(x, size) / size
 
 // Interpolation
 
