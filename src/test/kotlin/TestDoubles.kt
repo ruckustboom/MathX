@@ -23,10 +23,42 @@ class TestDoubles {
 
     @Test
     fun testRounding() {
-        fail("round")
-        fail("floor")
-        fail("ceil")
-        
+        round(0.0, 1.0) shouldBe 0.0
+        round(1.0, 1.0) shouldBe 1.0
+        round(0.1, 1.0) shouldBe 0.0
+        round(0.9, 1.0) shouldBe 1.0
+        round(1.1, 1.0) shouldBe 1.0
+        round(1.5, 1.0) shouldBe 2.0
+        round(2.5, 1.0) shouldBe 2.0
+        round(17.318, 1.0) shouldBe 17.0
+        round(17.318, 2.0) shouldBe 18.0
+        round(17.318, 4.1) shouldBe 16.4
+        round(-17.318, 4.1) shouldBe -16.4
+
+        floor(0.0, 1.0) shouldBe 0.0
+        floor(1.0, 1.0) shouldBe 1.0
+        floor(0.1, 1.0) shouldBe 0.0
+        floor(0.9, 1.0) shouldBe 0.0
+        floor(1.1, 1.0) shouldBe 1.0
+        floor(1.5, 1.0) shouldBe 1.0
+        floor(2.5, 1.0) shouldBe 2.0
+        floor(17.318, 1.0) shouldBe 17.0
+        floor(17.318, 2.0) shouldBe 16.0
+        floor(17.318, 4.1) shouldBe 16.4
+        floor(-17.318, 4.1) shouldBe -20.5
+
+        ceil(0.0, 1.0) shouldBe 0.0
+        ceil(1.0, 1.0) shouldBe 1.0
+        ceil(0.1, 1.0) shouldBe 1.0
+        ceil(0.9, 1.0) shouldBe 1.0
+        ceil(1.1, 1.0) shouldBe 2.0
+        ceil(1.5, 1.0) shouldBe 2.0
+        ceil(2.5, 1.0) shouldBe 3.0
+        ceil(17.318, 1.0) shouldBe 18.0
+        ceil(17.318, 2.0) shouldBe 18.0
+        ceil(17.318, 4.1) shouldBe 20.5
+        ceil(-17.318, 4.1) shouldBe -16.4
+
         nearest(0.0, 1.0, 5.0) shouldBe 1.0
         nearest(1.0, 1.0, 5.0) shouldBe 1.0
         nearest(2.0, 1.0, 5.0) shouldBe 1.0

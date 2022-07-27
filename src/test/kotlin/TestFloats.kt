@@ -22,9 +22,41 @@ class TestFloats {
 
     @Test
     fun testRounding() {
-        fail("round")
-        fail("floor")
-        fail("ceil")
+        round(0.0F, 1.0F) shouldBe 0.0F
+        round(1.0F, 1.0F) shouldBe 1.0F
+        round(0.1F, 1.0F) shouldBe 0.0F
+        round(0.9F, 1.0F) shouldBe 1.0F
+        round(1.1F, 1.0F) shouldBe 1.0F
+        round(1.5F, 1.0F) shouldBe 2.0F
+        round(2.5F, 1.0F) shouldBe 2.0F
+        round(17.318F, 1.0F) shouldBe 17.0F
+        round(17.318F, 2.0F) shouldBe 18.0F
+        round(17.318F, 4.1F) shouldBe 16.4F
+        round(-17.318F, 4.1F) shouldBe -16.4F
+
+        floor(0.0F, 1.0F) shouldBe 0.0F
+        floor(1.0F, 1.0F) shouldBe 1.0F
+        floor(0.1F, 1.0F) shouldBe 0.0F
+        floor(0.9F, 1.0F) shouldBe 0.0F
+        floor(1.1F, 1.0F) shouldBe 1.0F
+        floor(1.5F, 1.0F) shouldBe 1.0F
+        floor(2.5F, 1.0F) shouldBe 2.0F
+        floor(17.318F, 1.0F) shouldBe 17.0F
+        floor(17.318F, 2.0F) shouldBe 16.0F
+        floor(17.318F, 4.1F) shouldBe 16.4F
+        floor(-17.318F, 4.1F) shouldBe -20.5F
+
+        ceil(0.0F, 1.0F) shouldBe 0.0F
+        ceil(1.0F, 1.0F) shouldBe 1.0F
+        ceil(0.1F, 1.0F) shouldBe 1.0F
+        ceil(0.9F, 1.0F) shouldBe 1.0F
+        ceil(1.1F, 1.0F) shouldBe 2.0F
+        ceil(1.5F, 1.0F) shouldBe 2.0F
+        ceil(2.5F, 1.0F) shouldBe 3.0F
+        ceil(17.318F, 1.0F) shouldBe 18.0F
+        ceil(17.318F, 2.0F) shouldBe 18.0F
+        ceil(17.318F, 4.1F) shouldBe 20.5F
+        ceil(-17.318F, 4.1F) shouldBe -16.4F
 
         nearest(0F, 1F, 5F) shouldBe 1F
         nearest(1F, 1F, 5F) shouldBe 1F
