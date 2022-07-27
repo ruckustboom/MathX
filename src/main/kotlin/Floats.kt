@@ -37,8 +37,25 @@ public inline fun chunkIndex(x: Float, size: Float): Float = chunkStart(x, size)
 
 // Interpolation
 
+/**
+ * Constant interpolation between [a] and [b] by ratio [t]
+ *
+ * If [t] is less than the given [threshold] (default `1F`) returns [a], otherwise returns [b].
+ */
 public inline fun <T> cerp(t: Float, a: T, b: T, threshold: Float = 1F): T = if (t < threshold) a else b
+
+/** Linearly interpolates from [a] to [b] by ratio [t] */
 public inline fun lerp(t: Float, a: Float, b: Float): Float = a + (b - a) * t
+
+/**
+ * Linearly normalizes [x] in the range from [a] to [b]
+ *
+ * The inverse of [lerp]
+ * ```kotlin
+ * x = lerp(t, a, b)
+ * t = unlerp(x, a, b)
+ * ```
+ */
 public inline fun unlerp(x: Float, a: Float, b: Float): Float = if (a == b) 0F else (x - a) / (b - a)
 
 public inline fun smoothStep(x: Float, a: Float, b: Float): Float = smoothStep(unlerp(x, a, b))

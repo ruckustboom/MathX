@@ -49,7 +49,7 @@ public inline fun lerp(t: Double, a: Double, b: Double): Double = a + (b - a) * 
 /**
  * Linearly normalizes [x] in the range from [a] to [b]
  *
- * The opposite of [lerp]
+ * The inverse of [lerp]
  * ```kotlin
  * x = lerp(t, a, b)
  * t = unlerp(x, a, b)
