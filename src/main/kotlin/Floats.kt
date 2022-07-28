@@ -13,7 +13,7 @@ public const val DEG_IN_TURN_F: Float = 360F
 public const val RAD_IN_TURN_F: Float = TAU_F
 public const val GRAD_IN_TURN_F: Float = 400F
 
-public fun degToTurns(deg: Float): Float = deg / DEG_IN_TURN_F
+public inline fun degToTurns(deg: Float): Float = deg / DEG_IN_TURN_F
 public inline fun turnsToDeg(turns: Float): Float = turns * DEG_IN_TURN_F
 
 public inline fun radToTurns(rad: Float): Float = rad / RAD_IN_TURN_F

@@ -12,7 +12,7 @@ public const val DEG_IN_TURN: Double = 360.0
 public const val RAD_IN_TURN: Double = TAU
 public const val GRAD_IN_TURN: Double = 400.0
 
-public fun degToTurns(deg: Double): Double = deg / DEG_IN_TURN
+public inline fun degToTurns(deg: Double): Double = deg / DEG_IN_TURN
 public inline fun turnsToDeg(turns: Double): Double = turns * DEG_IN_TURN
 
 public inline fun radToTurns(rad: Double): Double = rad / RAD_IN_TURN
