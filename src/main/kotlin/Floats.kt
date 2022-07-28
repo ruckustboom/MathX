@@ -8,10 +8,28 @@ import kotlin.math.*
 
 public const val PI_F: Float = PI.toFloat()
 public const val TAU_F: Float = 2F * PI_F
-public const val RAD_TO_DEG_F: Float = 360F / TAU_F
 
-public inline fun degToRad(deg: Float): Float = deg / RAD_TO_DEG_F
-public inline fun radToDeg(rad: Float): Float = rad * RAD_TO_DEG_F
+public const val DEG_IN_TURN_F: Float = 360F
+public const val RAD_IN_TURN_F: Float = TAU_F
+public const val GRAD_IN_TURN_F: Float = 400F
+
+public fun degToTurns(deg: Float): Float = deg / DEG_IN_TURN_F
+public inline fun turnsToDeg(turns: Float): Float = turns * DEG_IN_TURN_F
+
+public inline fun radToTurns(rad: Float): Float = rad / RAD_IN_TURN_F
+public inline fun turnsToRad(turns: Float): Float = turns * RAD_IN_TURN_F
+
+public inline fun gradToTurns(grad: Float): Float = grad / GRAD_IN_TURN_F
+public inline fun turnsToGrad(turns: Float): Float = turns * GRAD_IN_TURN_F
+
+public inline fun degToRad(deg: Float): Float = turnsToRad(degToTurns(deg))
+public inline fun radToDeg(rad: Float): Float = turnsToDeg(radToTurns(rad))
+
+public inline fun degToGrad(deg: Float): Float = turnsToGrad(degToTurns(deg))
+public inline fun gradToDeg(grad: Float): Float = turnsToDeg(gradToTurns(grad))
+
+public inline fun radToGrad(rad: Float): Float = turnsToGrad(radToTurns(rad))
+public inline fun gradToRad(grad: Float): Float = turnsToRad(gradToTurns(grad))
 
 // Rounding
 
@@ -72,11 +90,11 @@ public inline fun smootherStep(t: Float): Float = when {
     else -> t * t * t * (t * (t * 6F - 15F) + 10F)
 }
 
+public inline fun repeat(x: Float, a: Float, b: Float): Float = lerp(repeat(unlerp(x, a, b)), a, b)
 public inline fun repeat(t: Float): Float = t.mod(1F)
+
+public inline fun reflect(x: Float, a: Float, b: Float): Float = lerp(reflect(unlerp(x, a, b)), a, b)
 public inline fun reflect(t: Float): Float {
     val dist = abs(t) % 2F
     return if (dist < 1F) dist else 2F - dist
 }
-
-public inline fun repeat(x: Float, a: Float, b: Float): Float = lerp(repeat(unlerp(x, a, b)), a, b)
-public inline fun reflect(x: Float, a: Float, b: Float): Float = lerp(reflect(unlerp(x, a, b)), a, b)

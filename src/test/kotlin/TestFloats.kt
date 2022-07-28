@@ -7,17 +7,74 @@ import kotlin.test.fail
 class TestFloats {
     @Test
     fun testTrig() {
+        // Deg
+
+        degToTurns(0F) shouldBe 0F
+        turnsToDeg(0F) shouldBe 0F
+
+        degToTurns(360F) shouldBe 1F
+        turnsToDeg(1F) shouldBe 360F
+
+        degToTurns(10F) shouldBe 0.027777F
+        turnsToDeg(10F) shouldBe 3600F
+
+        // Rad
+
+        radToTurns(0F) shouldBe 0F
+        turnsToRad(0F) shouldBe 0F
+
+        radToTurns(6.283185F) shouldBe 1F
+        turnsToRad(1F) shouldBe 6.283185F
+
+        radToTurns(10F) shouldBe 1.591549F
+        turnsToRad(10F) shouldBe 62.831853F
+
+        // Grad
+
+        gradToTurns(0F) shouldBe 0F
+        turnsToGrad(0F) shouldBe 0F
+
+        gradToTurns(400F) shouldBe 1F
+        turnsToGrad(1F) shouldBe 400F
+
+        gradToTurns(10F) shouldBe 0.025F
+        turnsToGrad(10F) shouldBe 4000F
+
+        // Deg Rad
+
         radToDeg(0F) shouldBe 0F
         degToRad(0F) shouldBe 0F
 
-        radToDeg(TAU_F) shouldBe 360F
-        degToRad(360F) shouldBe TAU_F
+        radToDeg(6.2831855F) shouldBe 360F
+        degToRad(360F) shouldBe 6.283185F
 
-        radToDeg(PI_F) shouldBe 180F
-        degToRad(180F) shouldBe PI_F
+        radToDeg(3.1415927F) shouldBe 180F
+        degToRad(180F) shouldBe 3.141592F
 
         radToDeg(10F) shouldBe 572.9578F
-        degToRad(10F) shouldBe 0.1745F
+        degToRad(10F) shouldBe 0.174533F
+
+        // Deg Grad
+
+        degToGrad(0F) shouldBe 0F
+        gradToDeg(0F) shouldBe 0F
+
+        degToGrad(360F) shouldBe 400F
+        gradToDeg(400F) shouldBe 360F
+
+        degToGrad(10F) shouldBe 11.111111F
+        gradToDeg(10F) shouldBe 9F
+
+        // Rad Grad
+
+        radToGrad(0F) shouldBe 0F
+        gradToRad(0F) shouldBe 0F
+
+        radToGrad(6.2831855F) shouldBe 400F
+        gradToRad(400F) shouldBe 6.283185F
+
+        radToGrad(10F) shouldBe 636.61975F
+        gradToRad(10F) shouldBe 0.157080F
     }
 
     @Test
@@ -69,7 +126,39 @@ class TestFloats {
 
     @Test
     fun testLength() {
-        fail()
+        // 2D
+
+        length(0F, 0F) shouldBe 0F
+        length(1F, 0F) shouldBe 1F
+        length(0F, 1F) shouldBe 1F
+        length(0.617F, 0F) shouldBe 0.617F
+        length(0F, -9.124F) shouldBe 9.124F
+        length(1F, 1F) shouldBe 1.414214F
+        length(3F, 4F) shouldBe 5F
+        length(17.3F, -23.996F) shouldBe 29.582056F
+
+        // 3D
+
+        length(0F, 0F, 0F) shouldBe 0F
+        length(1F, 0F, 0F) shouldBe 1F
+        length(0F, 1F, 0F) shouldBe 1F
+        length(0F, 0F, 1F) shouldBe 1F
+        length(0.617F, 0F, 0F) shouldBe 0.617F
+        length(0F, -9.124F, 0F) shouldBe 9.124F
+        length(0F, 0F, -0.001F) shouldBe 0.001F
+        length(1F, 1F, 1F) shouldBe 1.732051F
+        length(2F, 3F, 6F) shouldBe 7F
+        length(17.3F, -23.996F, 3.14F) shouldBe 29.748238F
+
+        // Other
+
+        length(0F) shouldBe 0F
+        length(1F) shouldBe 1F
+        length(-1F) shouldBe 1F
+        length(0.617F) shouldBe 0.617F
+        length(-9.124F) shouldBe 9.124F
+        length(floatArrayOf(17.3F, -23.996F, 3.14F)) shouldBe 29.748238F
+        length(1F, 1F, 1F, 1F) shouldBe 2F
     }
 
     @Test
@@ -122,7 +211,19 @@ class TestFloats {
 
     @Test
     fun testInterpolation() {
-        fail()
+        fail("cerp")
+
+        fail("lerp")
+
+        fail("unlerp")
+
+        fail("smooth step")
+
+        fail("smoother step")
+
+        fail("repeat")
+
+        fail("reflect")
     }
 
     companion object {

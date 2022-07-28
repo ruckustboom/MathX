@@ -7,10 +7,28 @@ import kotlin.math.*
 // Trig
 
 public const val TAU: Double = 2.0 * PI
-public const val RAD_TO_DEG: Double = 360.0 / TAU
 
-public inline fun degToRad(deg: Double): Double = deg / RAD_TO_DEG
-public inline fun radToDeg(rad: Double): Double = rad * RAD_TO_DEG
+public const val DEG_IN_TURN: Double = 360.0
+public const val RAD_IN_TURN: Double = TAU
+public const val GRAD_IN_TURN: Double = 400.0
+
+public fun degToTurns(deg: Double): Double = deg / DEG_IN_TURN
+public inline fun turnsToDeg(turns: Double): Double = turns * DEG_IN_TURN
+
+public inline fun radToTurns(rad: Double): Double = rad / RAD_IN_TURN
+public inline fun turnsToRad(turns: Double): Double = turns * RAD_IN_TURN
+
+public inline fun gradToTurns(grad: Double): Double = grad / GRAD_IN_TURN
+public inline fun turnsToGrad(turns: Double): Double = turns * GRAD_IN_TURN
+
+public inline fun degToRad(deg: Double): Double = turnsToRad(degToTurns(deg))
+public inline fun radToDeg(rad: Double): Double = turnsToDeg(radToTurns(rad))
+
+public inline fun degToGrad(deg: Double): Double = turnsToGrad(degToTurns(deg))
+public inline fun gradToDeg(grad: Double): Double = turnsToDeg(gradToTurns(grad))
+
+public inline fun radToGrad(rad: Double): Double = turnsToGrad(radToTurns(rad))
+public inline fun gradToRad(grad: Double): Double = turnsToRad(gradToTurns(grad))
 
 // Rounding
 
@@ -71,11 +89,11 @@ public inline fun smootherStep(t: Double): Double = when {
     else -> t * t * t * (t * (t * 6.0 - 15.0) + 10.0)
 }
 
+public inline fun repeat(x: Double, a: Double, b: Double): Double = lerp(repeat(unlerp(x, a, b)), a, b)
 public inline fun repeat(t: Double): Double = t.mod(1.0)
+
+public inline fun reflect(x: Double, a: Double, b: Double): Double = lerp(reflect(unlerp(x, a, b)), a, b)
 public inline fun reflect(t: Double): Double {
     val dist = abs(t) % 2.0
     return if (dist < 1.0) dist else 2.0 - dist
 }
-
-public inline fun repeat(x: Double, a: Double, b: Double): Double = lerp(repeat(unlerp(x, a, b)), a, b)
-public inline fun reflect(x: Double, a: Double, b: Double): Double = lerp(reflect(unlerp(x, a, b)), a, b)
