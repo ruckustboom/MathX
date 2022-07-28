@@ -9,18 +9,18 @@ import kotlin.math.*
 public const val PI_F: Float = PI.toFloat()
 public const val TAU_F: Float = 2F * PI_F
 
-public const val DEG_IN_TURN_F: Float = 360F
-public const val RAD_IN_TURN_F: Float = TAU_F
-public const val GRAD_IN_TURN_F: Float = 400F
+public const val DEGREES_F: Float = 360F
+public const val RADIANS_F: Float = TAU_F
+public const val GRADIANS_F: Float = 400F
 
-public inline fun degToTurns(deg: Float): Float = deg / DEG_IN_TURN_F
-public inline fun turnsToDeg(turns: Float): Float = turns * DEG_IN_TURN_F
+public inline fun degToTurns(deg: Float): Float = deg / DEGREES_F
+public inline fun turnsToDeg(turns: Float): Float = turns * DEGREES_F
 
-public inline fun radToTurns(rad: Float): Float = rad / RAD_IN_TURN_F
-public inline fun turnsToRad(turns: Float): Float = turns * RAD_IN_TURN_F
+public inline fun radToTurns(rad: Float): Float = rad / RADIANS_F
+public inline fun turnsToRad(turns: Float): Float = turns * RADIANS_F
 
-public inline fun gradToTurns(grad: Float): Float = grad / GRAD_IN_TURN_F
-public inline fun turnsToGrad(turns: Float): Float = turns * GRAD_IN_TURN_F
+public inline fun gradToTurns(grad: Float): Float = grad / GRADIANS_F
+public inline fun turnsToGrad(turns: Float): Float = turns * GRADIANS_F
 
 public inline fun degToRad(deg: Float): Float = turnsToRad(degToTurns(deg))
 public inline fun radToDeg(rad: Float): Float = turnsToDeg(radToTurns(rad))

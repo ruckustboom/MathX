@@ -8,18 +8,18 @@ import kotlin.math.*
 
 public const val TAU: Double = 2.0 * PI
 
-public const val DEG_IN_TURN: Double = 360.0
-public const val RAD_IN_TURN: Double = TAU
-public const val GRAD_IN_TURN: Double = 400.0
+public const val DEGREES: Double = 360.0
+public const val RADIANS: Double = TAU
+public const val GRADIANS: Double = 400.0
 
-public inline fun degToTurns(deg: Double): Double = deg / DEG_IN_TURN
-public inline fun turnsToDeg(turns: Double): Double = turns * DEG_IN_TURN
+public inline fun degToTurns(deg: Double): Double = deg / DEGREES
+public inline fun turnsToDeg(turns: Double): Double = turns * DEGREES
 
-public inline fun radToTurns(rad: Double): Double = rad / RAD_IN_TURN
-public inline fun turnsToRad(turns: Double): Double = turns * RAD_IN_TURN
+public inline fun radToTurns(rad: Double): Double = rad / RADIANS
+public inline fun turnsToRad(turns: Double): Double = turns * RADIANS
 
-public inline fun gradToTurns(grad: Double): Double = grad / GRAD_IN_TURN
-public inline fun turnsToGrad(turns: Double): Double = turns * GRAD_IN_TURN
+public inline fun gradToTurns(grad: Double): Double = grad / GRADIANS
+public inline fun turnsToGrad(turns: Double): Double = turns * GRADIANS
 
 public inline fun degToRad(deg: Double): Double = turnsToRad(degToTurns(deg))
 public inline fun radToDeg(rad: Double): Double = turnsToDeg(radToTurns(rad))
