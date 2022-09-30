@@ -1,8 +1,8 @@
 package mathx
 
+import kotlin.math.nextUp
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.fail
 
 class TestDoubles {
     @Test
@@ -211,19 +211,88 @@ class TestDoubles {
 
     @Test
     fun testInterpolation() {
-        fail("cerp")
+        cerp(0.0, 5.0, 7.0) shouldBe 5.0
+        cerp(1.0, 5.0, 7.0) shouldBe 7.0
+        cerp(0.5, 5.0, 7.0) shouldBe 5.0
+        cerp(0.5, 5.0, 7.0, 0.5) shouldBe 7.0
+        cerp(0.5, 5.0, 7.0, 0.5.nextUp()) shouldBe 5.0
+        cerp(0.0, 5.0, 7.0, 0.0) shouldBe 7.0
 
-        fail("lerp")
+        lerp(0.0, 5.0, 7.0) shouldBe 5.0
+        lerp(1.0, 5.0, 7.0) shouldBe 7.0
+        lerp(0.5, 5.0, 7.0) shouldBe 6.0
+        lerp(2.0, 5.0, 7.0) shouldBe 9.0
+        lerp(-0.5, 5.0, 7.0) shouldBe 4.0
 
-        fail("unlerp")
+        unlerp(5.0, 5.0, 7.0) shouldBe 0.0
+        unlerp(7.0, 5.0, 7.0) shouldBe 1.0
+        unlerp(6.0, 5.0, 7.0) shouldBe 0.5
+        unlerp(9.0, 5.0, 7.0) shouldBe 2.0
+        unlerp(4.0, 5.0, 7.0) shouldBe -0.5
 
-        fail("smooth step")
+        smoothStep(0.0) shouldBe 0.0
+        smoothStep(1.0) shouldBe 1.0
+        smoothStep(0.5) shouldBe 0.5
+        smoothStep(0.25) shouldBe 0.15625
+        smoothStep(0.75) shouldBe 0.84375
 
-        fail("smoother step")
+        smoothStep(5.0, 5.0, 7.0) shouldBe 0.0
+        smoothStep(7.0, 5.0, 7.0) shouldBe 1.0
+        smoothStep(6.0, 5.0, 7.0) shouldBe 0.5
+        smoothStep(5.5, 5.0, 7.0) shouldBe 0.15625
+        smoothStep(6.5, 5.0, 7.0) shouldBe 0.84375
 
-        fail("repeat")
+        smootherStep(0.0) shouldBe 0.0
+        smootherStep(1.0) shouldBe 1.0
+        smootherStep(0.5) shouldBe 0.5
+        smootherStep(0.25) shouldBe 0.103516
+        smootherStep(0.75) shouldBe 0.896484
 
-        fail("reflect")
+        smootherStep(5.0, 5.0, 7.0) shouldBe 0.0
+        smootherStep(7.0, 5.0, 7.0) shouldBe 1.0
+        smootherStep(6.0, 5.0, 7.0) shouldBe 0.5
+        smootherStep(5.5, 5.0, 7.0) shouldBe 0.103516
+        smootherStep(6.5, 5.0, 7.0) shouldBe 0.896484
+
+        repeat(0.0) shouldBe 0.0
+        repeat(1.0) shouldBe 0.0
+        repeat(0.5) shouldBe 0.5
+        repeat(1.1) shouldBe 0.1
+        repeat(2.1) shouldBe 0.1
+        repeat(-0.1) shouldBe 0.9
+        repeat(-1.1) shouldBe 0.9
+
+        repeat(5.0, 5.0, 7.0) shouldBe 5.0
+        repeat(7.0, 5.0, 7.0) shouldBe 5.0
+        repeat(6.0, 5.0, 7.0) shouldBe 6.0
+        repeat(7.1, 5.0, 7.0) shouldBe 5.1
+        repeat(8.1, 5.0, 7.0) shouldBe 6.1
+        repeat(9.1, 5.0, 7.0) shouldBe 5.1
+        repeat(4.9, 5.0, 7.0) shouldBe 6.9
+        repeat(3.9, 5.0, 7.0) shouldBe 5.9
+        repeat(2.9, 5.0, 7.0) shouldBe 6.9
+        repeat(-0.1, 5.0, 7.0) shouldBe 5.9
+        repeat(-1.1, 5.0, 7.0) shouldBe 6.9
+
+        reflect(0.0) shouldBe 0.0
+        reflect(1.0) shouldBe 1.0
+        reflect(0.5) shouldBe 0.5
+        reflect(1.1) shouldBe 0.9
+        reflect(2.1) shouldBe 0.1
+        reflect(-0.1) shouldBe 0.1
+        reflect(-1.1) shouldBe 0.9
+
+        reflect(5.0, 5.0, 7.0) shouldBe 5.0
+        reflect(7.0, 5.0, 7.0) shouldBe 7.0
+        reflect(6.0, 5.0, 7.0) shouldBe 6.0
+        reflect(7.1, 5.0, 7.0) shouldBe 6.9
+        reflect(8.1, 5.0, 7.0) shouldBe 5.9
+        reflect(9.1, 5.0, 7.0) shouldBe 5.1
+        reflect(4.9, 5.0, 7.0) shouldBe 5.1
+        reflect(3.9, 5.0, 7.0) shouldBe 6.1
+        reflect(2.9, 5.0, 7.0) shouldBe 6.9
+        reflect(-0.1, 5.0, 7.0) shouldBe 6.1
+        reflect(-1.1, 5.0, 7.0) shouldBe 6.9
     }
 
     companion object {

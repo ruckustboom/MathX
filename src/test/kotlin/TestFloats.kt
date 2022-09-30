@@ -1,8 +1,8 @@
 package mathx
 
+import kotlin.math.nextUp
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.fail
 
 class TestFloats {
     @Test
@@ -211,19 +211,88 @@ class TestFloats {
 
     @Test
     fun testInterpolation() {
-        fail("cerp")
+        cerp(0F, 5F, 7F) shouldBe 5F
+        cerp(1F, 5F, 7F) shouldBe 7F
+        cerp(0.5F, 5F, 7F) shouldBe 5F
+        cerp(0.5F, 5F, 7F, 0.5F) shouldBe 7F
+        cerp(0.5F, 5F, 7F, 0.5F.nextUp()) shouldBe 5F
+        cerp(0F, 5F, 7F, 0F) shouldBe 7F
 
-        fail("lerp")
+        lerp(0F, 5F, 7F) shouldBe 5F
+        lerp(1F, 5F, 7F) shouldBe 7F
+        lerp(0.5F, 5F, 7F) shouldBe 6F
+        lerp(2F, 5F, 7F) shouldBe 9F
+        lerp(-0.5F, 5F, 7F) shouldBe 4F
 
-        fail("unlerp")
+        unlerp(5F, 5F, 7F) shouldBe 0F
+        unlerp(7F, 5F, 7F) shouldBe 1F
+        unlerp(6F, 5F, 7F) shouldBe 0.5F
+        unlerp(9F, 5F, 7F) shouldBe 2F
+        unlerp(4F, 5F, 7F) shouldBe -0.5F
 
-        fail("smooth step")
+        smoothStep(0F) shouldBe 0F
+        smoothStep(1F) shouldBe 1F
+        smoothStep(0.5F) shouldBe 0.5F
+        smoothStep(0.25F) shouldBe 0.15625F
+        smoothStep(0.75F) shouldBe 0.84375F
 
-        fail("smoother step")
+        smoothStep(5F, 5F, 7F) shouldBe 0F
+        smoothStep(7F, 5F, 7F) shouldBe 1F
+        smoothStep(6F, 5F, 7F) shouldBe 0.5F
+        smoothStep(5.5F, 5F, 7F) shouldBe 0.1562F
+        smoothStep(6.5F, 5F, 7F) shouldBe 0.8438F
 
-        fail("repeat")
+        smootherStep(0F) shouldBe 0F
+        smootherStep(1F) shouldBe 1F
+        smootherStep(0.5F) shouldBe 0.5F
+        smootherStep(0.25F) shouldBe 0.1035F
+        smootherStep(0.75F) shouldBe 0.8965F
 
-        fail("reflect")
+        smootherStep(5F, 5F, 7F) shouldBe 0F
+        smootherStep(7F, 5F, 7F) shouldBe 1F
+        smootherStep(6F, 5F, 7F) shouldBe 0.5F
+        smootherStep(5.5F, 5F, 7F) shouldBe 0.1035F
+        smootherStep(6.5F, 5F, 7F) shouldBe 0.8965F
+
+        repeat(0F) shouldBe 0F
+        repeat(1F) shouldBe 0F
+        repeat(0.5F) shouldBe 0.5F
+        repeat(1.1F) shouldBe 0.1F
+        repeat(2.1F) shouldBe 0.1F
+        repeat(-0.1F) shouldBe 0.9F
+        repeat(-1.1F) shouldBe 0.9F
+
+        repeat(5F, 5F, 7F) shouldBe 5F
+        repeat(7F, 5F, 7F) shouldBe 5F
+        repeat(6F, 5F, 7F) shouldBe 6F
+        repeat(7.1F, 5F, 7F) shouldBe 5.1F
+        repeat(8.1F, 5F, 7F) shouldBe 6.1F
+        repeat(9.1F, 5F, 7F) shouldBe 5.1F
+        repeat(4.9F, 5F, 7F) shouldBe 6.9F
+        repeat(3.9F, 5F, 7F) shouldBe 5.9F
+        repeat(2.9F, 5F, 7F) shouldBe 6.9F
+        repeat(-0.1F, 5F, 7F) shouldBe 5.9F
+        repeat(-1.1F, 5F, 7F) shouldBe 6.9F
+
+        reflect(0F) shouldBe 0F
+        reflect(1F) shouldBe 1F
+        reflect(0.5F) shouldBe 0.5F
+        reflect(1.1F) shouldBe 0.9F
+        reflect(2.1F) shouldBe 0.1F
+        reflect(-0.1F) shouldBe 0.1F
+        reflect(-1.1F) shouldBe 0.9F
+
+        reflect(5F, 5F, 7F) shouldBe 5F
+        reflect(7F, 5F, 7F) shouldBe 7F
+        reflect(6F, 5F, 7F) shouldBe 6F
+        reflect(7.1F, 5F, 7F) shouldBe 6.9F
+        reflect(8.1F, 5F, 7F) shouldBe 5.9F
+        reflect(9.1F, 5F, 7F) shouldBe 5.1F
+        reflect(4.9F, 5F, 7F) shouldBe 5.1F
+        reflect(3.9F, 5F, 7F) shouldBe 6.1F
+        reflect(2.9F, 5F, 7F) shouldBe 6.9F
+        reflect(-0.1F, 5F, 7F) shouldBe 6.1F
+        reflect(-1.1F, 5F, 7F) shouldBe 6.9F
     }
 
     companion object {
