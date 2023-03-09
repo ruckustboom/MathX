@@ -46,6 +46,8 @@ public inline fun length(components: DoubleArray): Double = sqrt(components.fold
 @JvmName("lengthVariadic")
 public inline fun length(vararg components: Double): Double = length(components)
 
+public inline fun root(x: Double, base: Double): Double = x.pow(1.0 / base)
+
 // Chunks
 
 public inline fun chunkOffset(x: Double, size: Double): Double = x.mod(size)
