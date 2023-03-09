@@ -8,6 +8,7 @@ import kotlin.math.*
 
 public const val PI_F: Float = PI.toFloat()
 public const val TAU_F: Float = 2F * PI_F
+public const val E_F: Float = E.toFloat()
 
 public const val DEGREES_F: Float = 360F
 public const val RADIANS_F: Float = TAU_F
