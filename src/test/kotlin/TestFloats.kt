@@ -27,18 +27,7 @@ class TestFloats {
         turnsToRad(1F) shouldBe 6.283185F
 
         radToTurns(10F) shouldBe 1.591549F
-        turnsToRad(10F) shouldBe 62.831853F
-
-        // Grad
-
-        gradToTurns(0F) shouldBe 0F
-        turnsToGrad(0F) shouldBe 0F
-
-        gradToTurns(400F) shouldBe 1F
-        turnsToGrad(1F) shouldBe 400F
-
-        gradToTurns(10F) shouldBe 0.025F
-        turnsToGrad(10F) shouldBe 4000F
+        turnsToRad(10F) shouldBe 62.831852F
 
         // Deg Rad
 
@@ -53,28 +42,6 @@ class TestFloats {
 
         radToDeg(10F) shouldBe 572.9578F
         degToRad(10F) shouldBe 0.174533F
-
-        // Deg Grad
-
-        degToGrad(0F) shouldBe 0F
-        gradToDeg(0F) shouldBe 0F
-
-        degToGrad(360F) shouldBe 400F
-        gradToDeg(400F) shouldBe 360F
-
-        degToGrad(10F) shouldBe 11.111111F
-        gradToDeg(10F) shouldBe 9F
-
-        // Rad Grad
-
-        radToGrad(0F) shouldBe 0F
-        gradToRad(0F) shouldBe 0F
-
-        radToGrad(6.2831855F) shouldBe 400F
-        gradToRad(400F) shouldBe 6.283185F
-
-        radToGrad(10F) shouldBe 636.61975F
-        gradToRad(10F) shouldBe 0.157080F
     }
 
     @Test
