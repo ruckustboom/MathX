@@ -29,17 +29,6 @@ class TestDoubles {
         radToTurns(10.0) shouldBe 1.591549
         turnsToRad(10.0) shouldBe 62.831853
 
-        // Grad
-
-        gradToTurns(0.0) shouldBe 0.0
-        turnsToGrad(0.0) shouldBe 0.0
-
-        gradToTurns(400.0) shouldBe 1.0
-        turnsToGrad(1.0) shouldBe 400.0
-
-        gradToTurns(10.0) shouldBe 0.025
-        turnsToGrad(10.0) shouldBe 4000.0
-
         // Deg Rad
 
         radToDeg(0.0) shouldBe 0.0
@@ -53,28 +42,6 @@ class TestDoubles {
 
         radToDeg(10.0) shouldBe 572.957795
         degToRad(10.0) shouldBe 0.174533
-
-        // Deg Grad
-
-        degToGrad(0.0) shouldBe 0.0
-        gradToDeg(0.0) shouldBe 0.0
-
-        degToGrad(360.0) shouldBe 400.0
-        gradToDeg(400.0) shouldBe 360.0
-
-        degToGrad(10.0) shouldBe 11.111111
-        gradToDeg(10.0) shouldBe 9.0
-
-        // Rad Grad
-
-        radToGrad(0.0) shouldBe 0.0
-        gradToRad(0.0) shouldBe 0.0
-
-        radToGrad(6.283185307179546) shouldBe 400.0
-        gradToRad(400.0) shouldBe 6.283185
-
-        radToGrad(10.0) shouldBe 636.619772
-        gradToRad(10.0) shouldBe 0.157080
     }
 
     @Test
