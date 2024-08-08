@@ -67,6 +67,9 @@ public inline fun lerp(t: Float, a: Float, b: Float): Float = a + (b - a) * t
  */
 public inline fun unlerp(x: Float, a: Float, b: Float): Float = if (a == b) 0F else (x - a) / (b - a)
 
+public inline fun normalized(x: Float, a: Float, b: Float, calc: (t: Float) -> Float): Float =
+    lerp(calc(unlerp(x, a, b)), a, b)
+
 public inline fun smoothStep(x: Float, a: Float, b: Float): Float = smoothStep(unlerp(x, a, b))
 public inline fun smoothStep(t: Float): Float = when {
     t < 0F -> 0F
@@ -81,10 +84,10 @@ public inline fun smootherStep(t: Float): Float = when {
     else -> t * t * t * (t * (t * 6F - 15F) + 10F)
 }
 
-public inline fun repeat(x: Float, a: Float, b: Float): Float = lerp(repeat(unlerp(x, a, b)), a, b)
+public inline fun repeat(x: Float, a: Float, b: Float): Float = normalized(x, a, b, ::repeat)
 public inline fun repeat(t: Float): Float = t.mod(1F)
 
-public inline fun reflect(x: Float, a: Float, b: Float): Float = lerp(reflect(unlerp(x, a, b)), a, b)
+public inline fun reflect(x: Float, a: Float, b: Float): Float = normalized(x, a, b, ::reflect)
 public inline fun reflect(t: Float): Float {
     val dist = abs(t) % 2F
     return if (dist < 1F) dist else 2F - dist

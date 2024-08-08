@@ -65,6 +65,9 @@ public inline fun lerp(t: Double, a: Double, b: Double): Double = a + (b - a) * 
  */
 public inline fun unlerp(x: Double, a: Double, b: Double): Double = if (a == b) 0.0 else (x - a) / (b - a)
 
+public inline fun normalized(x: Double, a: Double, b: Double, calc: (t: Double) -> Double): Double =
+    lerp(calc(unlerp(x, a, b)), a, b)
+
 public inline fun smoothStep(x: Double, a: Double, b: Double): Double = smoothStep(unlerp(x, a, b))
 public inline fun smoothStep(t: Double): Double = when {
     t < 0.0 -> 0.0
@@ -79,10 +82,10 @@ public inline fun smootherStep(t: Double): Double = when {
     else -> t * t * t * (t * (t * 6.0 - 15.0) + 10.0)
 }
 
-public inline fun repeat(x: Double, a: Double, b: Double): Double = lerp(repeat(unlerp(x, a, b)), a, b)
+public inline fun repeat(x: Double, a: Double, b: Double): Double = normalized(x, a, b, ::repeat)
 public inline fun repeat(t: Double): Double = t.mod(1.0)
 
-public inline fun reflect(x: Double, a: Double, b: Double): Double = lerp(reflect(unlerp(x, a, b)), a, b)
+public inline fun reflect(x: Double, a: Double, b: Double): Double = normalized(x, a, b, ::reflect)
 public inline fun reflect(t: Double): Double {
     val dist = abs(t) % 2.0
     return if (dist < 1.0) dist else 2.0 - dist
