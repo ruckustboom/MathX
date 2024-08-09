@@ -129,54 +129,6 @@ class TestDoubles {
     }
 
     @Test
-    fun testChunks() {
-        // 0, 16, 0
-        chunkOffset(0.0, 16.0) shouldBe 0.0
-        chunkStart(0.0, 16.0) shouldBe 0.0
-        chunkIndex(0.0, 16.0) shouldBe 0.0
-
-        // 1, 16, 0
-        chunkOffset(1.0, 16.0) shouldBe 1.0
-        chunkStart(1.0, 16.0) shouldBe 0.0
-        chunkIndex(1.0, 16.0) shouldBe 0.0
-
-        // 15, 16, 0
-        chunkOffset(15.0, 16.0) shouldBe 15.0
-        chunkStart(15.0, 16.0) shouldBe 0.0
-        chunkIndex(15.0, 16.0) shouldBe 0.0
-
-        // 16, 16, 0
-        chunkOffset(16.0, 16.0) shouldBe 0.0
-        chunkStart(16.0, 16.0) shouldBe 16.0
-        chunkIndex(16.0, 16.0) shouldBe 1.0
-
-        // 17, 16, 0
-        chunkOffset(17.0, 16.0) shouldBe 1.0
-        chunkStart(17.0, 16.0) shouldBe 16.0
-        chunkIndex(17.0, 16.0) shouldBe 1.0
-
-        // -1, 16, 0
-        chunkOffset(-1.0, 16.0) shouldBe 15.0
-        chunkStart(-1.0, 16.0) shouldBe -16.0
-        chunkIndex(-1.0, 16.0) shouldBe -1.0
-
-        // -15, 16, 0
-        chunkOffset(-15.0, 16.0) shouldBe 1.0
-        chunkStart(-15.0, 16.0) shouldBe -16.0
-        chunkIndex(-15.0, 16.0) shouldBe -1.0
-
-        // -16, 16, 0
-        chunkOffset(-16.0, 16.0) shouldBe 0.0
-        chunkStart(-16.0, 16.0) shouldBe -16.0
-        chunkIndex(-16.0, 16.0) shouldBe -1.0
-
-        // -17, 16, 0
-        chunkOffset(-17.0, 16.0) shouldBe 15.0
-        chunkStart(-17.0, 16.0) shouldBe -32.0
-        chunkIndex(-17.0, 16.0) shouldBe -2.0
-    }
-
-    @Test
     fun testInterpolation() {
         cerp(0.0, 5.0, 7.0) shouldBe 5.0
         cerp(1.0, 5.0, 7.0) shouldBe 7.0

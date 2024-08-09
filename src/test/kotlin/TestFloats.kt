@@ -129,54 +129,6 @@ class TestFloats {
     }
 
     @Test
-    fun testChunks() {
-        // 0, 16, 0
-        chunkOffset(0F, 16F) shouldBe 0F
-        chunkStart(0F, 16F) shouldBe 0F
-        chunkIndex(0F, 16F) shouldBe 0F
-
-        // 1, 16, 0
-        chunkOffset(1F, 16F) shouldBe 1F
-        chunkStart(1F, 16F) shouldBe 0F
-        chunkIndex(1F, 16F) shouldBe 0F
-
-        // 15, 16, 0
-        chunkOffset(15F, 16F) shouldBe 15F
-        chunkStart(15F, 16F) shouldBe 0F
-        chunkIndex(15F, 16F) shouldBe 0F
-
-        // 16, 16, 0
-        chunkOffset(16F, 16F) shouldBe 0F
-        chunkStart(16F, 16F) shouldBe 16F
-        chunkIndex(16F, 16F) shouldBe 1F
-
-        // 17, 16, 0
-        chunkOffset(17F, 16F) shouldBe 1F
-        chunkStart(17F, 16F) shouldBe 16F
-        chunkIndex(17F, 16F) shouldBe 1F
-
-        // -1, 16, 0
-        chunkOffset(-1F, 16F) shouldBe 15F
-        chunkStart(-1F, 16F) shouldBe -16F
-        chunkIndex(-1F, 16F) shouldBe -1F
-
-        // -15, 16, 0
-        chunkOffset(-15F, 16F) shouldBe 1F
-        chunkStart(-15F, 16F) shouldBe -16F
-        chunkIndex(-15F, 16F) shouldBe -1F
-
-        // -16, 16, 0
-        chunkOffset(-16F, 16F) shouldBe 0F
-        chunkStart(-16F, 16F) shouldBe -16F
-        chunkIndex(-16F, 16F) shouldBe -1F
-
-        // -17, 16, 0
-        chunkOffset(-17F, 16F) shouldBe 15F
-        chunkStart(-17F, 16F) shouldBe -32F
-        chunkIndex(-17F, 16F) shouldBe -2F
-    }
-
-    @Test
     fun testInterpolation() {
         cerp(0F, 5F, 7F) shouldBe 5F
         cerp(1F, 5F, 7F) shouldBe 7F

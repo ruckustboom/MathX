@@ -20,9 +20,12 @@ public inline fun radToDeg(rad: Double): Double = rad * DEG_PER_RAD
 
 // Rounding
 
-public inline fun round(x: Double, base: Double): Double = round(x / base) * base
-public inline fun floor(x: Double, base: Double): Double = floor(x / base) * base
-public inline fun ceil(x: Double, base: Double): Double = ceil(x / base) * base
+public inline fun based(x: Double, base: Double, calc: (t: Double) -> Double): Double =
+    calc(x / base) * base
+
+public inline fun round(x: Double, base: Double): Double = based(x, base, ::round)
+public inline fun floor(x: Double, base: Double): Double = based(x, base, ::floor)
+public inline fun ceil(x: Double, base: Double): Double = based(x, base, ::ceil)
 public inline fun nearest(x: Double, a: Double, b: Double): Double = if (abs(x - b) < abs(x - a)) b else a
 
 // Length
@@ -35,12 +38,6 @@ public inline fun length(components: DoubleArray): Double = sqrt(components.fold
 public inline fun length(vararg components: Double): Double = length(components)
 
 public inline fun root(x: Double, base: Double): Double = x.pow(1.0 / base)
-
-// Chunks
-
-public inline fun chunkOffset(x: Double, size: Double): Double = x.mod(size)
-public inline fun chunkStart(x: Double, size: Double): Double = x - chunkOffset(x, size)
-public inline fun chunkIndex(x: Double, size: Double): Double = chunkStart(x, size) / size
 
 // Interpolation
 

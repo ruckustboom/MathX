@@ -22,9 +22,12 @@ public inline fun radToDeg(rad: Float): Float = rad * DEG_PER_RAD_F
 
 // Rounding
 
-public inline fun round(x: Float, base: Float): Float = round(x / base) * base
-public inline fun floor(x: Float, base: Float): Float = floor(x / base) * base
-public inline fun ceil(x: Float, base: Float): Float = ceil(x / base) * base
+public inline fun based(x: Float, base: Float, calc: (t: Float) -> Float): Float =
+    calc(x / base) * base
+
+public inline fun round(x: Float, base: Float): Float = based(x, base, ::round)
+public inline fun floor(x: Float, base: Float): Float = based(x, base, ::floor)
+public inline fun ceil(x: Float, base: Float): Float = based(x, base, ::ceil)
 public inline fun nearest(x: Float, a: Float, b: Float): Float = if (abs(x - b) < abs(x - a)) b else a
 
 // Length
@@ -37,12 +40,6 @@ public inline fun length(components: FloatArray): Float = sqrt(components.fold(0
 public inline fun length(vararg components: Float): Float = length(components)
 
 public inline fun root(x: Float, base: Float): Float = x.pow(1F / base)
-
-// Chunks
-
-public inline fun chunkOffset(x: Float, size: Float): Float = x.mod(size)
-public inline fun chunkStart(x: Float, size: Float): Float = x - chunkOffset(x, size)
-public inline fun chunkIndex(x: Float, size: Float): Float = chunkStart(x, size) / size
 
 // Interpolation
 
