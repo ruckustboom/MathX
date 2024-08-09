@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test-junit5"))
+    testImplementation(kotlin("test"))
 }
 
 kotlin {
