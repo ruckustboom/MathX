@@ -27,6 +27,7 @@ public inline fun round(x: Double, base: Double): Double = based(x, base, ::roun
 public inline fun floor(x: Double, base: Double): Double = based(x, base, ::floor)
 public inline fun ceil(x: Double, base: Double): Double = based(x, base, ::ceil)
 public inline fun nearest(x: Double, a: Double, b: Double): Double = if (abs(x - b) < abs(x - a)) b else a
+public inline fun nearest(x: Long, a: Long, b: Long): Long = if (abs(x - b) < abs(x - a)) b else a
 
 // Length
 

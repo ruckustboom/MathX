@@ -89,6 +89,14 @@ class TestDoubles {
         nearest(4.0, 1.0, 5.0) shouldBe 5.0
         nearest(5.0, 1.0, 5.0) shouldBe 5.0
         nearest(6.0, 1.0, 5.0) shouldBe 5.0
+
+        nearest(0L, 1L, 5L) shouldBe 1L
+        nearest(1L, 1L, 5L) shouldBe 1L
+        nearest(2L, 1L, 5L) shouldBe 1L
+        nearest(3L, 1L, 5L) shouldBe 1L
+        nearest(4L, 1L, 5L) shouldBe 5L
+        nearest(5L, 1L, 5L) shouldBe 5L
+        nearest(6L, 1L, 5L) shouldBe 5L
     }
 
     @Test
@@ -215,11 +223,12 @@ class TestDoubles {
     }
 
     companion object {
+        private const val EPSILON = 1e-6
         private infix fun Double.shouldBe(expected: Double) = shouldBe(expected, EPSILON)
         private fun Double.shouldBe(expected: Double, epsilon: Double) {
             assertEquals(expected, this, epsilon)
         }
 
-        private const val EPSILON = 1e-6
+        private infix fun Long.shouldBe(expected: Long) = assertEquals(expected, this)
     }
 }

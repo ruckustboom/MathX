@@ -89,6 +89,14 @@ class TestFloats {
         nearest(4F, 1F, 5F) shouldBe 5F
         nearest(5F, 1F, 5F) shouldBe 5F
         nearest(6F, 1F, 5F) shouldBe 5F
+
+        nearest(0, 1, 5) shouldBe 1
+        nearest(1, 1, 5) shouldBe 1
+        nearest(2, 1, 5) shouldBe 1
+        nearest(3, 1, 5) shouldBe 1
+        nearest(4, 1, 5) shouldBe 5
+        nearest(5, 1, 5) shouldBe 5
+        nearest(6, 1, 5) shouldBe 5
     }
 
     @Test
@@ -215,11 +223,12 @@ class TestFloats {
     }
 
     companion object {
+        private const val EPSILON = 1e-4F
         private infix fun Float.shouldBe(expected: Float) = shouldBe(expected, EPSILON)
         private fun Float.shouldBe(expected: Float, epsilon: Float) {
             assertEquals(expected, this, epsilon)
         }
 
-        private const val EPSILON = 1e-4F
+        private infix fun Int.shouldBe(expected: Int) = assertEquals(expected, this)
     }
 }
