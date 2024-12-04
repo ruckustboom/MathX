@@ -82,6 +82,18 @@ class TestDoubles {
         ceil(17.318, 4.1) shouldBe 20.5
         ceil(-17.318, 4.1) shouldBe -16.4
 
+        truncate(0.0, 1.0) shouldBe 0.0
+        truncate(1.0, 1.0) shouldBe 1.0
+        truncate(0.1, 1.0) shouldBe 0.0
+        truncate(0.9, 1.0) shouldBe 0.0
+        truncate(1.1, 1.0) shouldBe 1.0
+        truncate(1.5, 1.0) shouldBe 1.0
+        truncate(2.5, 1.0) shouldBe 2.0
+        truncate(17.318, 1.0) shouldBe 17.0
+        truncate(17.318, 2.0) shouldBe 16.0
+        truncate(17.318, 4.1) shouldBe 16.4
+        truncate(-17.318, 4.1) shouldBe -16.4
+
         nearest(0.0, 1.0, 5.0) shouldBe 1.0
         nearest(1.0, 1.0, 5.0) shouldBe 1.0
         nearest(2.0, 1.0, 5.0) shouldBe 1.0

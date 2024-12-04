@@ -82,6 +82,18 @@ class TestFloats {
         ceil(17.318F, 4.1F) shouldBe 20.5F
         ceil(-17.318F, 4.1F) shouldBe -16.4F
 
+        truncate(0.0F, 1.0F) shouldBe 0.0F
+        truncate(1.0F, 1.0F) shouldBe 1.0F
+        truncate(0.1F, 1.0F) shouldBe 0.0F
+        truncate(0.9F, 1.0F) shouldBe 0.0F
+        truncate(1.1F, 1.0F) shouldBe 1.0F
+        truncate(1.5F, 1.0F) shouldBe 1.0F
+        truncate(2.5F, 1.0F) shouldBe 2.0F
+        truncate(17.318F, 1.0F) shouldBe 17.0F
+        truncate(17.318F, 2.0F) shouldBe 16.0F
+        truncate(17.318F, 4.1F) shouldBe 16.4F
+        truncate(-17.318F, 4.1F) shouldBe -16.4F
+
         nearest(0F, 1F, 5F) shouldBe 1F
         nearest(1F, 1F, 5F) shouldBe 1F
         nearest(2F, 1F, 5F) shouldBe 1F

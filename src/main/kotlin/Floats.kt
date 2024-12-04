@@ -28,6 +28,7 @@ public inline fun based(x: Float, base: Float, calc: (t: Float) -> Float): Float
 public inline fun round(x: Float, base: Float): Float = based(x, base, ::round)
 public inline fun floor(x: Float, base: Float): Float = based(x, base, ::floor)
 public inline fun ceil(x: Float, base: Float): Float = based(x, base, ::ceil)
+public inline fun truncate(x: Float, base: Float): Float = based(x, base, ::truncate)
 public inline fun nearest(x: Float, a: Float, b: Float): Float = if (abs(x - b) < abs(x - a)) b else a
 public inline fun nearest(x: Int, a: Int, b: Int): Int = if (abs(x - b) < abs(x - a)) b else a
 
